@@ -1,0 +1,3291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Java OOP Active Recall • Notion Edition</title>
+  <style>
+    :root {
+      --bg: #ededed;
+      --card-bg: #ffffff;
+      --card-hover: #fafafa;
+      --border: rgba(55, 53, 47, 0.14);
+      --border-subtle: rgba(55, 53, 47, 0.08);
+      --text: #37352f;
+      --text-secondary: #787774;
+      --text-muted: #9b9a97;
+      --accent: #2383e2;
+      --accent-hover: #0070df;
+      --accent-bg: rgba(35, 131, 226, 0.08);
+      --success: #0f9d58;
+      --success-bg: rgba(15, 157, 88, 0.08);
+      --error: #eb5757;
+      --error-bg: rgba(235, 87, 87, 0.08);
+      --warning: #d97706;
+      --code-bg: #f7f6f3;
+      --radius-sm: 4px;
+      --radius-md: 8px;
+      --radius-lg: 12px;
+      --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+      --font-mono: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace;
+      --shadow-sm: rgba(15, 15, 15, 0.04) 0px 1px 2px;
+      --shadow-md: rgba(15, 15, 15, 0.05) 0px 0px 0px 1px, rgba(15, 15, 15, 0.08) 0px 3px 6px;
+      --shadow-lg: rgba(15, 15, 15, 0.06) 0px 0px 0px 1px, rgba(15, 15, 15, 0.12) 0px 10px 24px;
+      --grid-line: #80808010;
+    }
+
+    [data-theme="dark"] {
+      --bg: #191919;
+      --card-bg: #202020;
+      --card-hover: #262626;
+      --border: rgba(255, 255, 255, 0.12);
+      --border-subtle: rgba(255, 255, 255, 0.07);
+      --text: #e6e6e6;
+      --text-secondary: #a0a0a0;
+      --text-muted: #727272;
+      --accent: #4da3ff;
+      --accent-hover: #6cb7ff;
+      --accent-bg: rgba(77, 163, 255, 0.12);
+      --success: #22c55e;
+      --success-bg: rgba(34, 197, 94, 0.12);
+      --error: #f87171;
+      --error-bg: rgba(248, 113, 113, 0.12);
+      --warning: #fbbf24;
+      --code-bg: #141414;
+      --shadow-sm: rgba(0, 0, 0, 0.2) 0px 1px 2px;
+      --shadow-md: rgba(0, 0, 0, 0.3) 0px 0px 0px 1px, rgba(0, 0, 0, 0.25) 0px 3px 6px;
+      --shadow-lg: rgba(0, 0, 0, 0.4) 0px 0px 0px 1px, rgba(0, 0, 0, 0.35) 0px 10px 24px;
+      --grid-line: rgba(255, 255, 255, 0.035);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg);
+      background-image: 
+        linear-gradient(to right, var(--grid-line) 1px, transparent 1px),
+        linear-gradient(to bottom, var(--grid-line) 1px, transparent 1px);
+      background-size: 24px 24px;
+      color: var(--text);
+      font-family: var(--font-sans);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* SEGOE ICON HELPER */
+    .icon {
+      font-family: "Segoe Fluent Icons", "Segoe MDL2 Assets", sans-serif;
+      font-style: normal;
+      font-weight: normal;
+      font-variant: normal;
+      text-transform: none;
+      line-height: 1;
+      display: inline-block;
+      vertical-align: middle;
+      speak: none;
+      -webkit-font-smoothing: antialiased;
+      font-size: 0.95rem;
+    }
+
+    /* COMPACT UNIFIED HEADER (WAYGROUND / GIZMO STYLE) */
+    header {
+      background: var(--card-bg);
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      height: 48px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .header-inner {
+      max-width: 1440px;
+      width: 100%;
+      margin: 0 auto;
+      padding: 0 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      height: 48px;
+    }
+
+    .header-left, .header-center, .header-right {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .header-left {
+      min-width: 0;
+      flex-shrink: 0;
+    }
+
+    .header-center {
+      flex: 1;
+      max-width: 420px;
+      flex-direction: column;
+      gap: 3px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 0.92rem;
+      color: var(--text);
+      text-decoration: none;
+      user-select: none;
+    }
+
+    .brand-tag {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      background: var(--accent-bg);
+      padding: 2px 6px;
+      border-radius: var(--radius-sm);
+      color: var(--accent);
+      border: 1px solid var(--border-subtle);
+    }
+
+    .session-title-group {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      min-width: 0;
+    }
+
+    .session-title {
+      font-weight: 600;
+      font-size: 0.88rem;
+      color: var(--text);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 240px;
+    }
+
+    .session-pass-badge {
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      font-weight: 600;
+      padding: 2px 6px;
+      border-radius: var(--radius-sm);
+      background: var(--border-subtle);
+      color: var(--text-secondary);
+      border: 1px solid var(--border-subtle);
+      white-space: nowrap;
+    }
+
+    .session-pass-badge.pass-retry {
+      background: rgba(217, 119, 6, 0.12);
+      color: var(--warning);
+      border-color: rgba(217, 119, 6, 0.25);
+    }
+
+    .compact-progress-meta {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      font-weight: 600;
+    }
+
+    .compact-progress-track {
+      width: 100%;
+      height: 4px;
+      background: var(--border-subtle);
+      border-radius: 2px;
+      overflow: hidden;
+    }
+
+    .compact-progress-fill {
+      height: 100%;
+      width: 0%;
+      background: var(--success);
+      border-radius: 2px;
+      transition: width 0.25s ease;
+    }
+
+    .header-bottom-progress {
+      position: absolute;
+      bottom: -1px;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: transparent;
+    }
+
+    .header-bottom-fill {
+      height: 100%;
+      width: 0%;
+      background: var(--success);
+      transition: width 0.25s ease;
+    }
+
+    .session-stats-group {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .stat-score-pill {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--code-bg);
+      border: 1px solid var(--border-subtle);
+      padding: 3px 9px;
+      border-radius: var(--radius-sm);
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    .stat-score-pill strong {
+      transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275), color 0.2s ease;
+      display: inline-block;
+    }
+
+    .stat-score-pill strong.bump {
+      transform: scale(1.2);
+      color: var(--success);
+    }
+
+    .score-popup-mini {
+      font-size: 0.72rem;
+      font-weight: 700;
+      opacity: 0;
+      transform: translateY(2px);
+      transition: opacity 0.2s ease, transform 0.2s ease;
+    }
+
+    .score-popup-mini.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .multiplier-pill {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      background: var(--accent-bg);
+      border: 1px solid rgba(35, 131, 226, 0.25);
+      padding: 3px 8px;
+      border-radius: var(--radius-sm);
+      min-width: 62px;
+      transition: all 0.2s ease;
+    }
+
+    .multiplier-val {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: var(--accent);
+      text-align: center;
+      line-height: 1.1;
+      display: inline-block;
+      transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    .multiplier-val.bump {
+      transform: scale(1.22);
+    }
+
+    .multiplier-mini-bar {
+      height: 3px;
+      width: 100%;
+      background: rgba(0, 0, 0, 0.08);
+      border-radius: 2px;
+      overflow: hidden;
+    }
+
+    [data-theme="dark"] .multiplier-mini-bar {
+      background: rgba(255, 255, 255, 0.12);
+    }
+
+    .multiplier-mini-fill {
+      height: 100%;
+      width: 0%;
+      background: var(--accent);
+      border-radius: 2px;
+      transition: width 0.2s ease;
+    }
+
+    .multiplier-pill.mult-boost {
+      background: var(--success-bg);
+      border-color: rgba(15, 157, 88, 0.35);
+    }
+    .multiplier-pill.mult-boost .multiplier-val,
+    .multiplier-pill.mult-boost .multiplier-mini-fill {
+      color: var(--success);
+      background: var(--success);
+    }
+
+    .multiplier-pill.mult-max {
+      background: rgba(217, 119, 6, 0.15);
+      border-color: rgba(217, 119, 6, 0.4);
+      animation: popBadge 0.25s ease;
+    }
+    .multiplier-pill.mult-max .multiplier-val,
+    .multiplier-pill.mult-max .multiplier-mini-fill {
+      color: var(--warning);
+      background: var(--warning);
+    }
+
+    @keyframes popBadge {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.15); }
+      100% { transform: scale(1); }
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .btn-icon {
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--text-secondary);
+      width: 32px;
+      height: 32px;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      transition: background-color 0.12s, color 0.12s, border-color 0.12s;
+      padding: 0;
+    }
+
+    .btn-icon:hover {
+      background: var(--card-hover);
+      color: var(--text);
+      border-color: var(--text-secondary);
+    }
+
+    .stat-pill {
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: var(--text-secondary);
+      background: var(--code-bg);
+      border: 1px solid var(--border-subtle);
+      padding: 4px 10px;
+      border-radius: var(--radius-sm);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .stat-pill strong {
+      color: var(--text);
+    }
+
+    .stat-lbl {
+      font-size: 0.68rem;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: var(--text-muted);
+    }
+
+    .btn-notion-outline {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      color: var(--text);
+      font-size: 0.8rem;
+      font-weight: 500;
+      padding: 5px 10px;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      box-shadow: var(--shadow-sm);
+      transition: background-color 0.12s, border-color 0.12s;
+    }
+
+    .btn-notion-outline:hover {
+      background: var(--card-hover);
+      border-color: var(--text-secondary);
+    }
+
+    /* MAIN CONTAINER */
+    main {
+      flex: 1;
+      max-width: 1440px;
+      width: 100%;
+      margin: 0 auto;
+      padding: 20px 20px 48px;
+    }
+
+    #dashboardScreen {
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    #sessionScreen {
+      width: 100%;
+    }
+
+    .screen {
+      display: none;
+    }
+
+    .screen.active {
+      display: block;
+      animation: fadeIn 0.18s ease-out;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(3px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* NOTION PAGE HEADER */
+    .page-header {
+      margin-bottom: 24px;
+    }
+
+    .page-title {
+      font-size: 1.75rem;
+      font-weight: 700;
+      color: var(--text);
+      letter-spacing: -0.02em;
+      margin-bottom: 6px;
+    }
+
+    .page-description {
+      color: var(--text-secondary);
+      font-size: 0.92rem;
+      max-width: 680px;
+      line-height: 1.5;
+    }
+
+    /* NOTION CALLOUT BOX */
+    .notion-callout {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 16px 18px;
+      margin-bottom: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .callout-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .callout-title {
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    .callout-metrics {
+      display: flex;
+      gap: 24px;
+      margin-top: 4px;
+      flex-wrap: wrap;
+    }
+
+    .metric-group {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .metric-val {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--text);
+      font-family: var(--font-mono);
+    }
+
+    .metric-lbl {
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      font-weight: 600;
+      color: var(--text-muted);
+      letter-spacing: 0.04em;
+    }
+
+    /* FULL COMPREHENSIVE CARD (82 QUESTIONS) */
+    .full-mode-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 22px 24px;
+      margin-bottom: 28px;
+      box-shadow: var(--shadow-md);
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      position: relative;
+    }
+
+    .full-mode-top {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .full-mode-badge {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      font-weight: 600;
+      color: var(--accent);
+      background: var(--accent-bg);
+      padding: 3px 8px;
+      border-radius: var(--radius-sm);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      display: inline-block;
+      margin-bottom: 6px;
+    }
+
+    .full-mode-title {
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 4px;
+    }
+
+    .full-mode-desc {
+      font-size: 0.88rem;
+      color: var(--text-secondary);
+      line-height: 1.45;
+    }
+
+    .full-mode-btn {
+      background: var(--accent);
+      border: 1px solid var(--accent);
+      color: #ffffff;
+      padding: 9px 18px;
+      border-radius: var(--radius-sm);
+      font-size: 0.88rem;
+      font-weight: 600;
+      cursor: pointer;
+      align-self: flex-start;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      box-shadow: var(--shadow-sm);
+      transition: background-color 0.12s;
+    }
+
+    .full-mode-btn:hover {
+      background: var(--accent-hover);
+    }
+
+    /* SECTION HEADING */
+    .section-header {
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    /* GRID FOR 8 PARTS */
+    .parts-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+      gap: 14px;
+    }
+
+    .part-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 16px 18px;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 12px;
+      box-shadow: var(--shadow-sm);
+      transition: border-color 0.15s, box-shadow 0.15s;
+    }
+
+    .part-card:hover {
+      border-color: var(--text-secondary);
+      box-shadow: var(--shadow-md);
+    }
+
+    .part-card.mastered {
+      border-left: 4px solid var(--success);
+    }
+
+    .part-card.in-progress {
+      border-left: 4px solid var(--warning);
+    }
+
+    .part-card.locked {
+      background: var(--code-bg);
+      border-style: dashed;
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
+    .part-card.locked:hover {
+      border-color: var(--border);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .part-header {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .part-meta-tag {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .part-title {
+      font-size: 0.96rem;
+      font-weight: 600;
+      color: var(--text);
+      line-height: 1.35;
+    }
+
+    .part-desc {
+      font-size: 0.82rem;
+      color: var(--text-secondary);
+      line-height: 1.4;
+    }
+
+    .part-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-top: 10px;
+      border-top: 1px solid var(--border-subtle);
+    }
+
+    .part-count {
+      font-size: 0.76rem;
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+
+    .notion-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 2px 7px;
+      border-radius: var(--radius-sm);
+      font-size: 0.72rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    .tag-mastered {
+      background: var(--success-bg);
+      color: var(--success);
+      border: 1px solid rgba(15, 157, 88, 0.2);
+    }
+
+    .tag-streak-partial {
+      background: rgba(217, 119, 6, 0.1);
+      color: var(--warning);
+      border: 1px solid rgba(217, 119, 6, 0.3);
+    }
+
+    .tag-locked {
+      background: var(--border-subtle);
+      color: var(--text-muted);
+      border: 1px solid var(--border-subtle);
+    }
+
+    .tag-score {
+      background: var(--accent-bg);
+      color: var(--accent);
+      border: 1px solid rgba(35, 131, 226, 0.25);
+    }
+
+    .tag-neutral {
+      background: var(--border-subtle);
+      color: var(--text-secondary);
+      border: 1px solid var(--border-subtle);
+    }
+
+    .review-indicator-tag {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      font-weight: 600;
+      background: rgba(217, 119, 6, 0.12);
+      color: var(--warning);
+      padding: 2px 6px;
+      border-radius: var(--radius-sm);
+      border: 1px solid rgba(217, 119, 6, 0.25);
+      letter-spacing: 0.03em;
+    }
+
+    .lock-toast {
+      position: fixed;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%) translateY(20px);
+      background: var(--text);
+      color: var(--card-bg);
+      padding: 10px 18px;
+      border-radius: var(--radius-sm);
+      font-size: 0.85rem;
+      font-weight: 500;
+      box-shadow: var(--shadow-lg);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.2s ease, transform 0.2s ease;
+      z-index: 200;
+      max-width: 90%;
+      text-align: center;
+    }
+
+    .lock-toast.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+
+    /* STUDY LAYOUT: SPLIT VIEW VS CENTERED VIEW */
+    .study-layout {
+      width: 100%;
+      transition: all 0.2s ease;
+    }
+
+    .study-layout.centered-view {
+      max-width: 920px;
+      margin: 0 auto;
+    }
+
+    .study-layout.split-view {
+      display: grid;
+      grid-template-columns: 1.08fr 0.92fr;
+      gap: 20px;
+      align-items: start;
+      max-width: 1440px;
+      margin: 0 auto;
+    }
+
+    /* REFERENCE CODE PANEL */
+    .ref-code-panel {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      box-shadow: var(--shadow-md);
+      padding: 20px 22px;
+      position: sticky;
+      top: 68px;
+      max-height: calc(100vh - 100px);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      animation: fadeIn 0.15s ease-out;
+    }
+
+    .ref-code-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 12px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid var(--border-subtle);
+      gap: 8px;
+    }
+
+    .ref-code-title-group {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      min-width: 0;
+    }
+
+    .ref-code-tag {
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .ref-code-title {
+      font-size: 0.88rem;
+      font-weight: 700;
+      color: var(--text);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .ref-code-body {
+      overflow-y: auto;
+      flex: 1;
+      padding-right: 2px;
+    }
+
+    .ref-code-content {
+      margin-bottom: 0;
+      font-size: 0.84rem;
+      line-height: 1.5;
+    }
+
+    .btn-toggle-code {
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--text-secondary);
+      font-size: 0.74rem;
+      font-weight: 600;
+      padding: 4px 9px;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-family: var(--font-sans);
+      transition: background 0.15s, color 0.15s, border-color 0.15s;
+      flex-shrink: 0;
+    }
+
+    .btn-toggle-code:hover {
+      background: var(--code-bg);
+      color: var(--text);
+      border-color: var(--text-secondary);
+    }
+
+    .btn-toggle-code kbd {
+      background: var(--border-subtle);
+      font-family: var(--font-mono);
+      font-size: 0.68rem;
+      padding: 1px 4px;
+      border-radius: 2px;
+    }
+
+    /* CARD CONTAINER */
+    .notion-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 24px 28px;
+      box-shadow: var(--shadow-md);
+      margin-bottom: 16px;
+      position: relative;
+    }
+
+    .card-top-info {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 14px;
+    }
+
+    .card-q-id {
+      font-family: var(--font-mono);
+      font-size: 0.76rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      letter-spacing: 0.04em;
+    }
+
+    .card-actions-top {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .btn-reveal-answer {
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--text-secondary);
+      font-size: 0.74rem;
+      font-weight: 600;
+      padding: 4px 9px;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-family: var(--font-sans);
+    }
+
+    .btn-reveal-answer:hover:not(:disabled) {
+      background: var(--code-bg);
+      color: var(--text);
+      border-color: var(--text-secondary);
+    }
+
+    .btn-reveal-answer kbd {
+      background: var(--border-subtle);
+      font-family: var(--font-mono);
+      font-size: 0.68rem;
+      padding: 1px 4px;
+      border-radius: 2px;
+    }
+
+    .card-prompt-text {
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: var(--text);
+      line-height: 1.5;
+      margin-bottom: 18px;
+    }
+
+    /* CODE BLOCK NOTION STYLE */
+    .notion-code-block {
+      background: var(--code-bg);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-sm);
+      padding: 14px 16px;
+      margin-bottom: 20px;
+      overflow-x: auto;
+      font-family: var(--font-mono);
+      font-size: 0.86rem;
+      line-height: 1.5;
+      color: var(--text);
+      white-space: pre-wrap;
+    }
+
+    .notion-code-header {
+      font-size: 0.7rem;
+      font-family: var(--font-mono);
+      color: var(--text-muted);
+      text-transform: uppercase;
+      margin-bottom: 8px;
+      letter-spacing: 0.05em;
+    }
+
+    /* CHOICES 2-COLUMN GRID (2x2 FOR 4 CHOICES) */
+    .choices-container {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .notion-option-row {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 12px 14px;
+      color: var(--text);
+      font-size: 0.92rem;
+      font-family: var(--font-sans);
+      text-align: left;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      transition: background-color 0.12s ease, border-color 0.12s ease, transform 0.1s ease, box-shadow 0.12s ease;
+      width: 100%;
+      min-height: 56px;
+      box-sizing: border-box;
+      user-select: none;
+    }
+
+    /* Odd trailing item spans across both columns */
+    .notion-option-row:last-child:nth-child(odd) {
+      grid-column: 1 / -1;
+    }
+
+    .notion-option-row:hover:not(:disabled) {
+      background: var(--code-bg);
+      border-color: var(--text-secondary);
+      transform: translateY(-1px);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .notion-option-row:active:not(:disabled) {
+      transform: scale(0.985);
+    }
+
+    .key-indicator {
+      font-family: var(--font-mono);
+      font-size: 0.74rem;
+      font-weight: 600;
+      color: var(--text-secondary);
+      background: var(--code-bg);
+      border: 1px solid var(--border-subtle);
+      padding: 2px 6px;
+      border-radius: 3px;
+      flex-shrink: 0;
+      transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    .option-label {
+      flex: 1;
+      line-height: 1.4;
+    }
+
+    /* LIVELY ANSWER FEEDBACK STATES & ANIMATIONS */
+    .notion-option-row.correct {
+      background: var(--success-bg) !important;
+      border-color: var(--success) !important;
+      color: var(--success) !important;
+      font-weight: 600;
+      animation: popSuccess 0.38s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+      box-shadow: 0 0 0 3px rgba(15, 157, 88, 0.22), 0 3px 10px rgba(15, 157, 88, 0.12) !important;
+    }
+
+    .notion-option-row.correct .key-indicator {
+      background: var(--success);
+      color: #ffffff;
+      border-color: var(--success);
+      transform: scale(1.12);
+    }
+
+    .notion-option-row.wrong {
+      background: var(--error-bg) !important;
+      border-color: var(--error) !important;
+      color: var(--error) !important;
+      animation: shakeWrong 0.45s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+      box-shadow: 0 0 0 3px rgba(217, 55, 55, 0.22), 0 3px 10px rgba(217, 55, 55, 0.12) !important;
+    }
+
+    .notion-option-row.wrong .key-indicator {
+      background: var(--error);
+      color: #ffffff;
+      border-color: var(--error);
+      transform: scale(1.12);
+    }
+
+    .notion-option-row.revealed-correct {
+      border: 2px dashed var(--success) !important;
+      background: var(--success-bg) !important;
+      animation: pulseReveal 0.45s ease-out;
+    }
+
+    .notion-option-row.revealed-correct .key-indicator {
+      border-color: var(--success);
+      color: var(--success);
+      font-weight: 700;
+    }
+
+    @keyframes popSuccess {
+      0% { transform: scale(0.96); }
+      50% { transform: scale(1.025); }
+      80% { transform: scale(0.995); }
+      100% { transform: scale(1); }
+    }
+
+    @keyframes shakeWrong {
+      0%, 100% { transform: translateX(0); }
+      15% { transform: translateX(-8px); }
+      30% { transform: translateX(7px); }
+      45% { transform: translateX(-5px); }
+      60% { transform: translateX(4px); }
+      75% { transform: translateX(-2px); }
+      90% { transform: translateX(1px); }
+    }
+
+    @keyframes pulseReveal {
+      0% { transform: scale(0.98); opacity: 0.75; }
+      50% { transform: scale(1.015); opacity: 1; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+
+    /* FEEDBACK CARD */
+    .feedback-box {
+      margin-top: 18px;
+      border-radius: var(--radius-sm);
+      padding: 16px 18px;
+      display: none;
+    }
+
+    .feedback-box.active {
+      display: block;
+      animation: feedbackSlideIn 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+
+    @keyframes feedbackSlideIn {
+      0% { opacity: 0; transform: translateY(8px) scale(0.99); }
+      100% { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    .feedback-box.correct-box {
+      background: var(--success-bg);
+      border: 1px solid rgba(15, 157, 88, 0.3);
+    }
+
+    .feedback-box.wrong-box {
+      background: var(--error-bg);
+      border: 1px solid rgba(235, 87, 87, 0.3);
+    }
+
+    .feedback-box.revealed-box {
+      background: rgba(217, 119, 6, 0.08);
+      border: 1px solid rgba(217, 119, 6, 0.3);
+    }
+
+    .feedback-verdict {
+      font-size: 0.92rem;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    .correct-box .feedback-verdict {
+      color: var(--success);
+    }
+
+    .wrong-box .feedback-verdict {
+      color: var(--error);
+    }
+
+    .revealed-box .feedback-verdict {
+      color: var(--warning);
+    }
+
+    .feedback-details {
+      background: var(--card-bg);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-sm);
+      padding: 12px 14px;
+      font-size: 0.88rem;
+      line-height: 1.5;
+      color: var(--text);
+      margin-bottom: 14px;
+    }
+
+    .btn-notion-next {
+      background: var(--text);
+      color: var(--card-bg);
+      border: none;
+      border-radius: var(--radius-sm);
+      padding: 9px 16px;
+      font-size: 0.88rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .btn-notion-next:hover {
+      opacity: 0.9;
+    }
+
+    .btn-notion-next kbd {
+      background: rgba(128, 128, 128, 0.3);
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      padding: 1px 5px;
+      border-radius: 3px;
+    }
+
+    /* FINAL 100% MASTERY CELEBRATION MODAL */
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.55);
+      backdrop-filter: blur(2px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 100;
+      padding: 20px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.15s ease;
+    }
+
+    .modal-backdrop.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .modal-sheet {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      max-width: 480px;
+      width: 100%;
+      padding: 28px 24px;
+      box-shadow: var(--shadow-lg);
+    }
+
+    .start-modal-sheet {
+      max-width: 520px;
+    }
+
+    .start-modal-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+
+    .order-options-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .order-option-card {
+      background: var(--code-bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 16px 14px;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      transition: background-color 0.12s, border-color 0.12s, transform 0.1s, box-shadow 0.12s;
+      text-align: left;
+      user-select: none;
+    }
+
+    .order-option-card:hover {
+      background: var(--card-hover);
+      border-color: var(--accent);
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-md);
+    }
+
+    .order-option-card.recommended {
+      border-color: rgba(35, 131, 226, 0.4);
+    }
+
+    [data-theme="dark"] .order-option-card.recommended {
+      border-color: rgba(77, 163, 255, 0.4);
+    }
+
+    .order-option-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 2px;
+    }
+
+    .order-icon {
+      font-size: 1.15rem;
+      color: var(--accent);
+    }
+
+    .order-option-title {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    .order-option-desc {
+      font-size: 0.78rem;
+      color: var(--text-secondary);
+      line-height: 1.4;
+    }
+
+    @media (max-width: 540px) {
+      .order-options-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* START MODAL REVIEW TOGGLE */
+    .modal-review-toggle-row {
+      margin-top: 14px;
+      padding: 10px 14px;
+      background: var(--code-bg);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-sm);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      transition: border-color 0.12s;
+    }
+
+    .modal-review-toggle-row:hover {
+      border-color: var(--border);
+    }
+
+    .review-toggle-label {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      cursor: pointer;
+      width: 100%;
+      user-select: none;
+    }
+
+    .review-toggle-label input[type="checkbox"] {
+      width: 16px;
+      height: 16px;
+      accent-color: var(--accent);
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+
+    .review-toggle-text {
+      flex: 1;
+    }
+
+    .review-toggle-title {
+      font-size: 0.86rem;
+      font-weight: 600;
+      color: var(--text);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .review-toggle-desc {
+      font-size: 0.74rem;
+      color: var(--text-muted);
+      line-height: 1.35;
+      margin-top: 2px;
+    }
+
+    .modal-tag {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--text-muted);
+      margin-bottom: 6px;
+    }
+
+    .modal-heading {
+      font-size: 1.35rem;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 8px;
+    }
+
+    .modal-body {
+      color: var(--text-secondary);
+      font-size: 0.92rem;
+      line-height: 1.5;
+      margin-bottom: 20px;
+    }
+
+    .modal-summary-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 22px;
+    }
+
+    .summary-tile {
+      background: var(--code-bg);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-sm);
+      padding: 12px 14px;
+      text-align: center;
+    }
+
+    .summary-val {
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: var(--text);
+      font-family: var(--font-mono);
+    }
+
+    .summary-lbl {
+      font-size: 0.72rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    .modal-buttons {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .btn-modal-action {
+      background: var(--text);
+      color: var(--card-bg);
+      border: none;
+      padding: 10px;
+      border-radius: var(--radius-sm);
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .btn-modal-action:hover {
+      opacity: 0.9;
+    }
+
+    /* HINT AT BOTTOM */
+    .shortcuts-footer {
+      text-align: center;
+      margin-top: 14px;
+      font-size: 0.76rem;
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
+    .shortcuts-footer kbd {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      padding: 1px 5px;
+      border-radius: 3px;
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+    }
+
+    footer {
+      text-align: center;
+      padding: 24px;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      border-top: 1px solid var(--border-subtle);
+    }
+
+    @media (max-width: 860px) {
+      main {
+        padding: 14px 12px 36px;
+      }
+      .study-layout.split-view {
+        grid-template-columns: 1fr;
+        gap: 16px;
+      }
+      .choices-container {
+        grid-template-columns: 1fr;
+      }
+      .ref-code-panel {
+        position: static;
+        max-height: none;
+      }
+      .header-center {
+        max-width: 200px;
+      }
+      .session-title {
+        max-width: 140px;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .header-inner {
+        padding: 0 12px;
+      }
+      .parts-grid {
+        grid-template-columns: 1fr;
+      }
+      .notion-card {
+        padding: 18px 14px;
+      }
+      .full-mode-top {
+        flex-direction: column;
+      }
+      .header-center {
+        display: none;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- COMPACT WAYGROUND / GIZMO STYLE HEADER -->
+  <header>
+    <div class="header-inner">
+      <!-- DASHBOARD MODE LEFT -->
+      <div class="header-left" id="headerDashLeft">
+        <div class="brand" onclick="app.showDashboard()">
+          <span>Java OOP Recall</span>
+          <span class="brand-tag">82 Cards</span>
+        </div>
+      </div>
+
+      <!-- SESSION MODE LEFT -->
+      <div class="header-left" id="headerSessionLeft" style="display: none;">
+        <button class="btn-icon" onclick="app.confirmExitSession()" title="Return to Dashboard [Esc]">
+          <span class="icon">&#xE72B;</span>
+        </button>
+        <div class="session-title-group">
+          <span class="session-title" id="sessionHeaderTitle">Part 1</span>
+          <span class="session-pass-badge" id="sessionHeaderPassBadge">Pass 1</span>
+        </div>
+      </div>
+
+      <!-- SESSION MODE CENTER (Compact Progress Track) -->
+      <div class="header-center" id="headerSessionCenter" style="display: none;">
+        <div class="compact-progress-meta">
+          <span id="sessionProgressCount">1 / 10</span>
+          <span id="sessionProgressPct">0% Perfect</span>
+        </div>
+        <div class="compact-progress-track">
+          <div class="compact-progress-fill" id="compactProgressBar"></div>
+        </div>
+      </div>
+
+      <!-- RIGHT SECTION (STATS & ACTIONS) -->
+      <div class="header-right">
+        <!-- Session Score & Multiplier (Session Mode) -->
+        <div class="session-stats-group" id="headerSessionStats" style="display: none;">
+          <div class="stat-score-pill" title="Current session points">
+            <strong id="sessionScoreDisplay">0</strong>
+            <span class="score-popup-mini" id="scoreGainedPopup"></span>
+          </div>
+          <div class="multiplier-pill" id="headerMultiplierTag" title="Combo Multiplier">
+            <span class="multiplier-val" id="headerMultiplierVal">1.0x</span>
+            <div class="multiplier-mini-bar">
+              <div class="multiplier-mini-fill" id="multiplierMeterFill"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Dashboard Stats (Dashboard Mode) -->
+        <div class="dash-stats-group" id="headerDashStats">
+          <div class="stat-pill" title="Total accumulated score XP">
+            <span class="stat-lbl">XP</span>
+            <strong id="xpCount">0</strong>
+          </div>
+        </div>
+
+        <!-- Quick Action Icons (Theme & Sound) -->
+        <div class="header-actions">
+          <button class="btn-icon" id="soundBtn" onclick="app.toggleSound()" title="Toggle Sound">
+            <span class="icon" id="soundIcon">&#xE767;</span>
+          </button>
+          <button class="btn-icon" id="themeBtn" onclick="app.toggleTheme()" title="Toggle Dark/Light Mode">
+            <span class="icon" id="themeIcon">&#xE708;</span>
+          </button>
+        </div>
+      </div>
+    </div>
+    <!-- Slim bottom progress indicator -->
+    <div class="header-bottom-progress" id="headerBottomProgress" style="display: none;">
+      <div class="header-bottom-fill" id="headerBottomProgressBar"></div>
+    </div>
+  </header>
+
+  <main>
+    <!-- DASHBOARD VIEW -->
+    <div id="dashboardScreen" class="screen active">
+      <div class="page-header">
+        <h1 class="page-title">Java OOP Active Recall</h1>
+        <p class="page-description">
+          Progressive active recall engine. Modules unlock sequentially after achieving 2 consecutive flawless 100% mastery runs. Advanced modules include 3 review cards from each earlier part.
+        </p>
+      </div>
+
+      <!-- METRICS OVERVIEW -->
+      <div class="notion-callout">
+        <div class="callout-header">
+          <span class="callout-title">Mastery Progress</span>
+          <span class="part-count" id="overallPct">0% Perfected</span>
+        </div>
+        <div class="callout-metrics">
+          <div class="metric-group">
+            <span class="metric-val" id="masteredPartsCount">0 / 8</span>
+            <span class="metric-lbl">Parts Perfected</span>
+          </div>
+          <div class="metric-group">
+            <span class="metric-val" id="fullExamStatus">Not Attempted</span>
+            <span class="metric-lbl">82-Card Full Mode</span>
+          </div>
+          <div class="metric-group">
+            <span class="metric-val" id="bestMultiplierCount">1.0x</span>
+            <span class="metric-lbl">Peak Multiplier</span>
+          </div>
+          <div class="metric-group">
+            <span class="metric-val" id="bestStreakCount">0</span>
+            <span class="metric-lbl">Best Streak</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- FEATURED FULL 82 ACTIVE RECALL CARD -->
+      <div class="full-mode-card">
+        <div class="full-mode-top">
+          <div>
+            <span class="full-mode-badge">Comprehensive Mode</span>
+            <h2 class="full-mode-title">Full Active Recall (All 82 Questions)</h2>
+            <p class="full-mode-desc">
+              Test your full mastery across the entire question bank. All 82 questions are randomized. The session runs seamlessly and endlessly, cycling through missed cards until 100% of the cards are mastered.
+            </p>
+          </div>
+        </div>
+        <button class="full-mode-btn" onclick="app.openStartModal('full')">
+          Start Full Exam (82 Cards)
+        </button>
+      </div>
+
+      <!-- DIVIDED TOPIC PARTS -->
+      <div class="section-header">
+        <span>Divided Topic Modules</span>
+        <span class="part-count">8 Modules</span>
+      </div>
+
+      <div class="parts-grid" id="partsGrid">
+        <!-- Injected via JavaScript -->
+      </div>
+
+      <div style="text-align: center; margin-top: 36px;">
+        <button onclick="app.resetProgress()" class="btn-notion-outline" style="color: var(--text-muted); font-size: 0.75rem;">
+          <span class="icon" style="font-size: 0.8rem;">&#xE777;</span>
+          <span>Reset Progress</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- STUDY SESSION VIEW -->
+    <div id="sessionScreen" class="screen">
+      <div class="study-layout centered-view" id="studyLayout">
+        <!-- QUESTION CARD -->
+        <div class="notion-card" id="questionCard">
+          <div class="card-top-info">
+            <span class="card-q-id" id="cardQuestionNumber">Card 1 • Q#1</span>
+            <div class="card-actions-top">
+              <button class="btn-toggle-code" id="btnShowCodeOnCard" onclick="app.toggleCodePanel(true)" style="display: none;" title="Show reference code panel [C]">
+                <span class="icon" style="font-size: 0.8rem;">&#xE943;</span>
+                <span>Code</span>
+                <kbd>C</kbd>
+              </button>
+              <button class="btn-reveal-answer" id="btnRevealAnswer" onclick="app.revealAnswer()" title="Show answer and retry later [R]">
+                <span class="icon" style="font-size: 0.8rem;">&#xE890;</span>
+                <span>Reveal</span>
+                <kbd>R</kbd>
+              </button>
+            </div>
+          </div>
+
+          <div class="card-prompt-text" id="cardPrompt">Question text</div>
+
+          <div class="choices-container" id="choicesContainer">
+            <!-- Options injected via JavaScript -->
+          </div>
+
+          <!-- FEEDBACK CALLOUT -->
+          <div class="feedback-box" id="feedbackBox">
+            <div class="feedback-verdict" id="feedbackVerdict">Correct</div>
+            <div class="feedback-details" id="feedbackDetails">
+              Explanation text.
+            </div>
+            <button class="btn-notion-next" id="btnContinue" onclick="app.nextCard()">
+              <span>Continue</span>
+              <kbd>Space</kbd>
+            </button>
+          </div>
+        </div>
+
+        <!-- REFERENCE CODE PANEL -->
+        <aside class="ref-code-panel" id="refCodePanel" style="display: none;">
+          <div class="ref-code-header">
+            <div class="ref-code-title-group">
+              <span class="ref-code-tag" id="refCodeSourceTag">Java Reference</span>
+              <span class="ref-code-title" id="refCodeTitle">Reference Code</span>
+            </div>
+            <button class="btn-toggle-code" id="btnHideCode" onclick="app.toggleCodePanel(false)" title="Minimize code panel [C]">
+              <span class="icon" style="font-size: 0.8rem;">&#xE76B;</span>
+              <span>Minimize</span>
+              <kbd>C</kbd>
+            </button>
+          </div>
+          <div class="ref-code-body">
+            <pre class="notion-code-block ref-code-content"><code id="refCodeText"></code></pre>
+          </div>
+        </aside>
+      </div>
+
+      <div class="shortcuts-footer">
+        <span>Keys:</span>
+        <kbd>1</kbd>–<kbd>5</kbd> select option •
+        <kbd>C</kbd> toggle code •
+        <kbd>R</kbd> reveal & retry •
+        <kbd>Space</kbd> continue
+      </div>
+    </div>
+  </main>
+
+  <!-- START SESSION ORDER SELECTION MODAL -->
+  <div class="modal-backdrop" id="startOptionModal">
+    <div class="modal-sheet start-modal-sheet">
+      <div class="start-modal-header">
+        <div>
+          <div class="modal-tag" id="startModalTag">Start Session</div>
+          <h2 class="modal-heading" id="startModalHeading">Choose Order Mode</h2>
+          <p class="modal-body" style="margin-bottom: 0;" id="startModalDesc">Select how questions should be ordered for this active recall session.</p>
+        </div>
+        <button class="btn-icon" onclick="app.closeStartModal()" title="Close [Esc]">
+          <span class="icon">&#xE711;</span>
+        </button>
+      </div>
+
+      <div class="order-options-grid">
+        <div class="order-option-card recommended" onclick="app.confirmStartSession(true)">
+          <div class="order-option-top">
+            <span class="icon order-icon">&#xE777;</span>
+            <span class="notion-tag tag-mastered">Recommended</span>
+          </div>
+          <div class="order-option-title">Randomized Order</div>
+          <div class="order-option-desc">Cards are shuffled randomly. Ideal for active recall without memorizing question sequence.</div>
+        </div>
+
+        <div class="order-option-card" onclick="app.confirmStartSession(false)">
+          <div class="order-option-top">
+            <span class="icon order-icon">&#xE8CB;</span>
+            <span class="notion-tag tag-neutral">Sequential</span>
+          </div>
+          <div class="order-option-title">Sequential Order</div>
+          <div class="order-option-desc">Cards appear in original numerical order (Q1, Q2...). Any review cards follow at the end.</div>
+        </div>
+      </div>
+
+      <!-- Option to include or exclude past review questions (shown for Part 2-8) -->
+      <div class="modal-review-toggle-row" id="startModalReviewToggleRow" style="display: none;">
+        <label class="review-toggle-label" for="chkIncludePastReview">
+          <input type="checkbox" id="chkIncludePastReview" checked>
+          <div class="review-toggle-text">
+            <div class="review-toggle-title">
+              <span>Include Past Review Cards</span>
+              <span class="notion-tag tag-streak-partial" style="font-size: 0.68rem; padding: 1px 5px;">Spaced Repetition</span>
+            </div>
+            <div class="review-toggle-desc" id="startModalReviewDesc">Includes 3 review cards from each completed earlier module. Uncheck to practice only cards from this module.</div>
+          </div>
+        </label>
+      </div>
+    </div>
+  </div>
+
+  <!-- 100% MASTERY CELEBRATION MODAL (ONLY SHOWN WHEN DECK IS PERFECTED) -->
+  <div class="modal-backdrop" id="masteryModal">
+    <div class="modal-sheet">
+      <div class="modal-tag">Active Recall Completed</div>
+      <h2 class="modal-heading" style="color: var(--success);" id="masteryModalHeading">100% Mastery</h2>
+      <p class="modal-body" id="masteryModalBody">
+        You have successfully perfected every card in this session!
+      </p>
+
+      <div class="modal-summary-grid">
+        <div class="summary-tile">
+          <div class="summary-val" style="color: var(--success);" id="modalMasteryPctVal">100%</div>
+          <div class="summary-lbl">First-Pass Mastery</div>
+        </div>
+        <div class="summary-tile">
+          <div class="summary-val" style="color: var(--accent);" id="modalSessionFinalScore">0</div>
+          <div class="summary-lbl">Session Score</div>
+        </div>
+        <div class="summary-tile">
+          <div class="summary-val" id="modalStreakVal">0 / 2</div>
+          <div class="summary-lbl" id="modalStreakLbl">Consecutive Streak</div>
+        </div>
+        <div class="summary-tile">
+          <div class="summary-val" id="modalTotalAttemptsVal">10</div>
+          <div class="summary-lbl">Total Attempts</div>
+        </div>
+      </div>
+
+      <div class="modal-buttons">
+        <button class="btn-modal-action" onclick="app.exitModalToDashboard()">
+          Return to Dashboard
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div id="lockToast" class="lock-toast"></div>
+
+  <footer>
+    Java OOP Active Recall System • Notion Style • Grid 24px • 82 Cards
+  </footer>
+
+  <script>
+    const DATASET = {"parts": [{"id": 1, "title": "Part 1: Inheritance, Abstract Classes & Overloading", "desc": "Abstract classes, Beetle exoskeleton hierarchy, TurtleFrog references, and method overloading rules.", "icon": "", "range": [1, 10]}, {"id": 2, "title": "Part 2: Abstract Classes vs. Interfaces Foundations", "desc": "Contracts, instantiation rules, extends vs implements keywords, and concrete subclass duties.", "icon": "", "range": [11, 20]}, {"id": 3, "title": "Part 3: Interface Inheritance & Default Methods", "desc": "Interface extension chains, default method resolution, Owl isBlind() dispatch, and overloading.", "icon": "", "range": [21, 30]}, {"id": 4, "title": "Part 4: Interface Modifiers, Final Methods & Object State", "desc": "Implicit public/static/final modifiers, Reptile layEggs() final constraint, and Orca polymorphism.", "icon": "", "range": [31, 40]}, {"id": 5, "title": "Part 5: Class Extension, Constructors & Overloading", "desc": "Platypus super() constructor chaining, superclass constructor rules, and ClownFish gill overloading.", "icon": "", "range": [41, 50]}, {"id": 6, "title": "Part 6: Interface Access Rules, Visibility & Polymorphism", "desc": "Implicit interface modifiers, default returns, Owl casting semantics, and access privilege weakening.", "icon": "", "range": [51, 60]}, {"id": 7, "title": "Part 7: Variable Scopes, Imports & Loop Execution", "desc": "Block vs class variables, java.lang defaults, loop counts, break/continue flow, and declaration scope.", "icon": "", "range": [61, 70]}, {"id": 8, "title": "Part 8: Operators, Precedence, Arrays & Evaluation Order", "desc": "Static fields, pre-increment ++y, integer division, zero-indexing, and left-to-right evaluation.", "icon": "", "range": [71, 82]}], "questions": [{"id": 1, "partId": 1, "partTitle": "Part 1: Inheritance, Abstract Classes & Overloading", "prompt": "Consider the following Java code:\n\n\n\nWhat is the result when this code is compiled?", "code": "interface HasExoskeleton {\nabstract int getNumberOfSections();\n}\nabstract class Insect implements HasExoskeleton {\nabstract int getNumberOfLegs():\n}\npublic class Beetle extends Insect  {\nint getNumberOfLegs()  {\nreturn 6;\n}\n}", "choices": [{"letter": "A", "text": "It compiles and runs without an issue."}, {"letter": "B", "text": "There is a compile error at line 02."}, {"letter": "C", "text": "There is a compile error at line 04."}, {"letter": "D", "text": "There is a compile error at line 07."}, {"letter": "E", "text": "It compiles but throws an exception."}], "answer": "D", "answerText": "There is a compile error at line 07.", "explanation": "Beetle is a concrete class and does not implement getNumberOfSections() inherited from HasExoskeleton."}, {"id": 2, "partId": 1, "partTitle": "Part 1: Inheritance, Abstract Classes & Overloading", "prompt": "In Java, an abstract class implements an interface but does not provide an implementation for every inherited abstract method. What may the abstract class do?", "code": "", "choices": [{"letter": "A", "text": "Remain abstract and defer the implementation."}, {"letter": "B", "text": "Become final and defer the implementation."}, {"letter": "C", "text": "Change the interface into a concrete class."}, {"letter": "D", "text": "Override only methods with return values."}, {"letter": "E", "text": "Declare every inherited method private."}], "answer": "A", "answerText": "Remain abstract and defer the implementation.", "explanation": "An abstract class is permitted to defer the implementation of interface methods to its subclasses."}, {"id": 3, "partId": 1, "partTitle": "Part 1: Inheritance, Abstract Classes & Overloading", "prompt": "In the code involving HasExoskeleton, Insect, and Beetle, which method must Beetle implement before it can be a concrete class?", "code": "", "choices": [{"letter": "A", "text": "getNumberOfLegs() only"}, {"letter": "B", "text": "getNumberOfSections() only"}, {"letter": "C", "text": "Both inherited methods"}, {"letter": "D", "text": "Neither inherited method"}, {"letter": "E", "text": "The interface constructor"}], "answer": "C", "answerText": "Both inherited methods (or B: getNumberOfSections() only)", "explanation": "A concrete class must implement all inherited abstract methods; in this specific code, getNumberOfSections() is the missing implementation."}, {"id": 4, "partId": 1, "partTitle": "Part 1: Inheritance, Abstract Classes & Overloading", "prompt": "Consider these Java declarations:\n\n\n\nWhich declaration can replace the blank and allow the code to compile?", "code": "public interface CanHop {}\npublic class Frog implements CanHop  {\n}\npublic class HornedFrog extends Frog  {\n}\npublic class TurtleFrog extends Frog  {\n}\npublic class Test  {\npublic static void main(String[] args) {\n____ frog = new TurtleFrog():\n}\n}", "choices": [{"letter": "A", "text": "Frog"}, {"letter": "B", "text": "HornedFrog"}, {"letter": "C", "text": "String"}, {"letter": "D", "text": "Long"}], "answer": "A", "answerText": "Frog", "explanation": "TurtleFrog extends Frog, so Frog is a valid superclass reference type."}, {"id": 5, "partId": 1, "partTitle": "Part 1: Inheritance, Abstract Classes & Overloading", "prompt": "Using the declarations Frog implements CanHop and TurtleFrog extends Frog which relationship makes a variable of type CanHop able to reference a TurtleFrog object?", "code": "", "choices": [{"letter": "A", "text": "TurtleFrog inherits the CanHop type through Frog."}, {"letter": "B", "text": "CanHop inherits all classes from TurtleFrog."}, {"letter": "C", "text": "Frog objects cannot implement interfaces."}, {"letter": "D", "text": "TurtleFrog must extend CanHop directly."}], "answer": "A", "answerText": "TurtleFrog inherits the CanHop type through Frog.", "explanation": "A subclass inherits all interface implementations from its superclasses."}, {"id": 6, "partId": 1, "partTitle": "Part 1: Inheritance, Abstract Classes & Overloading", "prompt": "For the statement Frog frog = new TurtleFrog(). what is the declared type of the variable frog?", "code": "", "choices": [{"letter": "A", "text": "The superclass type Frog"}, {"letter": "B", "text": "The subclass type TurtleFrog"}, {"letter": "C", "text": "The interface type CanHop"}, {"letter": "D", "text": "The reference type Object"}], "answer": "A", "answerText": "The superclass type Frog", "explanation": "The declared type (reference type) of variable frog is Frog."}, {"id": 7, "partId": 1, "partTitle": "Part 1: Inheritance, Abstract Classes & Overloading", "prompt": "// method body continues Does printName(int) override printName(double)?", "code": "class Arthropod {\npublic void printName(double input) {\nSystem.out.print(\"Arthropod\"):\n}\n}\npublic class Spider extends Arthropod  {\npublic void printName(int input)  {\n}\n}", "choices": [{"letter": "A", "text": "Yes, because both methods share the same name."}, {"letter": "B", "text": "Yes, because int converts to double automatically."}, {"letter": "C", "text": "No, because their parameter types differ."}, {"letter": "D", "text": "No, because subclasses cannot declare methods."}, {"letter": "E", "text": "No, because printName must return a value."}], "answer": "C", "answerText": "No, because their parameter types differ.", "explanation": "Overriding requires the exact same parameter types; different parameters result in method overloading."}, {"id": 8, "partId": 1, "partTitle": "Part 1: Inheritance, Abstract Classes & Overloading", "prompt": "The superclass declares printName(double), while Spider declares printName(int). What Java feature do these two declarations demonstrate?", "code": "", "choices": [{"letter": "A", "text": "Method overloading across an inheritance hierarchy"}, {"letter": "B", "text": "Constructor chaining between two classes"}, {"letter": "C", "text": "Field hiding between related classes"}, {"letter": "D", "text": "Interface implementation by a subclass"}, {"letter": "E", "text": "Exception handling with overloaded catches"}], "answer": "A", "answerText": "Method overloading across an inheritance hierarchy", "explanation": "Defining methods with the same name but different parameter types across superclass and subclass is method overloading."}, {"id": 9, "partId": 1, "partTitle": "Part 1: Inheritance, Abstract Classes & Overloading", "prompt": "Suppose the incomplete Spider method prints \"Spider\". If a Spider object receives a call printName(4), which method is selected based on the visible signatures?", "code": "", "choices": [{"letter": "A", "text": "The Spider method with an int parameter"}, {"letter": "B", "text": "The Arthropod method with a double parameter"}, {"letter": "C", "text": "Both methods execute in superclass order"}, {"letter": "D", "text": "Neither method can accept the argument"}, {"letter": "E", "text": "The constructor method executes instead"}], "answer": "A", "answerText": "The Spider method with an int parameter", "explanation": "The argument 4 is an int, matching the Spider method signature printName(int) exactly."}, {"id": 10, "partId": 1, "partTitle": "Part 1: Inheritance, Abstract Classes & Overloading", "prompt": "A programmer wants the Beetle class in the first code sample to compile as a concrete class while preserving its inheritance structure. Which change is sufficient?", "code": "", "choices": [{"letter": "A", "text": "Implement getNumberOfSections() in Beetle."}, {"letter": "B", "text": "Remove getNumberOfLegs() from Insect."}, {"letter": "C", "text": "Change Insect from abstract to final."}, {"letter": "D", "text": "Remove the HasExoskeleton interface."}, {"letter": "E", "text": "Change Beetle into an interface."}], "answer": "A", "answerText": "Implement getNumberOfSections() in Beetle.", "explanation": "Beetle already implements getNumberOfLegs(); implementing getNumberOfSections() completes all abstract methods."}, {"id": 11, "partId": 2, "partTitle": "Part 2: Abstract Classes vs. Interfaces Foundations", "prompt": "Which feature is common to both abstract classes and interfaces in Java?", "code": "", "choices": [{"letter": "A", "text": "They can contain public static final variables"}, {"letter": "B", "text": "They must contain only abstract methods"}, {"letter": "C", "text": "They cannot contain any static methods"}, {"letter": "D", "text": "They must be instantiated directly"}], "answer": "A", "answerText": "They can contain public static final variables", "explanation": "Both abstract classes and interfaces can declare constants (public static final fields)."}, {"id": 12, "partId": 2, "partTitle": "Part 2: Abstract Classes vs. Interfaces Foundations", "prompt": "Which keyword is used when one interface inherits from another interface?", "code": "", "choices": [{"letter": "A", "text": "extends"}, {"letter": "B", "text": "implements"}, {"letter": "C", "text": "inherits"}, {"letter": "D", "text": "super"}], "answer": "A", "answerText": "extends", "explanation": "An interface inherits from another interface using the extends keyword."}, {"id": 13, "partId": 2, "partTitle": "Part 2: Abstract Classes vs. Interfaces Foundations", "prompt": "Why can neither an abstract class nor an interface be instantiated directly?", "code": "", "choices": [{"letter": "A", "text": "They may contain unimplemented methods"}, {"letter": "B", "text": "They are always declared final"}, {"letter": "C", "text": "They cannot contain variables"}, {"letter": "D", "text": "They must inherit from an interface"}], "answer": "A", "answerText": "They may contain unimplemented methods", "explanation": "Abstract classes and interfaces can contain abstract methods without bodies, so they cannot be instantiated directly."}, {"id": 14, "partId": 2, "partTitle": "Part 2: Abstract Classes vs. Interfaces Foundations", "prompt": "A concrete subclass extends an abstract class that declares three abstract methods. What must the concrete subclass do to compile?", "code": "A concrete subclass extends an abstract class that declares three abstract methods. What must the concrete subclass do to", "choices": [{"letter": "A", "text": "Implement all three inherited abstract methods"}, {"letter": "B", "text": "Declare all three methods as static"}, {"letter": "C", "text": "Convert the superclass into an interface"}, {"letter": "D", "text": "Instantiate the abstract superclass first"}], "answer": "A", "answerText": "Implement all three inherited abstract methods", "explanation": "A concrete subclass must provide implementations for every inherited abstract method."}, {"id": 15, "partId": 2, "partTitle": "Part 2: Abstract Classes vs. Interfaces Foundations", "prompt": "Which statement correctly distinguishes a concrete subclass from an abstract subclass?", "code": "", "choices": [{"letter": "A", "text": "concrete subclass provides implementations for inherited abstract methods"}, {"letter": "B", "text": "concrete subclass cannot override inherited methods"}, {"letter": "C", "text": "concrete subclass must always be declared final"}, {"letter": "D", "text": "concrete subclass cannot implement an interface"}], "answer": "A", "answerText": "A concrete subclass provides implementations for inherited abstract methods", "explanation": "Concrete subclasses cannot leave any inherited abstract methods unimplemented."}, {"id": 16, "partId": 2, "partTitle": "Part 2: Abstract Classes vs. Interfaces Foundations", "prompt": "Which type can replace the blank in '____ frog = new TurtleFrog();' so the assignment compiles?", "code": "public interface CanHop {}\npublic class Frog implements CanHop {}\npublic class HornedFrog extends Frog {}\npublic class TurtleFrog extends Frog {}\n\npublic class Test {\n    public static void main(String[] args) {\n        ____ frog = new TurtleFrog();\n    }\n}", "choices": [{"letter": "A", "text": "Frog"}, {"letter": "B", "text": "HornedFrog"}, {"letter": "C", "text": "CanHop"}, {"letter": "D", "text": "String"}], "answer": "A or C", "answerText": "Frog or CanHop", "explanation": "Both Frog and CanHop are valid supertypes of TurtleFrog and allow the assignment to compile."}, {"id": 17, "partId": 2, "partTitle": "Part 2: Abstract Classes vs. Interfaces Foundations", "prompt": "Using the declarations 'Frog implements CanHop' and 'TurtleFrog extends Frog', which statement best explains why 'CanHop frog = new TurtleFrog();' compiles?", "code": "public interface CanHop {}\npublic class Frog implements CanHop {}\npublic class TurtleFrog extends Frog {}\n\nCanHop frog = new TurtleFrog();", "choices": [{"letter": "A", "text": "TurtleFrog inherits Frog's implementation of CanHop"}, {"letter": "B", "text": "CanHop is a superclass of TurtleFrog"}, {"letter": "C", "text": "Interfaces can be instantiated through any constructor"}, {"letter": "D", "text": "TurtleFrog automatically becomes a String"}], "answer": "A", "answerText": "TurtleFrog inherits Frog's implementation of CanHop", "explanation": "Through inheritance from Frog, TurtleFrog is also an instance of CanHop."}, {"id": 18, "partId": 2, "partTitle": "Part 2: Abstract Classes vs. Interfaces Foundations", "prompt": "A class implements an interface containing 'public abstract void makeSound();. What must a concrete implementing class provide?", "code": "", "choices": [{"letter": "A", "text": "public method named makeSound with no return value"}, {"letter": "B", "text": "private method named makeSound returning String"}, {"letter": "C", "text": "static method named makeSound returning boolean"}, {"letter": "D", "text": "constructor named makeSound with no parameters"}], "answer": "A", "answerText": "A public method named makeSound with no return value", "explanation": "Implementing methods cannot reduce visibility (must be public) and must match the void return type."}, {"id": 19, "partId": 2, "partTitle": "Part 2: Abstract Classes vs. Interfaces Foundations", "prompt": "A programmer wants to create a subclass that inherits an abstract method but does not implement it yet. Which declaration is appropriate?", "code": "", "choices": [{"letter": "A", "text": "Declare the subclass abstract"}, {"letter": "B", "text": "Declare the subclass final"}, {"letter": "C", "text": "Declare the subclass static"}, {"letter": "D", "text": "Declare the subclass private"}], "answer": "A", "answerText": "Declare the subclass abstract", "explanation": "If a subclass does not implement an inherited abstract method, it must be declared abstract."}, {"id": 20, "partId": 2, "partTitle": "Part 2: Abstract Classes vs. Interfaces Foundations", "prompt": "Suppose a concrete subclass inherits one abstract method from a superclass and also inherits one abstract method from an interface. What is required for successful compilation?", "code": "", "choices": [{"letter": "A", "text": "The subclass must implement both abstract methods"}, {"letter": "B", "text": "The subclass must implement only the superclass method"}, {"letter": "C", "text": "The subclass must implement only the interface method"}, {"letter": "D", "text": "The subclass must declare itself as an interface"}], "answer": "A", "answerText": "The subclass must implement both abstract methods", "explanation": "A concrete class must implement all inherited abstract methods from both superclasses and interfaces."}, {"id": 21, "partId": 3, "partTitle": "Part 3: Interface Inheritance & Default Methods", "prompt": "What does the declaration public interface CanBark extends HasVocalCords indicate about CanBark?", "code": "", "choices": [{"letter": "A", "text": "It inherits the method declarations from HasVocalCords"}, {"letter": "B", "text": "It inherits only private methods from HasVocalCords"}, {"letter": "C", "text": "It prevents classes from implementing HasVocalCords"}, {"letter": "D", "text": "It must be declared as an abstract class instead"}], "answer": "A", "answerText": "It inherits the method declarations from HasVocalCords", "explanation": "A child interface inherits all method signatures from its parent interface."}, {"id": 22, "partId": 3, "partTitle": "Part 3: Interface Inheritance & Default Methods", "prompt": "Given the following declarations:\n\n\n\nWhich methods must a concrete class implementing CanBark provide?", "code": "interface HasVocalCords {\n    void makeSound();\n}\ninterface CanBark extends HasVocalCords {\n    void bark();\n}", "choices": [{"letter": "A", "text": "Only bark()"}, {"letter": "B", "text": "Only makeSound()"}, {"letter": "C", "text": "Both makeSound() and bark()"}, {"letter": "D", "text": "Neither method because interfaces provide implementations"}], "answer": "C", "answerText": "Both makeSound() and bark()", "explanation": "A concrete class implementing CanBark must fulfill all methods from CanBark and HasVocalCords."}, {"id": 23, "partId": 3, "partTitle": "Part 3: Interface Inheritance & Default Methods", "prompt": "Which pair of modifiers is implicitly applied to an ordinary abstract method declared in a Java interface?", "code": "", "choices": [{"letter": "A", "text": "public and abstract"}, {"letter": "B", "text": "protected and static"}, {"letter": "C", "text": "private and default"}, {"letter": "D", "text": "public and static"}], "answer": "A", "answerText": "public and abstract", "explanation": "Ordinary methods in Java interfaces are implicitly public and abstract."}, {"id": 24, "partId": 3, "partTitle": "Part 3: Interface Inheritance & Default Methods", "prompt": "What value is printed by this program?", "code": "interface Nocturnal {\n    default boolean isBlind() {\n        return true;\n    }\n}\npublic class Owl implements Nocturnal {\n    public boolean isBlind() {\n        return false;\n    }\n    public static void main(String[] args) {\n        Nocturnal nocturnal = (Nocturnal) new Owl();\n        System.out.print(nocturnal.isBlind());\n    }\n}", "choices": [{"letter": "A", "text": "true"}, {"letter": "B", "text": "false"}, {"letter": "C", "text": "Compile error at the default method"}, {"letter": "D", "text": "Compile error at the cast"}], "answer": "B", "answerText": "false", "explanation": "Polymorphism ensures that the overridden method in Owl executes at runtime."}, {"id": 25, "partId": 3, "partTitle": "Part 3: Interface Inheritance & Default Methods", "prompt": "What is printed by this program?", "code": "class Arthropod {\n    public void printName(double input) {\n        System.out.print(\"Arthropod\");\n    }\n}\nclass Spider extends Arthropod {\n    public void printName(int input) {\n        System.out.print(\"Spider\");\n    }\n    public static void main(String[] args) {\n        Spider spider = new Spider();\n        spider.printName(4.0);\n        spider.printName(9);\n    }\n}", "choices": [{"letter": "A", "text": "SpiderArthropod"}, {"letter": "B", "text": "ArthropodSpider"}, {"letter": "C", "text": "ArthropodArthropod"}, {"letter": "C", "text": "SpiderSpider"}], "answer": "B", "answerText": "ArthropodSpider", "explanation": "spider.printName(4.0) calls printName(double) in Arthropod; spider.printName(9) calls printName(int) in Spider."}, {"id": 26, "partId": 3, "partTitle": "Part 3: Interface Inheritance & Default Methods", "prompt": "In the Spider program, why does spider.printName(4.0) call the method declared in Arthropod rather than the method declared in Spider?", "code": "", "choices": [{"letter": "A", "text": "The double argument matches Arthropod's parameter exactly"}, {"letter": "B", "text": "The subclass method always runs before superclass methods"}, {"letter": "C", "text": "Java converts every double argument into an int"}, {"letter": "D", "text": "The Spider method is hidden because it is public"}], "answer": "A", "answerText": "The double argument matches Arthropod's parameter exactly", "explanation": "4.0 is a double literal, matching printName(double)."}, {"id": 27, "partId": 3, "partTitle": "Part 3: Interface Inheritance & Default Methods", "prompt": "Suppose the statement 'spider.printName(9);' in the Spider program is changed to 'spider.printName(9.0);'. What will be printed by the two calls, in order? spider.printName(4.0); spider.printName(9.0);", "code": "spider.printName(4.0);\nspider.printName(9.0);", "choices": [{"letter": "A", "text": "ArthropodSpider"}, {"letter": "B", "text": "SpiderArthropod"}, {"letter": "C", "text": "ArthropodArthropod"}, {"letter": "D", "text": "SpiderSpider"}], "answer": "C", "answerText": "ArthropodArthropod", "explanation": "Both 4.0 and 9.0 are doubles, so both calls invoke printName(double) in Arthropod."}, {"id": 28, "partId": 3, "partTitle": "Part 3: Interface Inheritance & Default Methods", "prompt": "A concrete class implements CanBark, where CanBark extends HasVocalCords. Neither interface supplies a default implementation. What is the most likely result if the class defines bark() but not makeSound()?", "code": "", "choices": [{"letter": "A", "text": "The class fails to compile because makeSound() is unimplemented"}, {"letter": "B", "text": "The class compiles and inherits makeSound() automatically"}, {"letter": "C", "text": "The class runs but throws an error only when barking"}, {"letter": "D", "text": "The interface hierarchy is ignored by the compiler"}], "answer": "A", "answerText": "The class fails to compile because makeSound() is unimplemented", "explanation": "A concrete class must implement all inherited abstract methods in the interface hierarchy."}, {"id": 29, "partId": 3, "partTitle": "Part 3: Interface Inheritance & Default Methods", "prompt": "Consider the following declarations:\nA class implementing that interface declares:\n\n\n\nWhich implementation is selected when an object of the class invokes isBlind()?", "code": "interface Nocturnal {\n    default boolean isBlind() {\n        return true;\n    }\n}\npublic boolean isBlind() {\n    return false;\n}", "choices": [{"letter": "A", "text": "The class implementation returning false"}, {"letter": "B", "text": "The interface implementation returning true"}, {"letter": "C", "text": "Neither implementation; the method becomes abstract"}, {"letter": "D", "text": "Both implementations execute and combine their results"}], "answer": "A", "answerText": "The class implementation returning false", "explanation": "A class method implementation always overrides an interface default method."}, {"id": 30, "partId": 3, "partTitle": "Part 3: Interface Inheritance & Default Methods", "prompt": "A variable has static type Arthropod and refers to a Spider object. The variable is used to call printName(4.0), where Arthropod defines printName(double) and Spider defines only printName(int). Which method is selected?", "code": "", "choices": [{"letter": "A", "text": "Arthropod's printName(double) method"}, {"letter": "B", "text": "Spider's printName(int) method"}, {"letter": "C", "text": "Both methods execute in sequence"}, {"letter": "D", "text": "The call produces a compile-time error"}], "answer": "A", "answerText": "Arthropod's printName(double) method", "explanation": "Spider only overloads printName(int); the reference type Arthropod calls printName(double)."}, {"id": 31, "partId": 4, "partTitle": "Part 4: Interface Modifiers, Final Methods & Object State", "prompt": "What modifiers are implicitly applied to every variable declared in a Java interface?", "code": "", "choices": [{"letter": "A", "text": "public, static, and final"}, {"letter": "B", "text": "protected, static, and final"}, {"letter": "C", "text": "private, static, and final"}, {"letter": "D", "text": "public, abstract, and final"}], "answer": "A", "answerText": "public, static, and final", "explanation": "All variables declared in an interface are implicitly constants: public, static, and final."}, {"id": 32, "partId": 4, "partTitle": "Part 4: Interface Modifiers, Final Methods & Object State", "prompt": "Which statement correctly describes a concrete subclass in Java?", "code": "", "choices": [{"letter": "A", "text": "It must implement inherited abstract methods"}, {"letter": "B", "text": "It must declare every inherited method final"}, {"letter": "C", "text": "It must contain at least one abstract method"}, {"letter": "D", "text": "It must implement every interface default method"}], "answer": "A", "answerText": "It must implement inherited abstract methods", "explanation": "A concrete subclass cannot contain any unimplemented abstract methods."}, {"id": 33, "partId": 4, "partTitle": "Part 4: Interface Modifiers, Final Methods & Object State", "prompt": "Why can an abstract class not be instantiated directly?", "code": "", "choices": [{"letter": "A", "text": "It may contain methods without implementations"}, {"letter": "B", "text": "Its required to contain only static methods"}, {"letter": "C", "text": "It cannot declare constructors for subclasses"}, {"letter": "D", "text": "Its automatically treated as an interface"}], "answer": "A", "answerText": "It may contain methods without implementations", "explanation": "Abstract classes represent incomplete types and cannot be instantiated directly."}, {"id": 34, "partId": 4, "partTitle": "Part 4: Interface Modifiers, Final Methods & Object State", "prompt": "Which statement about methods in Java interfaces is correct?", "code": "", "choices": [{"letter": "A", "text": "An interface may contain default and static methods"}, {"letter": "B", "text": "Every interface method must remain abstract"}, {"letter": "C", "text": "An interface may contain protected instance methods"}, {"letter": "D", "text": "Every interface method must be declared final"}], "answer": "A", "answerText": "An interface may contain default and static methods", "explanation": "Since Java 8, interfaces can define default and static methods with concrete bodies."}, {"id": 35, "partId": 4, "partTitle": "Part 4: Interface Modifiers, Final Methods & Object State", "prompt": "Consider this Java code:\n\n\n\nWhat happens when this code is compiled?", "code": "class Reptile {\npublic final void layEggs() {\nSystem.out.print( Reptile Laying Eggs');\n}\n}\nclass Lizard extends Reptile {\npublic void layEggs() {\nSystem.out.print(\"Lizard Laying Eggs'):\n}\n}", "choices": [{"letter": "A", "text": "It produces the reptile message"}, {"letter": "B", "text": "It produces the lizard message"}, {"letter": "C", "text": "It reports an error in the overnde"}, {"letter": "D", "text": "It reports an error when creating Lizard"}], "answer": "C", "answerText": "It reports an error in the override", "explanation": "A final method in a superclass cannot be overridden by a subclass."}, {"id": 36, "partId": 4, "partTitle": "Part 4: Interface Modifiers, Final Methods & Object State", "prompt": "Suppose the method layEggs() in Reptile were not declared final. For the following statements, what would be printed?", "code": "Reptile reptile = new Lizard();\nreptile.layEggs();", "choices": [{"letter": "A", "text": "Reptile Laying Eggs"}, {"letter": "B", "text": "Lizard Laying Eggs"}, {"letter": "C", "text": "No message is printed"}, {"letter": "D", "text": "The code cannot compile"}], "answer": "B", "answerText": "Lizard Laying Eggs", "explanation": "When layEggs() is not final, Lizard overrides it and polymorphism calls Lizard's method."}, {"id": 37, "partId": 4, "partTitle": "Part 4: Interface Modifiers, Final Methods & Object State", "prompt": "What is printed by this Java program?", "code": "abstract class Whale {\n    public abstract void dive();\n}\nclass Orca extends Whale {\n    public void dive() {\n        System.out.print(\"Orca diving\");\n    }\n}\n// in main:\nWhale whale = new Orca();\nwhale.dive();", "choices": [{"letter": "A", "text": "Whale diving"}, {"letter": "B", "text": "Orca diving"}, {"letter": "C", "text": "No output is produced"}, {"letter": "D", "text": "compile error is produced"}], "answer": "B", "answerText": "Orca diving", "explanation": "whale refers to an Orca instance; calling whale.dive() executes Orca's dive() method."}, {"id": 38, "partId": 4, "partTitle": "Part 4: Interface Modifiers, Final Methods & Object State", "prompt": "A developer needs a parent type that can provide shared instance state and implemented behavior while also requiring subclasses to implement selected methods. Which design best fits this requirement?", "code": "", "choices": [{"letter": "A", "text": "An abstract class with fields and abstract methods"}, {"letter": "B", "text": "An interface containing only constant variables"}, {"letter": "C", "text": "A concrete class containing only abstract methods"}, {"letter": "D", "text": "A static utility class containing default methods"}], "answer": "A", "answerText": "An abstract class with fields and abstract methods", "explanation": "Only classes can maintain instance fields (shared instance state) while enforcing abstract methods."}, {"id": 39, "partId": 4, "partTitle": "Part 4: Interface Modifiers, Final Methods & Object State", "prompt": "A class implements an interface that provides a default implementation for a method. What must the class do?", "code": "", "choices": [{"letter": "A", "text": "It must always override the default method"}, {"letter": "B", "text": "It may use the default implementation without overriding"}, {"letter": "C", "text": "It must declare the method as private and final"}, {"letter": "D", "text": "It must convert the interface into an abstract class"}], "answer": "B", "answerText": "It may use the default implementation without overriding", "explanation": "A class implementing an interface inherits its default methods automatically."}, {"id": 40, "partId": 4, "partTitle": "Part 4: Interface Modifiers, Final Methods & Object State", "prompt": "Which statement accurately compares Java abstract classes and interfaces?", "code": "", "choices": [{"letter": "A", "text": "Both can be instantiated directly by subclasses"}, {"letter": "B", "text": "Both can declare public static final variables"}, {"letter": "C", "text": "Both inherit implementation from java.lang Object"}, {"letter": "D", "text": "Both require every method to be abstract"}], "answer": "B", "answerText": "Both can declare public static final variables", "explanation": "Both abstract classes and interfaces can define public static final constant fields."}, {"id": 41, "partId": 5, "partTitle": "Part 5: Class Extension, Constructors & Overloading", "prompt": "Which statement about a concrete subclass is correct?", "code": "", "choices": [{"letter": "A", "text": "It may be declared abstract or final"}, {"letter": "B", "text": "It must always be declared abstract"}, {"letter": "C", "text": "It cannot be declared final"}, {"letter": "D", "text": "It must implement another interface"}], "answer": "A", "answerText": "It may be declared abstract or final", "explanation": "A concrete subclass can be declared final to prevent further extension."}, {"id": 42, "partId": 5, "partTitle": "Part 5: Class Extension, Constructors & Overloading", "prompt": "What must a concrete subclass do when it inherits an abstract method from a superclass or interface?", "code": "", "choices": [{"letter": "A", "text": "Override the method with an implementation"}, {"letter": "B", "text": "Declare the method as private"}, {"letter": "C", "text": "Remove the method from the parent type"}, {"letter": "D", "text": "Convert the method into a constructor"}], "answer": "A", "answerText": "Override the method with an implementation", "explanation": "A concrete class must provide a concrete implementation for any inherited abstract method."}, {"id": 43, "partId": 5, "partTitle": "Part 5: Class Extension, Constructors & Overloading", "prompt": "Which declaration correctly shows one interface extending another interface?", "code": "", "choices": [{"letter": "A", "text": "interface CanBark extends HasVocalCords { }"}, {"letter": "B", "text": "interface CanBark implements HasVocalCords { }"}, {"letter": "C", "text": "class CanBark extends HasVocalCords { }"}, {"letter": "D", "text": "interface HasVocalCords extends CanBark { }"}], "answer": "A", "answerText": "interface CanBark extends HasVocalCords { }", "explanation": "An interface inherits another interface using the extends keyword."}, {"id": 44, "partId": 5, "partTitle": "Part 5: Class Extension, Constructors & Overloading", "prompt": "What methods must a concrete class that implements CanBark provide?", "code": "interface HasVocalCords {\n    void makeSound();\n}\ninterface CanBark extends HasVocalCords {\n    void bark();\n}", "choices": [{"letter": "A", "text": "Implement both makeSound() and bark()"}, {"letter": "B", "text": "Implement only makeSound()"}, {"letter": "C", "text": "Implement only bark()"}, {"letter": "D", "text": "Implement neither inherited method"}], "answer": "A", "answerText": "Implement both makeSound() and bark()", "explanation": "A concrete class implementing CanBark must implement all methods from CanBark and HasVocalCords."}, {"id": 45, "partId": 5, "partTitle": "Part 5: Class Extension, Constructors & Overloading", "prompt": "An abstract class implements HasVocalCords, which declares void makeSound(). What is true if the abstract class does not implement that method?", "code": "", "choices": [{"letter": "A", "text": "The abstract class may leave it unimplemented"}, {"letter": "B", "text": "The interface declaration becomes invalid"}, {"letter": "C", "text": "The class must become final"}, {"letter": "D", "text": "The method is automatically made static"}], "answer": "A", "answerText": "The abstract class may leave it unimplemented", "explanation": "An abstract class can defer implementing interface methods to its subclasses."}, {"id": 46, "partId": 5, "partTitle": "Part 5: Class Extension, Constructors & Overloading", "prompt": "What happens when an interface extends another interface in Java?", "code": "", "choices": [{"letter": "A", "text": "The child interface inherits the parent interface's method requirements"}, {"letter": "B", "text": "The parent interface becomes a concrete class"}, {"letter": "C", "text": "The child interface must use implements instead"}, {"letter": "D", "text": "The parent interface loses all declared methods"}], "answer": "A", "answerText": "The child interface inherits the parent interface's method requirements", "explanation": "The sub-interface inherits all method contracts from the parent interface."}, {"id": 47, "partId": 5, "partTitle": "Part 5: Class Extension, Constructors & Overloading", "prompt": "Why does this code fail to compile?", "code": "class Mammal {\n    public Mammal(int age) {\n        System.out.print(\"Mammal\");\n    }\n}\npublic class Platypus extends Mammal {\n    public Platypus() {\n        System.out.print(\"Platypus\");\n    }\n}", "choices": [{"letter": "A", "text": "The constructor implicitly calls unavailable Mammal()"}, {"letter": "B", "text": "The subclass cannot contain a no-argument constructor"}, {"letter": "C", "text": "The print statement must appear after construction"}, {"letter": "D", "text": "subclass cannot extend a class with parameters"}], "answer": "A", "answerText": "The constructor implicitly calls unavailable Mammal()", "explanation": "Platypus implicitly calls super(), but Mammal has no no-argument constructor."}, {"id": 48, "partId": 5, "partTitle": "Part 5: Class Extension, Constructors & Overloading", "prompt": "How can the Platypus constructor be corrected so that it can invoke the available superclass constructor?", "code": "", "choices": [{"letter": "A", "text": "Use super(0); before the print statement"}, {"letter": "B", "text": "Use this(0); after the print statement"}, {"letter": "C", "text": "Add final before the constructor"}, {"letter": "D", "text": "Replace extends with implements"}], "answer": "A", "answerText": "Use super(0); before the print statement", "explanation": "Explicitly calling super(0); invokes the available Mammal(int age) constructor."}, {"id": 49, "partId": 5, "partTitle": "Part 5: Class Extension, Constructors & Overloading", "prompt": "Assume the Mammal class has a valid no-argument constructor. When new Platypus() is executed and the superclass constructor prints \"Mammal\" while the subclass constructor prints Platypus', what is printed?", "code": "", "choices": [{"letter": "A", "text": "MammalPlatypus"}, {"letter": "B", "text": "PlatypusMammal"}, {"letter": "C", "text": "Mammal only"}, {"letter": "D", "text": "Platypus only"}], "answer": "A", "answerText": "MammalPlatypus", "explanation": "The superclass constructor executes first, followed by the subclass constructor."}, {"id": 50, "partId": 5, "partTitle": "Part 5: Class Extension, Constructors & Overloading", "prompt": "Which statement best describes the relationship between the two methods?", "code": "interface Aquatic {\n    default int getNumberOfGills(int input) {\n        return 2;\n    }\n}\nclass ClownFish implements Aquatic {\n    public int getNumberOfGills() {\n        return 4;\n    }\n}", "choices": [{"letter": "A", "text": "They are overloaded because their parameter lists differ"}, {"letter": "B", "text": "The class method overrides the default method"}, {"letter": "C", "text": "The class fails because interfaces cannot have defaults"}, {"letter": "D", "text": "The class method replaces the default method despite different parameters"}], "answer": "A", "answerText": "They are overloaded because their parameter lists differ", "explanation": "getNumberOfGills(int) and getNumberOfGills() have different parameter lists, so they are overloaded."}, {"id": 51, "partId": 6, "partTitle": "Part 6: Interface Access Rules, Visibility & Polymorphism", "prompt": "For an abstract method declared in a Java interface, which access modifier is implicitly applied?", "code": "", "choices": [{"letter": "A", "text": "public"}, {"letter": "B", "text": "protected"}, {"letter": "C", "text": "private"}, {"letter": "D", "text": "package-private"}], "answer": "A", "answerText": "public", "explanation": "Abstract methods in interfaces are implicitly public."}, {"id": 52, "partId": 6, "partTitle": "Part 6: Interface Access Rules, Visibility & Polymorphism", "prompt": "What does the default keyword provide for a method in a Java interface?", "code": "", "choices": [{"letter": "A", "text": "method implementation"}, {"letter": "B", "text": "private constructor"}, {"letter": "C", "text": "static field"}, {"letter": "D", "text": "An abstract class"}], "answer": "A", "answerText": "A method implementation", "explanation": "The default keyword allows an interface method to supply a concrete body."}, {"id": 53, "partId": 6, "partTitle": "Part 6: Interface Access Rules, Visibility & Polymorphism", "prompt": "Given the interface:\n\n\n\nWhat value does the default method return?", "code": "interface Nocturnal {\n    default boolean isBlind() {\n        return true;\n    }\n}", "choices": [{"letter": "A", "text": "true"}, {"letter": "B", "text": "false"}, {"letter": "C", "text": "0"}, {"letter": "D", "text": "null"}], "answer": "A", "answerText": "true", "explanation": "The default method explicitly returns true."}, {"id": 54, "partId": 6, "partTitle": "Part 6: Interface Access Rules, Visibility & Polymorphism", "prompt": "A class named Owl implements Nocturnal and overrides isBlind() to return false. If a Nocturnal reference refers to an Owl object, what does nocturnal.isBlind() return?", "code": "", "choices": [{"letter": "A", "text": "false"}, {"letter": "B", "text": "true"}, {"letter": "C", "text": "null"}, {"letter": "D", "text": "compile-time error"}], "answer": "A", "answerText": "false", "explanation": "Polymorphism calls the overridden method in Owl, which returns false."}, {"id": 55, "partId": 6, "partTitle": "Part 6: Interface Access Rules, Visibility & Polymorphism", "prompt": "Why does the call nocturnalisBlind() use Owl's implementation rather than the interface default implementation?", "code": "", "choices": [{"letter": "A", "text": "The object overrides the method"}, {"letter": "B", "text": "The reference hides the method"}, {"letter": "C", "text": "The cast changes the method"}, {"letter": "D", "text": "The interface is abstract"}], "answer": "A", "answerText": "The object overrides the method", "explanation": "The runtime object Owl overrides the default interface method."}, {"id": 56, "partId": 6, "partTitle": "Part 6: Interface Access Rules, Visibility & Polymorphism", "prompt": "What is the result of assigning a newly created Owl object to a Nocturnal reference?", "code": "", "choices": [{"letter": "A", "text": "The assignment is valid"}, {"letter": "B", "text": "The assignment needs inheritance"}, {"letter": "C", "text": "The assignment causes an error"}, {"letter": "D", "text": "The assignment creates two objects"}], "answer": "A", "answerText": "The assignment is valid", "explanation": "Owl implements Nocturnal, so assigning an Owl instance to a Nocturnal reference is a valid upcast."}, {"id": 57, "partId": 6, "partTitle": "Part 6: Interface Access Rules, Visibility & Polymorphism", "prompt": "In Nocturnal nocturnal = (Nocturnal) new Owl();, what is the main effect of the explicit cast?", "code": "", "choices": [{"letter": "A", "text": "It treats the object as Nocturnal"}, {"letter": "B", "text": "It converts the object to text"}, {"letter": "C", "text": "It invokes the default method"}, {"letter": "D", "text": "It changes the object's class"}], "answer": "A", "answerText": "It treats the object as Nocturnal", "explanation": "The cast treats the object through the Nocturnal reference type."}, {"id": 58, "partId": 6, "partTitle": "Part 6: Interface Access Rules, Visibility & Polymorphism", "prompt": "If Owl did not override isBlind(), what would new Owl().isBlind() return when the inherited interface default method is used?", "code": "", "choices": [{"letter": "A", "text": "true"}, {"letter": "B", "text": "false"}, {"letter": "C", "text": "8"}, {"letter": "D", "text": "compile-time error"}], "answer": "A", "answerText": "true", "explanation": "If not overridden, the inherited default method in Nocturnal returns true."}, {"id": 59, "partId": 6, "partTitle": "Part 6: Interface Access Rules, Visibility & Polymorphism", "prompt": "The method getNumberOfGills(int input) always returns the string \"8\". What does getNumberOfGills(-1) return?", "code": "", "choices": [{"letter": "A", "text": "\"8\""}, {"letter": "B", "text": "-1"}, {"letter": "C", "text": "8"}, {"letter": "D", "text": "A null value"}], "answer": "A", "answerText": "\"8\"", "explanation": "The method always returns the string \"8\" regardless of input."}, {"id": 60, "partId": 6, "partTitle": "Part 6: Interface Access Rules, Visibility & Polymorphism", "prompt": "Suppose Owl declares boolean isBlind() without the public modifier while implementing the interface method. What is the most likely result?", "code": "", "choices": [{"letter": "A", "text": "compile-time error"}, {"letter": "B", "text": "The method becomes protected"}, {"letter": "C", "text": "The interface method is ignored"}, {"letter": "D", "text": "The default method is called"}], "answer": "A", "answerText": "compile-time error", "explanation": "Interface methods are public; omitting public in the implementing class assigns weaker package-private access."}, {"id": 61, "partId": 7, "partTitle": "Part 7: Variable Scopes, Imports & Loop Execution", "prompt": "Which type of variable has a scope limited to a method or block of code?", "code": "", "choices": [{"letter": "A", "text": "Interface variables"}, {"letter": "B", "text": "Block variables"}, {"letter": "C", "text": "Class variables"}, {"letter": "D", "text": "Instance variables"}], "answer": "B", "answerText": "Block variables", "explanation": "Local/block variables are scoped exclusively to the block or method where they are declared."}, {"id": 62, "partId": 7, "partTitle": "Part 7: Variable Scopes, Imports & Loop Execution", "prompt": "Which type of variable is available throughout the class and can be accessed for the duration of the program?", "code": "", "choices": [{"letter": "A", "text": "Interface variables"}, {"letter": "B", "text": "Block variables"}, {"letter": "C", "text": "Class variables"}, {"letter": "D", "text": "Instance variables"}], "answer": "C", "answerText": "Class variables", "explanation": "Static (class) variables exist throughout the program's lifetime across all instances."}, {"id": 63, "partId": 7, "partTitle": "Part 7: Variable Scopes, Imports & Loop Execution", "prompt": "Which statement about Java import statements Is true?", "code": "", "choices": [{"letter": "A", "text": "Unused imports prevent compilation."}, {"letter": "B", "text": "Unused imports may be removed safely."}, {"letter": "C", "text": "Duplicate imports prevent compilation."}, {"letter": "D", "text": "Missing imported classes still compile."}], "answer": "B", "answerText": "Unused imports may be removed safely", "explanation": "Unused imports do not affect compilation or execution and can be safely removed."}, {"id": 64, "partId": 7, "partTitle": "Part 7: Variable Scopes, Imports & Loop Execution", "prompt": "Which package is imported into every Java class by default?", "code": "", "choices": [{"letter": "A", "text": "java.util"}, {"letter": "B", "text": "java.system"}, {"letter": "C", "text": "java.lang"}, {"letter": "D", "text": "java.io"}], "answer": "C", "answerText": "java.lang", "explanation": "The java.lang package is imported automatically into every Java class."}, {"id": 65, "partId": 7, "partTitle": "Part 7: Variable Scopes, Imports & Loop Execution", "prompt": "Which loop iterates a different number of times from the other three?", "code": "", "choices": [{"letter": "A", "text": "for (int i = 0; i < 5; i++)"}, {"letter": "B", "text": "for (int i = 1; i <= 5; i++)"}, {"letter": "C", "text": "int k = 0; do {} while (k++ < 5);"}, {"letter": "D", "text": "int k = 0; while (k++ < 5) {}"}], "answer": "C", "answerText": "int k=0; do {} while (k++ < 5);", "explanation": "The do-while loop executes 6 times (checking k from 0 to 5), while the other loops execute 5 times."}, {"id": 66, "partId": 7, "partTitle": "Part 7: Variable Scopes, Imports & Loop Execution", "prompt": "What is the output of this Java code?", "code": "for (int x = 0; x < 5; x++) {\n    System.out.print(1);\n    if (x < 2) continue;\n    else break;\n}", "choices": [{"letter": "A", "text": "111"}, {"letter": "B", "text": "1"}, {"letter": "C", "text": "11"}, {"letter": "D", "text": "1111"}, {"letter": "E", "text": "The code produces no output"}], "answer": "A", "answerText": "111", "explanation": "Prints '1' for x = 0 (continue), x = 1 (continue), and x = 2 (break)."}, {"id": 67, "partId": 7, "partTitle": "Part 7: Variable Scopes, Imports & Loop Execution", "prompt": "Which declaration is a reference variable rather than a primitive variable in Java?", "code": "", "choices": [{"letter": "A", "text": "inti"}, {"letter": "B", "text": "longl;"}, {"letter": "C", "text": "String[] strings;"}, {"letter": "D", "text": "double d;"}], "answer": "C", "answerText": "String[] strings;", "explanation": "Arrays in Java are reference types; the other options are primitive types."}, {"id": 68, "partId": 7, "partTitle": "Part 7: Variable Scopes, Imports & Loop Execution", "prompt": "What kind of member is declared by static int ii; inside a Java class?", "code": "", "choices": [{"letter": "A", "text": "An instance field"}, {"letter": "B", "text": "class field"}, {"letter": "C", "text": "Alocal variable"}, {"letter": "D", "text": "A method parameter"}], "answer": "B", "answerText": "A class field", "explanation": "static int ii; declares a static variable (class field)."}, {"id": 69, "partId": 7, "partTitle": "Part 7: Variable Scopes, Imports & Loop Execution", "prompt": "How many times does this loop body execute?", "code": "for(inti=0;i<5;i++) {}", "choices": [{"letter": "A", "text": "Four times"}, {"letter": "B", "text": "Five times"}, {"letter": "C", "text": "Six times"}, {"letter": "D", "text": "Zero times"}], "answer": "B", "answerText": "Five times", "explanation": "The loop runs for i = 0, 1, 2, 3, 4 (5 iterations)."}, {"id": 70, "partId": 7, "partTitle": "Part 7: Variable Scopes, Imports & Loop Execution", "prompt": "Which statement can be inserted inside the body of this loop so that it compiles?", "code": "for (int i = 0; i < 5; i++) {\n    [statement]\n}", "choices": [{"letter": "A", "text": "static int j = i;"}, {"letter": "B", "text": "int j = i;"}, {"letter": "C", "text": "static int j = ii;"}, {"letter": "D", "text": "int i = 0;"}], "answer": "B", "answerText": "int j = i;", "explanation": "Declaring local variable int j = i; is valid; static is illegal inside methods, and int i = 0; duplicates i."}, {"id": 71, "partId": 8, "partTitle": "Part 8: Operators, Precedence, Arrays & Evaluation Order", "prompt": "Which declaration can be placed directly inside the class body, outside the main method and loop?", "code": "", "choices": [{"letter": "A", "text": "static int j = ii;"}, {"letter": "B", "text": "static int j = i;"}, {"letter": "C", "text": "int j = i;"}, {"letter": "D", "text": "int j = 0; inside main"}], "answer": "A", "answerText": "static int j = ii;", "explanation": "Can initialize with the static class field ii; local variable i from main is out of scope."}, {"id": 72, "partId": 8, "partTitle": "Part 8: Operators, Precedence, Arrays & Evaluation Order", "prompt": "Why does static int j = i; fail when placed directly inside the class body if i is declared in the loop inside main?", "code": "", "choices": [{"letter": "A", "text": "The loop variable has local scope"}, {"letter": "B", "text": "The class field must be a String"}, {"letter": "C", "text": "The loop variable is automatically final"}, {"letter": "D", "text": "The class cannot contain integer fields"}], "answer": "A", "answerText": "The loop variable has local scope", "explanation": "The variable i declared inside main has local scope and cannot be referenced in the class body."}, {"id": 73, "partId": 8, "partTitle": "Part 8: Operators, Precedence, Arrays & Evaluation Order", "prompt": "Consider the following Java statements:\n\n\n\nWhat is the value of y immediately after the second statement executes?", "code": "int y = 4;\nint x = 10 + ++y / 5;", "choices": [{"letter": "A", "text": "4"}, {"letter": "B", "text": "5"}, {"letter": "C", "text": "10"}, {"letter": "D", "text": "Nn"}], "answer": "B", "answerText": "5", "explanation": "The pre-increment ++y increments y from 4 to 5 before evaluation."}, {"id": 74, "partId": 8, "partTitle": "Part 8: Operators, Precedence, Arrays & Evaluation Order", "prompt": "What does this Java program print?", "code": "int y = 4;\nint x = 10 + ++y / 5;\nSystem.out.println(x % y);", "choices": [{"letter": "A", "text": "0"}, {"letter": "B", "text": "1"}, {"letter": "C", "text": "4"}, {"letter": "D", "text": "2"}], "answer": "B", "answerText": "1", "explanation": "x = 10 + (5 / 5) = 11; then 11 % 5 = 1."}, {"id": 75, "partId": 8, "partTitle": "Part 8: Operators, Precedence, Arrays & Evaluation Order", "prompt": "Which evaluation sequence correctly describes this code?", "code": "int y = 4;\nint x = 10 + ++y / 5;", "choices": [{"letter": "A", "text": "y becomes 5, then 5 / 5 equals 1, so x becomes 11"}, {"letter": "B", "text": "y remains 4, then 4 / 5 equals 0, so x becomes 10"}, {"letter": "C", "text": "y becomes 5, then 10 / 5 equals 2, so x becomes 12"}, {"letter": "D", "text": "y becomes 4, then 10 / 4 equals 2, so x becomes 12"}], "answer": "A", "answerText": "y becomes 5, then 5 / 5 equals 1, so x becomes 11", "explanation": "Traces the exact evaluation order of pre-increment and division."}, {"id": 76, "partId": 8, "partTitle": "Part 8: Operators, Precedence, Arrays & Evaluation Order", "prompt": "Which change makes the loop execute six times instead of five times?", "code": "for(inti=0;i<5;i++){}", "choices": [{"letter": "A", "text": "Change i < 5 to i < 6"}, {"letter": "B", "text": "Change i = 0 to i = 1"}, {"letter": "C", "text": "Change i++ to i += 2"}, {"letter": "D", "text": "Change i < 5 to i > 5"}], "answer": "A", "answerText": "Change i < 5 to i < 6", "explanation": "Changing the condition to i < 6 makes the loop run 6 times (0 through 5)."}, {"id": 77, "partId": 8, "partTitle": "Part 8: Operators, Precedence, Arrays & Evaluation Order", "prompt": "Which statement is true about primitive data types in Java?", "code": "", "choices": [{"letter": "A", "text": "They can be assigned the value null"}, {"letter": "B", "text": "String is one of the primitive types"}, {"letter": "C", "text": "Their type names begin with lowercase letters"}, {"letter": "D", "text": "Programmers can define new primitive types"}], "answer": "C", "answerText": "Their type names begin with lowercase letters", "explanation": "All primitive types in Java (int, double, boolean, etc.) are lowercase keywords."}, {"id": 78, "partId": 8, "partTitle": "Part 8: Operators, Precedence, Arrays & Evaluation Order", "prompt": "What is the first valid index of the array int[] nums = {3, 5, 7, 9}; in Java?", "code": "", "choices": [{"letter": "A", "text": "Index 0, containing 3"}, {"letter": "B", "text": "Index 1, containing 5"}, {"letter": "C", "text": "Index 2, containing 7"}, {"letter": "D", "text": "Index 3, containing 9"}], "answer": "A", "answerText": "Index 0, containing 3", "explanation": "Java arrays are zero-indexed, so the first element is at index 0."}, {"id": 79, "partId": 8, "partTitle": "Part 8: Operators, Precedence, Arrays & Evaluation Order", "prompt": "What is printed, assuming index is available after the loop?", "code": "int[] nums = {3, 5, 7, 9};\nint sum = 0;\nfor (int index = 1; index < nums.length; index++) {\n    System.out.print(nums[index]);\n}\nSystem.out.print(sum / index);", "choices": [{"letter": "A", "text": "35790"}, {"letter": "B", "text": "3570"}, {"letter": "C", "text": "5790"}, {"letter": "D", "text": "570"}], "answer": "C", "answerText": "5790", "explanation": "The loop prints elements at indices 1, 2, 3 ('579'), and sum / index evaluates to 0 / 4 = 0 ('5790')."}, {"id": 80, "partId": 8, "partTitle": "Part 8: Operators, Precedence, Arrays & Evaluation Order", "prompt": "In the loop for (int index = 1; index < nums.length; index++), which array element is skipped first when nums is {3, 5, 7, 9}?", "code": "", "choices": [{"letter": "A", "text": "The element containing 3"}, {"letter": "B", "text": "The element containing 5"}, {"letter": "C", "text": "The element containing 7"}, {"letter": "D", "text": "The element containing 9"}], "answer": "A", "answerText": "The element containing 3", "explanation": "The loop starts at index 1, skipping index 0 (which contains 3)."}, {"id": 81, "partId": 8, "partTitle": "Part 8: Operators, Precedence, Arrays & Evaluation Order", "prompt": "Why does sum / index evaluate to 0 in the array code when sum remains initialized to 0?", "code": "", "choices": [{"letter": "A", "text": "Because integer division truncates every result"}, {"letter": "B", "text": "Because dividing zero by a positive integer gives zero"}, {"letter": "C", "text": "Because the array contains no zero values"}, {"letter": "D", "text": "Because the loop changes zero into a whole number"}], "answer": "B", "answerText": "Because dividing zero by a positive integer gives zero", "explanation": "sum is 0, and 0 divided by any positive integer is 0."}, {"id": 82, "partId": 8, "partTitle": "Part 8: Operators, Precedence, Arrays & Evaluation Order", "prompt": "What is the result of this Java code?", "code": "int x = 9;\nlong y = x * (long) (++x);\nSystem.out.println(y);", "choices": [{"letter": "A", "text": "The program prints -1"}, {"letter": "B", "text": "The program prints 9"}, {"letter": "C", "text": "The program prints 81"}, {"letter": "D", "text": "The program prints 90"}], "answer": "D", "answerText": "90", "explanation": "Java evaluates operands left-to-right: left x is 9, then ++x increments x to 10; 9 * 10 = 90."}]};
+
+    // UTILITY: Fisher-Yates Array Randomization
+    function shuffleArray(array) {
+      const arr = [...array];
+      for (let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+      }
+      return arr;
+    }
+
+    // CONNECTED REFERENCE CODE SNIPPETS
+    const REFERENCE_CODE_MAP = {
+      2: {
+        source: "Question 1 Reference",
+        title: "Insect & Beetle Hierarchy",
+        code: `interface HasExoskeleton {
+    abstract int getNumberOfSections();
+}
+abstract class Insect implements HasExoskeleton {
+    abstract int getNumberOfLegs();
+}
+public class Beetle extends Insect {
+    int getNumberOfLegs() {
+        return 6;
+    }
+}`
+      },
+      3: {
+        source: "Question 1 Reference",
+        title: "Insect & Beetle Hierarchy",
+        code: `interface HasExoskeleton {
+    abstract int getNumberOfSections();
+}
+abstract class Insect implements HasExoskeleton {
+    abstract int getNumberOfLegs();
+}
+public class Beetle extends Insect {
+    int getNumberOfLegs() {
+        return 6;
+    }
+}`
+      },
+      5: {
+        source: "Question 4 Reference",
+        title: "Frog & CanHop Hierarchy",
+        code: `public interface CanHop {}
+public class Frog implements CanHop {}
+public class HornedFrog extends Frog {}
+public class TurtleFrog extends Frog {}
+
+public class Test {
+    public static void main(String[] args) {
+        Frog frog = new TurtleFrog();
+    }
+}`
+      },
+      6: {
+        source: "Question 4 Reference",
+        title: "Frog & CanHop Hierarchy",
+        code: `public interface CanHop {}
+public class Frog implements CanHop {}
+public class HornedFrog extends Frog {}
+public class TurtleFrog extends Frog {}
+
+public class Test {
+    public static void main(String[] args) {
+        Frog frog = new TurtleFrog();
+    }
+}`
+      },
+      8: {
+        source: "Question 7 Reference",
+        title: "Arthropod & Spider Overloading",
+        code: `class Arthropod {
+    public void printName(double input) {
+        System.out.print("Arthropod");
+    }
+}
+public class Spider extends Arthropod {
+    public void printName(int input) {
+        System.out.print("Spider");
+    }
+}`
+      },
+      9: {
+        source: "Question 7 Reference",
+        title: "Arthropod & Spider Overloading",
+        code: `class Arthropod {
+    public void printName(double input) {
+        System.out.print("Arthropod");
+    }
+}
+public class Spider extends Arthropod {
+    public void printName(int input) {
+        System.out.print("Spider");
+    }
+}`
+      },
+      10: {
+        source: "Question 1 Reference",
+        title: "Insect & Beetle Hierarchy",
+        code: `interface HasExoskeleton {
+    abstract int getNumberOfSections();
+}
+abstract class Insect implements HasExoskeleton {
+    abstract int getNumberOfLegs();
+}
+public class Beetle extends Insect {
+    int getNumberOfLegs() {
+        return 6;
+    }
+}`
+      },
+      21: {
+        source: "Question 22 Reference",
+        title: "CanBark & HasVocalCords Hierarchy",
+        code: `interface HasVocalCords {
+    void makeSound();
+}
+interface CanBark extends HasVocalCords {
+    void bark();
+}`
+      },
+      26: {
+        source: "Question 25 Reference",
+        title: "Spider Overloading Program",
+        code: `class Arthropod {
+    public void printName(double input) {
+        System.out.print("Arthropod");
+    }
+}
+class Spider extends Arthropod {
+    public void printName(int input) {
+        System.out.print("Spider");
+    }
+    public static void main(String[] args) {
+        Spider spider = new Spider();
+        spider.printName(4.0);
+        spider.printName(9);
+    }
+}`
+      },
+      27: {
+        source: "Question 25 Reference",
+        title: "Spider Overloading Program",
+        code: `class Arthropod {
+    public void printName(double input) {
+        System.out.print("Arthropod");
+    }
+}
+class Spider extends Arthropod {
+    public void printName(int input) {
+        System.out.print("Spider");
+    }
+    public static void main(String[] args) {
+        Spider spider = new Spider();
+        spider.printName(4.0);
+        spider.printName(9);
+    }
+}`
+      },
+      28: {
+        source: "Question 22 Reference",
+        title: "CanBark & HasVocalCords Hierarchy",
+        code: `interface HasVocalCords {
+    void makeSound();
+}
+interface CanBark extends HasVocalCords {
+    void bark();
+}`
+      },
+      30: {
+        source: "Question 25 Reference",
+        title: "Spider Reference Dispatch",
+        code: `class Arthropod {
+    public void printName(double input) {
+        System.out.print("Arthropod");
+    }
+}
+class Spider extends Arthropod {
+    public void printName(int input) {
+        System.out.print("Spider");
+    }
+}
+Arthropod arthropod = new Spider();
+arthropod.printName(4.0);`
+      },
+      36: {
+        source: "Question 35 Reference",
+        title: "Reptile & Lizard Final Method",
+        code: `class Reptile {
+    public final void layEggs() {
+        System.out.print("Reptile Laying Eggs");
+    }
+}
+class Lizard extends Reptile {
+    public void layEggs() {
+        System.out.print("Lizard Laying Eggs");
+    }
+}`
+      },
+      45: {
+        source: "Question 44 Reference",
+        title: "HasVocalCords & CanBark Hierarchy",
+        code: `interface HasVocalCords {
+    void makeSound();
+}
+interface CanBark extends HasVocalCords {
+    void bark();
+}`
+      },
+      48: {
+        source: "Question 47 Reference",
+        title: "Mammal & Platypus Constructor Chaining",
+        code: `class Mammal {
+    public Mammal(int age) {
+        System.out.print("Mammal");
+    }
+}
+public class Platypus extends Mammal {
+    public Platypus() {
+        System.out.print("Platypus");
+    }
+}`
+      },
+      49: {
+        source: "Question 47 Reference",
+        title: "Mammal & Platypus Constructor Chaining",
+        code: `class Mammal {
+    public Mammal(int age) {
+        System.out.print("Mammal");
+    }
+}
+public class Platypus extends Mammal {
+    public Platypus() {
+        System.out.print("Platypus");
+    }
+}`
+      },
+      54: {
+        source: "Question 24 Reference",
+        title: "Nocturnal & Owl Polymorphism",
+        code: `interface Nocturnal {
+    default boolean isBlind() {
+        return true;
+    }
+}
+public class Owl implements Nocturnal {
+    public boolean isBlind() {
+        return false;
+    }
+    public static void main(String[] args) {
+        Nocturnal nocturnal = (Nocturnal) new Owl();
+        System.out.print(nocturnal.isBlind());
+    }
+}`
+      },
+      55: {
+        source: "Question 24 Reference",
+        title: "Nocturnal & Owl Polymorphism",
+        code: `interface Nocturnal {
+    default boolean isBlind() {
+        return true;
+    }
+}
+public class Owl implements Nocturnal {
+    public boolean isBlind() {
+        return false;
+    }
+    public static void main(String[] args) {
+        Nocturnal nocturnal = (Nocturnal) new Owl();
+        System.out.print(nocturnal.isBlind());
+    }
+}`
+      },
+      56: {
+        source: "Question 24 Reference",
+        title: "Nocturnal & Owl Polymorphism",
+        code: `interface Nocturnal {
+    default boolean isBlind() {
+        return true;
+    }
+}
+public class Owl implements Nocturnal {
+    public boolean isBlind() {
+        return false;
+    }
+    public static void main(String[] args) {
+        Nocturnal nocturnal = (Nocturnal) new Owl();
+        System.out.print(nocturnal.isBlind());
+    }
+}`
+      },
+      57: {
+        source: "Question 24 Reference",
+        title: "Nocturnal & Owl Polymorphism",
+        code: `interface Nocturnal {
+    default boolean isBlind() {
+        return true;
+    }
+}
+public class Owl implements Nocturnal {
+    public boolean isBlind() {
+        return false;
+    }
+    public static void main(String[] args) {
+        Nocturnal nocturnal = (Nocturnal) new Owl();
+        System.out.print(nocturnal.isBlind());
+    }
+}`
+      },
+      58: {
+        source: "Question 24 Reference",
+        title: "Nocturnal & Owl Polymorphism",
+        code: `interface Nocturnal {
+    default boolean isBlind() {
+        return true;
+    }
+}
+public class Owl implements Nocturnal {
+    public boolean isBlind() {
+        return false;
+    }
+    public static void main(String[] args) {
+        Nocturnal nocturnal = (Nocturnal) new Owl();
+        System.out.print(nocturnal.isBlind());
+    }
+}`
+      },
+      60: {
+        source: "Question 24 Reference",
+        title: "Nocturnal & Owl Polymorphism",
+        code: `interface Nocturnal {
+    default boolean isBlind() {
+        return true;
+    }
+}
+public class Owl implements Nocturnal {
+    public boolean isBlind() {
+        return false;
+    }
+    public static void main(String[] args) {
+        Nocturnal nocturnal = (Nocturnal) new Owl();
+        System.out.print(nocturnal.isBlind());
+    }
+}`
+      },
+      71: {
+        source: "Question 68-70 Reference",
+        title: "Loop & Variable Scope",
+        code: `public class Test {
+    public static void main(String[] args) {
+        int count = 0;
+        for (int i = 0; i < 5; i++) {
+            count++;
+        }
+        System.out.print(count);
+    }
+}`
+      },
+      72: {
+        source: "Question 68-70 Reference",
+        title: "Loop & Variable Scope",
+        code: `public class Test {
+    public static void main(String[] args) {
+        int count = 0;
+        for (int i = 0; i < 5; i++) {
+            count++;
+        }
+        System.out.print(count);
+    }
+}`
+      },
+      80: {
+        source: "Question 79 Reference",
+        title: "Array Traversal & Indexing",
+        code: `int[] nums = {3, 5, 7, 9};
+for (int i = 0; i < nums.length; i++) {
+    System.out.print(nums[i] + " ");
+}`
+      },
+      81: {
+        source: "Question 79 Reference",
+        title: "Array Traversal & Indexing",
+        code: `int[] nums = {3, 5, 7, 9};
+for (int i = 0; i < nums.length; i++) {
+    System.out.print(nums[i] + " ");
+}`
+      }
+    };
+
+    // MINIMAL WEBAUDIO ENGINE (Zero external dependencies)
+    class SoundEngine {
+      constructor() {
+        this.ctx = null;
+        this.enabled = true;
+      }
+      init() {
+        if (!this.ctx) {
+          const AudioContext = window.AudioContext || window.webkitAudioContext;
+          if (AudioContext) this.ctx = new AudioContext();
+        }
+        if (this.ctx && this.ctx.state === 'suspended') {
+          this.ctx.resume();
+        }
+      }
+      playCorrect(multiplier = 1) {
+        if (!this.enabled) return;
+        this.init();
+        if (!this.ctx) return;
+        const now = this.ctx.currentTime;
+        const pitchFactor = 1 + (multiplier - 1) * 0.12;
+        [523.25 * pitchFactor, 659.25 * pitchFactor].forEach((freq, idx) => {
+          const osc = this.ctx.createOscillator();
+          const gain = this.ctx.createGain();
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(freq, now + idx * 0.05);
+          gain.gain.setValueAtTime(0, now + idx * 0.05);
+          gain.gain.linearRampToValueAtTime(0.09, now + idx * 0.05 + 0.02);
+          gain.gain.exponentialRampToValueAtTime(0.0001, now + idx * 0.05 + 0.25);
+          osc.connect(gain);
+          gain.connect(this.ctx.destination);
+          osc.start(now + idx * 0.05);
+          osc.stop(now + idx * 0.05 + 0.26);
+        });
+      }
+      playWrong() {
+        if (!this.enabled) return;
+        this.init();
+        if (!this.ctx) return;
+        const now = this.ctx.currentTime;
+        const osc = this.ctx.createOscillator();
+        const gain = this.ctx.createGain();
+        osc.type = 'triangle';
+        osc.frequency.setValueAtTime(190, now);
+        osc.frequency.linearRampToValueAtTime(140, now + 0.2);
+        gain.gain.setValueAtTime(0.09, now);
+        gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.22);
+        osc.connect(gain);
+        gain.connect(this.ctx.destination);
+        osc.start(now);
+        osc.stop(now + 0.23);
+      }
+      playReveal() {
+        if (!this.enabled) return;
+        this.init();
+        if (!this.ctx) return;
+        const now = this.ctx.currentTime;
+        const osc = this.ctx.createOscillator();
+        const gain = this.ctx.createGain();
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(330, now);
+        osc.frequency.linearRampToValueAtTime(260, now + 0.18);
+        gain.gain.setValueAtTime(0.07, now);
+        gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.2);
+        osc.connect(gain);
+        gain.connect(this.ctx.destination);
+        osc.start(now);
+        osc.stop(now + 0.21);
+      }
+    }
+
+    // MAIN APP CLASS
+    class NotionMasteryApp {
+      constructor() {
+        this.sound = new SoundEngine();
+        this.loadTheme();
+        this.loadState();
+
+        this.currentMode = null; // 'part' or 'full'
+        this.currentPartId = null;
+
+        // ENDLESS QUEUE ENGINE
+        this.activeQueue = [];
+        this.missedQueue = [];
+        this.currentIndex = 0;
+        this.passNumber = 1;
+        this.answeredCurrentCard = false;
+
+        // MASTERY CALCULATION TRACKERS
+        this.totalUniqueCards = 0;
+        this.firstTryCorrectIds = new Set();
+        this.failedOrRevealedIds = new Set();
+        this.perfectedIds = new Set();
+        this.totalAttempts = 0;
+
+        // Session Score & Multiplier Engine
+        this.sessionScore = 0;
+        this.comboStreak = 0;
+        this.multiplier = 1.0;
+
+        // Split Layout & Shuffled Choices State
+        this.codePanelOpen = true;
+        this.currentCardChoices = [];
+
+        this.setupKeyboard();
+        this.renderDashboard();
+        this.updateStatsUI();
+      }
+
+      loadTheme() {
+        const savedTheme = localStorage.getItem('oop_theme');
+        if (savedTheme === 'dark' || savedTheme === 'light') {
+          this.theme = savedTheme;
+        } else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+          this.theme = 'dark';
+        } else {
+          this.theme = 'light';
+        }
+        this.applyTheme();
+      }
+
+      toggleTheme() {
+        this.theme = (this.theme === 'dark') ? 'light' : 'dark';
+        localStorage.setItem('oop_theme', this.theme);
+        this.applyTheme();
+      }
+
+      applyTheme() {
+        const icon = document.getElementById('themeIcon');
+        const btn = document.getElementById('themeBtn');
+        if (this.theme === 'dark') {
+          document.documentElement.setAttribute('data-theme', 'dark');
+          if (icon) icon.innerHTML = '&#xE706;'; // Sun icon
+          if (btn) btn.title = 'Switch to Light Mode';
+        } else {
+          document.documentElement.removeAttribute('data-theme');
+          if (icon) icon.innerHTML = '&#xE708;'; // Moon icon
+          if (btn) btn.title = 'Switch to Dark Mode';
+        }
+      }
+
+      loadState() {
+        const saved = localStorage.getItem('oop_notion_mastery_v4');
+        if (saved) {
+          try {
+            this.state = JSON.parse(saved);
+          } catch (e) {
+            this.state = this.defaultState();
+          }
+        } else {
+          this.state = this.defaultState();
+        }
+        if (!this.state.unlockedPart) this.state.unlockedPart = 1;
+        if (!this.state.partConsecutiveMasteries) this.state.partConsecutiveMasteries = {};
+        if (!this.state.partMasteryScores) this.state.partMasteryScores = {};
+        this.sound.enabled = this.state.sound !== false;
+      }
+
+      defaultState() {
+        return {
+          unlockedPart: 1, // Part 1 unlocked initially; 2-8 locked
+          partConsecutiveMasteries: {}, // partId -> count of consecutive 100% runs
+          partMasteryScores: {}, // partId -> best mastery %
+          fullMasteryScore: 0,
+          xp: 0,
+          bestMultiplier: 1.0,
+          bestStreak: 0,
+          sound: true
+        };
+      }
+
+      saveState() {
+        localStorage.setItem('oop_notion_mastery_v4', JSON.stringify(this.state));
+        this.updateStatsUI();
+      }
+
+      toggleSound() {
+        this.sound.enabled = !this.sound.enabled;
+        this.state.sound = this.sound.enabled;
+        this.updateSoundUI();
+        this.saveState();
+      }
+
+      updateSoundUI() {
+        const icon = document.getElementById('soundIcon');
+        const btn = document.getElementById('soundBtn');
+        if (icon) icon.innerHTML = this.sound.enabled ? '&#xE767;' : '&#xE74F;';
+        if (btn) btn.title = this.sound.enabled ? 'Mute Sound' : 'Enable Sound';
+      }
+
+      showLockToast(msg) {
+        const toast = document.getElementById('lockToast');
+        if (!toast) return;
+        toast.textContent = msg;
+        toast.classList.add('show');
+        if (this._toastTimer) clearTimeout(this._toastTimer);
+        this._toastTimer = setTimeout(() => {
+          toast.classList.remove('show');
+        }, 3200);
+      }
+
+      updateStatsUI() {
+        document.getElementById('xpCount').textContent = this.state.xp.toLocaleString();
+        document.getElementById('bestStreakCount').textContent = this.state.bestStreak;
+        document.getElementById('bestMultiplierCount').textContent = `${(this.state.bestMultiplier || 1.0).toFixed(1)}x`;
+
+        let masteredPartsCount = 0;
+        for (let i = 1; i <= 8; i++) {
+          if ((this.state.partConsecutiveMasteries[i] || 0) >= 2) masteredPartsCount++;
+        }
+        document.getElementById('masteredPartsCount').textContent = `${masteredPartsCount} / 8`;
+
+        if (this.state.fullMasteryScore > 0) {
+          document.getElementById('fullExamStatus').textContent = `${this.state.fullMasteryScore}% Mastery`;
+        } else {
+          document.getElementById('fullExamStatus').textContent = 'Open Practice';
+        }
+
+        const overallPct = Math.round((masteredPartsCount / 8) * 100);
+        document.getElementById('overallPct').textContent = `${overallPct}% Mastered`;
+        this.updateSoundUI();
+        this.applyTheme();
+      }
+
+      triggerHaptic(type) {
+        if (typeof navigator !== 'undefined' && navigator.vibrate) {
+          try {
+            if (type === 'correct') {
+              navigator.vibrate([15, 30, 20]); // double crisp tap
+            } else if (type === 'wrong') {
+              navigator.vibrate([60, 40, 60]); // intense buzz
+            } else if (type === 'reveal') {
+              navigator.vibrate(35); // subtle pulse
+            }
+          } catch (e) {
+            // ignore if vibration is restricted
+          }
+        }
+      }
+
+      updateMultiplierHUD(pointsAdded = 0) {
+        const scoreElem = document.getElementById('sessionScoreDisplay');
+        const multValElem = document.getElementById('headerMultiplierVal');
+        const multTag = document.getElementById('headerMultiplierTag');
+        const meterFill = document.getElementById('multiplierMeterFill');
+        const popup = document.getElementById('scoreGainedPopup');
+
+        if (scoreElem) scoreElem.textContent = this.sessionScore.toLocaleString();
+
+        const multStr = `${this.multiplier.toFixed(1)}x`;
+        if (multValElem) multValElem.textContent = multStr;
+
+        if (this.multiplier >= 4.0) {
+          if (multTag) multTag.className = 'multiplier-pill mult-max';
+        } else if (this.multiplier >= 2.0) {
+          if (multTag) multTag.className = 'multiplier-pill mult-boost';
+        } else {
+          if (multTag) multTag.className = 'multiplier-pill';
+        }
+
+        let fillPct = 0;
+        if (this.multiplier >= 5.0) {
+          fillPct = 100;
+        } else if (this.multiplier >= 4.0) {
+          fillPct = 75 + ((this.comboStreak - 9) / 5) * 25;
+        } else if (this.multiplier >= 3.0) {
+          fillPct = 50 + ((this.comboStreak - 5) / 4) * 25;
+        } else if (this.multiplier >= 2.0) {
+          fillPct = 25 + ((this.comboStreak - 2) / 3) * 25;
+        } else {
+          fillPct = (this.comboStreak / 2) * 25;
+        }
+        if (meterFill) meterFill.style.width = `${Math.min(100, Math.max(0, fillPct))}%`;
+
+        if (pointsAdded > 0) {
+          if (popup) {
+            popup.textContent = `+${pointsAdded}`;
+            popup.style.color = 'var(--success)';
+            popup.classList.add('show');
+          }
+          if (scoreElem) scoreElem.classList.add('bump');
+          if (multValElem) multValElem.classList.add('bump');
+
+          setTimeout(() => {
+            if (scoreElem) scoreElem.classList.remove('bump');
+            if (multValElem) multValElem.classList.remove('bump');
+          }, 250);
+
+          setTimeout(() => {
+            if (popup) popup.classList.remove('show');
+          }, 950);
+        } else if (pointsAdded < 0) {
+          if (popup) {
+            popup.textContent = '1.0x';
+            popup.style.color = 'var(--error)';
+            popup.classList.add('show');
+            setTimeout(() => {
+              popup.classList.remove('show');
+              popup.style.color = '';
+            }, 950);
+          }
+        } else {
+          if (popup) {
+            popup.textContent = '';
+            popup.classList.remove('show');
+          }
+        }
+      }
+
+      computeMultiplier() {
+        if (this.comboStreak >= 14) return 5.0;
+        if (this.comboStreak >= 9) return 4.0;
+        if (this.comboStreak >= 5) return 3.0;
+        if (this.comboStreak >= 2) return 2.0;
+        if (this.comboStreak >= 1) return 1.5;
+        return 1.0;
+      }
+
+      renderDashboard() {
+        const grid = document.getElementById('partsGrid');
+        grid.innerHTML = '';
+
+        const unlockedMax = this.state.unlockedPart || 1;
+
+        DATASET.parts.forEach((p, idx) => {
+          const isUnlocked = p.id <= unlockedMax;
+          const consecutive = this.state.partConsecutiveMasteries[p.id] || 0;
+          const isMastered = consecutive >= 2;
+          const score = this.state.partMasteryScores[p.id];
+          const baseCount = p.range[1] - p.range[0] + 1;
+          const partIndexStr = String(idx + 1).padStart(2, '0');
+
+          let badgeHtml = '';
+          let cardClass = 'part-card';
+
+          if (!isUnlocked) {
+            cardClass += ' locked';
+            badgeHtml = `<span class="notion-tag tag-locked"><span class="icon" style="font-size:0.7rem;">&#xE72E;</span> Locked</span>`;
+          } else if (isMastered) {
+            cardClass += ' mastered';
+            badgeHtml = `<span class="notion-tag tag-mastered"><span class="icon" style="font-size:0.7rem;">&#xE73E;</span> Mastered (2/2)</span>`;
+          } else if (consecutive === 1) {
+            cardClass += ' in-progress';
+            badgeHtml = `<span class="notion-tag tag-streak-partial">Streak: 1/2</span>`;
+          } else if (score !== undefined) {
+            badgeHtml = `<span class="notion-tag tag-score">Best: ${score}%</span>`;
+          } else {
+            badgeHtml = `<span class="notion-tag tag-neutral">Streak: 0/2</span>`;
+          }
+
+          let reviewNotice = '';
+          let countFooterText = `${baseCount} Cards`;
+          if (p.id > 1) {
+            const reviewCount = (p.id - 1) * 3;
+            countFooterText = `${baseCount} Base + ${reviewCount} Review Cards`;
+            reviewNotice = `<div style="font-size:0.75rem; color:var(--text-muted); margin-top:2px;">Includes 3 review cards each from Parts 1–${p.id - 1}</div>`;
+          }
+
+          const card = document.createElement('div');
+          card.className = cardClass;
+          card.onclick = () => {
+            if (isUnlocked) {
+              this.openStartModal('part', p.id);
+            } else {
+              this.showLockToast(`Part ${p.id} is locked. Master Part ${p.id - 1} two times consecutively to unlock.`);
+            }
+          };
+
+          card.innerHTML = `
+            <div class="part-header">
+              <span class="part-meta-tag">Module ${partIndexStr} • Q${p.range[0]}–Q${p.range[1]}</span>
+              <h3 class="part-title">${this.escapeHtml(p.title)}</h3>
+              <p class="part-desc">${this.escapeHtml(p.desc)}</p>
+              ${reviewNotice}
+            </div>
+            <div class="part-footer">
+              <span class="part-count">${countFooterText}</span>
+              ${badgeHtml}
+            </div>
+          `;
+          grid.appendChild(card);
+        });
+      }
+
+      // START OPTION MODAL
+      openStartModal(mode, partId = null) {
+        const reviewToggleRow = document.getElementById('startModalReviewToggleRow');
+        const reviewCheckbox = document.getElementById('chkIncludePastReview');
+
+        if (mode === 'part' && partId) {
+          if (partId > (this.state.unlockedPart || 1)) {
+            this.showLockToast(`Part ${partId} is locked. Master Part ${partId - 1} two times consecutively first.`);
+            return;
+          }
+          this.pendingStartMode = 'part';
+          this.pendingStartPartId = partId;
+          const pMeta = DATASET.parts.find(p => p.id === partId);
+          const titleStr = pMeta ? `Part ${partId}: ${pMeta.title}` : `Part ${partId}`;
+          document.getElementById('startModalTag').textContent = `Module ${partId}`;
+          document.getElementById('startModalHeading').textContent = titleStr;
+          document.getElementById('startModalDesc').textContent = 'Select how questions should be ordered for this active recall session.';
+
+          if (partId > 1) {
+            if (reviewToggleRow) reviewToggleRow.style.display = 'flex';
+            const pastCount = (partId - 1) * 3;
+            const descElem = document.getElementById('startModalReviewDesc');
+            if (descElem) {
+              descElem.textContent = `Includes ${pastCount} review cards (3 each from Parts 1–${partId - 1}). Uncheck to practice only Part ${partId} cards.`;
+            }
+          } else {
+            if (reviewToggleRow) reviewToggleRow.style.display = 'none';
+          }
+        } else {
+          this.pendingStartMode = 'full';
+          this.pendingStartPartId = null;
+          document.getElementById('startModalTag').textContent = 'Full Certification Exam';
+          document.getElementById('startModalHeading').textContent = 'Full 82-Question Recall';
+          document.getElementById('startModalDesc').textContent = 'Select how all 82 cards across all modules should be ordered.';
+          if (reviewToggleRow) reviewToggleRow.style.display = 'none';
+        }
+        document.getElementById('startOptionModal').classList.add('active');
+      }
+
+      closeStartModal() {
+        document.getElementById('startOptionModal').classList.remove('active');
+        this.pendingStartMode = null;
+        this.pendingStartPartId = null;
+      }
+
+      confirmStartSession(isRandomized) {
+        const mode = this.pendingStartMode;
+        const partId = this.pendingStartPartId;
+        const reviewCheckbox = document.getElementById('chkIncludePastReview');
+        const includeReview = reviewCheckbox ? reviewCheckbox.checked : true;
+        this.closeStartModal();
+        if (mode === 'part' && partId) {
+          this.startPart(partId, isRandomized, includeReview);
+        } else if (mode === 'full') {
+          this.startFullMode(isRandomized);
+        }
+      }
+
+      showDashboard() {
+        document.getElementById('headerDashLeft').style.display = 'flex';
+        document.getElementById('headerDashStats').style.display = 'flex';
+        document.getElementById('headerSessionLeft').style.display = 'none';
+        document.getElementById('headerSessionCenter').style.display = 'none';
+        document.getElementById('headerSessionStats').style.display = 'none';
+        document.getElementById('headerBottomProgress').style.display = 'none';
+
+        document.getElementById('sessionScreen').classList.remove('active');
+        document.getElementById('dashboardScreen').classList.add('active');
+        this.renderDashboard();
+        this.updateStatsUI();
+      }
+
+      // START INDIVIDUAL PART (WITH OPTIONAL 3 REVIEW QUESTIONS PER PAST PART)
+      startPart(partId, isRandomized = true, includeReview = true) {
+        if (partId > (this.state.unlockedPart || 1)) {
+          this.showLockToast(`Part ${partId} is locked. Master Part ${partId - 1} two times consecutively first.`);
+          return;
+        }
+
+        this.currentMode = 'part';
+        this.currentPartId = partId;
+        this.isRandomizedOrder = isRandomized;
+        this.includeReviewCards = includeReview;
+        this.passNumber = 1;
+        this.sessionScore = 0;
+        this.comboStreak = 0;
+        this.multiplier = 1.0;
+
+        // 1. Current part base cards
+        const baseQuestions = DATASET.questions
+          .filter(q => q.partId === partId)
+          .map(q => ({ ...q, isReview: false, sourcePartId: partId }));
+
+        // 2. Exactly 3 questions per past part if includeReview is true
+        const reviewQuestions = [];
+        if (includeReview && partId > 1) {
+          for (let prevId = 1; prevId < partId; prevId++) {
+            const prevPool = DATASET.questions.filter(q => q.partId === prevId);
+            if (prevPool.length > 0) {
+              const countToPick = Math.min(3, prevPool.length);
+              const sampled = shuffleArray(prevPool).slice(0, countToPick);
+              if (!isRandomized) {
+                sampled.sort((a, b) => a.id - b.id);
+              }
+              sampled.forEach(q => {
+                reviewQuestions.push({
+                  ...q,
+                  isReview: true,
+                  sourcePartId: prevId
+                });
+              });
+            }
+          }
+        }
+
+        let fullDeck = [];
+        if (isRandomized) {
+          fullDeck = shuffleArray([...baseQuestions, ...reviewQuestions]);
+        } else {
+          // Sequential: Module base questions in order first, review questions after
+          baseQuestions.sort((a, b) => a.id - b.id);
+          fullDeck = [...baseQuestions, ...reviewQuestions];
+        }
+
+        this.totalUniqueCards = fullDeck.length;
+        this.firstTryCorrectIds = new Set();
+        this.failedOrRevealedIds = new Set();
+        this.perfectedIds = new Set();
+        this.totalAttempts = 0;
+
+        this.activeQueue = fullDeck;
+        this.missedQueue = [];
+        this.currentIndex = 0;
+        this.answeredCurrentCard = false;
+
+        const partMeta = DATASET.parts.find(p => p.id === partId);
+        document.getElementById('sessionHeaderTitle').textContent = partMeta ? `Part ${partId}` : `Part ${partId}`;
+        const orderBadgeText = isRandomized ? 'Pass 1 • Shuffled' : 'Pass 1 • Sequential';
+        document.getElementById('sessionHeaderPassBadge').textContent = orderBadgeText;
+        document.getElementById('sessionHeaderPassBadge').className = 'session-pass-badge';
+
+        document.getElementById('headerDashLeft').style.display = 'none';
+        document.getElementById('headerDashStats').style.display = 'none';
+        document.getElementById('headerSessionLeft').style.display = 'flex';
+        document.getElementById('headerSessionCenter').style.display = 'flex';
+        document.getElementById('headerSessionStats').style.display = 'flex';
+        document.getElementById('headerBottomProgress').style.display = 'block';
+
+        document.getElementById('dashboardScreen').classList.remove('active');
+        document.getElementById('sessionScreen').classList.add('active');
+
+        this.updateMultiplierHUD();
+        this.renderCard();
+      }
+
+      // START FULL 82 QUESTIONS (SEAMLESS ENDLESS UNTIL PERFECTED - OPEN PRACTICE)
+      startFullMode(isRandomized = true) {
+        this.currentMode = 'full';
+        this.currentPartId = null;
+        this.isRandomizedOrder = isRandomized;
+        this.passNumber = 1;
+        this.sessionScore = 0;
+        this.comboStreak = 0;
+        this.multiplier = 1.0;
+
+        const allQuestions = DATASET.questions.map(q => ({ ...q, isReview: false, sourcePartId: q.partId }));
+        this.totalUniqueCards = allQuestions.length;
+        this.firstTryCorrectIds = new Set();
+        this.failedOrRevealedIds = new Set();
+        this.perfectedIds = new Set();
+        this.totalAttempts = 0;
+
+        if (isRandomized) {
+          this.activeQueue = shuffleArray(allQuestions);
+        } else {
+          this.activeQueue = [...allQuestions].sort((a, b) => a.id - b.id);
+        }
+
+        this.missedQueue = [];
+        this.currentIndex = 0;
+        this.answeredCurrentCard = false;
+
+        document.getElementById('sessionHeaderTitle').textContent = 'Full Active Recall';
+        const orderBadgeText = isRandomized ? 'Pass 1 • Shuffled' : 'Pass 1 • Sequential';
+        document.getElementById('sessionHeaderPassBadge').textContent = orderBadgeText;
+        document.getElementById('sessionHeaderPassBadge').className = 'session-pass-badge';
+
+        document.getElementById('headerDashLeft').style.display = 'none';
+        document.getElementById('headerDashStats').style.display = 'none';
+        document.getElementById('headerSessionLeft').style.display = 'flex';
+        document.getElementById('headerSessionCenter').style.display = 'flex';
+        document.getElementById('headerSessionStats').style.display = 'flex';
+        document.getElementById('headerBottomProgress').style.display = 'block';
+
+        document.getElementById('dashboardScreen').classList.remove('active');
+        document.getElementById('sessionScreen').classList.add('active');
+
+        this.updateMultiplierHUD();
+        this.renderCard();
+      }
+
+      getCodeForQuestion(q) {
+        if (q.code && q.code.trim()) {
+          return {
+            code: q.code.trim(),
+            title: `Original Q#${q.id} Code`,
+            source: 'Question Snippet'
+          };
+        }
+        if (REFERENCE_CODE_MAP && REFERENCE_CODE_MAP[q.id]) {
+          return {
+            code: REFERENCE_CODE_MAP[q.id].code,
+            title: REFERENCE_CODE_MAP[q.id].title,
+            source: REFERENCE_CODE_MAP[q.id].source
+          };
+        }
+        return null;
+      }
+
+      applyCodePanelLayout(q) {
+        const codeInfo = this.getCodeForQuestion(q);
+        const layout = document.getElementById('studyLayout');
+        const panel = document.getElementById('refCodePanel');
+        const btnShow = document.getElementById('btnShowCodeOnCard');
+        const codeElem = document.getElementById('refCodeText');
+        const titleElem = document.getElementById('refCodeTitle');
+        const sourceElem = document.getElementById('refCodeSourceTag');
+
+        if (!codeInfo) {
+          if (layout) layout.className = 'study-layout centered-view';
+          if (panel) panel.style.display = 'none';
+          if (btnShow) btnShow.style.display = 'none';
+        } else {
+          if (codeElem) codeElem.textContent = codeInfo.code;
+          if (titleElem) titleElem.textContent = codeInfo.title;
+          if (sourceElem) sourceElem.textContent = codeInfo.source;
+
+          if (this.codePanelOpen) {
+            if (layout) layout.className = 'study-layout split-view';
+            if (panel) panel.style.display = 'flex';
+            if (btnShow) btnShow.style.display = 'none';
+          } else {
+            if (layout) layout.className = 'study-layout centered-view';
+            if (panel) panel.style.display = 'none';
+            if (btnShow) btnShow.style.display = 'inline-flex';
+          }
+        }
+      }
+
+      toggleCodePanel(forceState) {
+        const q = this.activeQueue[this.currentIndex];
+        if (!q) return;
+        const codeInfo = this.getCodeForQuestion(q);
+        if (!codeInfo) return;
+
+        if (typeof forceState === 'boolean') {
+          this.codePanelOpen = forceState;
+        } else {
+          this.codePanelOpen = !this.codePanelOpen;
+        }
+        this.applyCodePanelLayout(q);
+      }
+
+      renderCard() {
+        this.answeredCurrentCard = false;
+        const q = this.activeQueue[this.currentIndex];
+
+        const totalInPass = this.activeQueue.length;
+        const currentInPass = this.currentIndex + 1;
+
+        // Overall perfected progress
+        const overallPct = Math.round((this.perfectedIds.size / this.totalUniqueCards) * 100);
+
+        const progFill = document.getElementById('compactProgressBar');
+        if (progFill) progFill.style.width = `${overallPct}%`;
+
+        const btmProg = document.getElementById('headerBottomProgressBar');
+        if (btmProg) btmProg.style.width = `${overallPct}%`;
+
+        const countElem = document.getElementById('sessionProgressCount');
+        if (countElem) countElem.textContent = `${currentInPass} / ${totalInPass}`;
+
+        const pctElem = document.getElementById('sessionProgressPct');
+        if (pctElem) pctElem.textContent = `${overallPct}% Perfect`;
+
+        const cardQNumElem = document.getElementById('cardQuestionNumber');
+        if (q.isReview) {
+          cardQNumElem.innerHTML = `<span class="review-indicator-tag">Review • Part ${q.sourcePartId}</span> Card ${currentInPass} of ${totalInPass} • Q#${q.id}`;
+        } else {
+          cardQNumElem.textContent = `Card ${currentInPass} of ${totalInPass} • Q#${q.id}`;
+        }
+
+        document.getElementById('cardPrompt').textContent = q.prompt;
+
+        // Update side reference panel or centered layout
+        this.applyCodePanelLayout(q);
+
+        // Randomize multiple choice options on every card render
+        this.currentCardChoices = shuffleArray([...q.choices]);
+
+        const choicesContainer = document.getElementById('choicesContainer');
+        choicesContainer.innerHTML = '';
+
+        this.currentCardChoices.forEach((c, idx) => {
+          const btn = document.createElement('button');
+          btn.className = 'notion-option-row';
+          btn.id = `optRow_${c.letter}`;
+          btn.onclick = () => this.handleAnswer(c.letter);
+
+          const keyNum = idx + 1;
+          btn.innerHTML = `
+            <span class="key-indicator">${keyNum}</span>
+            <span class="option-label">${this.escapeHtml(c.text)}</span>
+          `;
+          choicesContainer.appendChild(btn);
+        });
+
+        const btnReveal = document.getElementById('btnRevealAnswer');
+        if (btnReveal) btnReveal.disabled = false;
+
+        const feedbackBox = document.getElementById('feedbackBox');
+        feedbackBox.classList.remove('active', 'correct-box', 'wrong-box', 'revealed-box');
+      }
+
+      handleAnswer(selectedLetter) {
+        if (this.answeredCurrentCard) return;
+        this.answeredCurrentCard = true;
+        this.totalAttempts += 1;
+
+        const q = this.activeQueue[this.currentIndex];
+        const correctAnswers = q.answer.split(' or ').map(a => a.trim().toUpperCase());
+        const isCorrect = correctAnswers.includes(selectedLetter.toUpperCase());
+
+        const allButtons = document.querySelectorAll('.notion-option-row');
+        allButtons.forEach(b => b.disabled = true);
+        const btnReveal = document.getElementById('btnRevealAnswer');
+        if (btnReveal) btnReveal.disabled = true;
+
+        const chosenRow = document.getElementById(`optRow_${selectedLetter}`);
+
+        if (isCorrect) {
+          // If first time encountering this card and never failed/revealed
+          if (!this.failedOrRevealedIds.has(q.id) && this.passNumber === 1) {
+            this.firstTryCorrectIds.add(q.id);
+          }
+          // Now mark card as perfected in session
+          this.perfectedIds.add(q.id);
+
+          this.comboStreak += 1;
+          this.multiplier = this.computeMultiplier();
+
+          if (this.comboStreak > this.state.bestStreak) {
+            this.state.bestStreak = this.comboStreak;
+          }
+          if (this.multiplier > (this.state.bestMultiplier || 1.0)) {
+            this.state.bestMultiplier = this.multiplier;
+          }
+
+          const points = Math.round(100 * this.multiplier);
+          this.sessionScore += points;
+          this.state.xp += points;
+          this.saveState();
+
+          this.triggerHaptic('correct');
+          this.sound.playCorrect(this.multiplier);
+          if (chosenRow) chosenRow.classList.add('correct');
+
+          this.updateMultiplierHUD(points);
+          this.showFeedback(true, q, points);
+        } else {
+          this.triggerHaptic('wrong');
+          this.sound.playWrong();
+          if (chosenRow) chosenRow.classList.add('wrong');
+
+          correctAnswers.forEach(ans => {
+            const rightRow = document.getElementById(`optRow_${ans}`);
+            if (rightRow) rightRow.classList.add('revealed-correct');
+          });
+
+          // Mark card as failed on first try & queue for retry
+          this.failedOrRevealedIds.add(q.id);
+          this.missedQueue.push(q);
+
+          // Reset multiplier on error
+          this.comboStreak = 0;
+          this.multiplier = 1.0;
+          this.saveState();
+
+          this.updateMultiplierHUD(-1);
+          this.showFeedback(false, q);
+        }
+      }
+
+      // REVEAL ANSWER: SKIPS CARD AND QUEUES FOR RETRY WITHOUT INTERRUPTING
+      revealAnswer() {
+        if (this.answeredCurrentCard) return;
+        this.answeredCurrentCard = true;
+        this.totalAttempts += 1;
+
+        const q = this.activeQueue[this.currentIndex];
+        const correctAnswers = q.answer.split(' or ').map(a => a.trim().toUpperCase());
+
+        const allButtons = document.querySelectorAll('.notion-option-row');
+        allButtons.forEach(b => b.disabled = true);
+        const btnReveal = document.getElementById('btnRevealAnswer');
+        if (btnReveal) btnReveal.disabled = true;
+
+        correctAnswers.forEach(ans => {
+          const rightRow = document.getElementById(`optRow_${ans}`);
+          if (rightRow) rightRow.classList.add('revealed-correct');
+        });
+
+        this.triggerHaptic('reveal');
+        this.sound.playReveal();
+
+        // Mark as revealed and queue for repeat
+        this.failedOrRevealedIds.add(q.id);
+        this.missedQueue.push(q);
+
+        this.comboStreak = 0;
+        this.multiplier = 1.0;
+        this.saveState();
+
+        this.updateMultiplierHUD(-1);
+
+        const box = document.getElementById('feedbackBox');
+        box.classList.remove('correct-box', 'wrong-box', 'revealed-box');
+        box.classList.add('revealed-box', 'active');
+
+        document.getElementById('feedbackVerdict').textContent = 'Answer Revealed (Added to Retry Queue)';
+        document.getElementById('feedbackDetails').innerHTML = `
+          <strong>Correct Answer:</strong> ${this.escapeHtml(q.answerText)}<br><br>
+          ${this.escapeHtml(q.explanation)}
+        `;
+
+        document.getElementById('btnContinue').focus();
+      }
+
+      showFeedback(isCorrect, q, pointsEarned = 0) {
+        const box = document.getElementById('feedbackBox');
+        box.classList.remove('correct-box', 'wrong-box', 'revealed-box');
+        box.classList.add(isCorrect ? 'correct-box' : 'wrong-box', 'active');
+
+        if (isCorrect) {
+          document.getElementById('feedbackVerdict').textContent = `Correct (+${pointsEarned} pts)`;
+        } else {
+          document.getElementById('feedbackVerdict').textContent = 'Incorrect (Added to Retry Queue)';
+        }
+
+        document.getElementById('feedbackDetails').innerHTML = `
+          <strong>Correct Answer:</strong> ${this.escapeHtml(q.answerText)}<br><br>
+          ${this.escapeHtml(q.explanation)}
+        `;
+
+        document.getElementById('btnContinue').focus();
+      }
+
+      // SEAMLESS ENDLESS TRANSITION (NO BLOCKING POPUPS)
+      nextCard() {
+        this.currentIndex += 1;
+
+        if (this.currentIndex >= this.activeQueue.length) {
+          // Current pass completed!
+          if (this.missedQueue.length > 0) {
+            // SEAMLESSLY CONTINUE TO NEXT PASS WITH MISSED CARDS
+            this.passNumber += 1;
+            this.activeQueue = shuffleArray(this.missedQueue);
+            this.missedQueue = [];
+            this.currentIndex = 0;
+
+            const badge = document.getElementById('sessionHeaderPassBadge');
+            if (badge) {
+              badge.textContent = `Pass ${this.passNumber} (Retry ${this.activeQueue.length})`;
+              badge.className = 'session-pass-badge pass-retry';
+            }
+
+            this.renderCard();
+          } else {
+            // ALL CARDS IN THIS SESSION PERFECTED!
+            this.completeSession();
+          }
+        } else {
+          this.renderCard();
+        }
+      }
+
+      // ONLY SHOWN ONCE ALL CARDS ARE 100% PERFECTED
+      completeSession() {
+        const progFill = document.getElementById('compactProgressBar');
+        if (progFill) progFill.style.width = '100%';
+
+        const btmProg = document.getElementById('headerBottomProgressBar');
+        if (btmProg) btmProg.style.width = '100%';
+
+        // CALCULATE MASTERY
+        // If all cards answered correctly on first try, that is 100%
+        let masteryPct = 0;
+        if (this.firstTryCorrectIds.size === this.totalUniqueCards) {
+          masteryPct = 100;
+        } else {
+          masteryPct = Math.round((this.firstTryCorrectIds.size / this.totalUniqueCards) * 100);
+        }
+
+        // Save scores and check progression
+        if (this.currentMode === 'part') {
+          const pId = this.currentPartId;
+          const currentBest = this.state.partMasteryScores[pId] || 0;
+          this.state.partMasteryScores[pId] = Math.max(currentBest, masteryPct);
+          this.state.xp += 300;
+
+          const isFlawless = (masteryPct === 100);
+
+          if (isFlawless) {
+            this.state.partConsecutiveMasteries[pId] = (this.state.partConsecutiveMasteries[pId] || 0) + 1;
+            const streak = this.state.partConsecutiveMasteries[pId];
+
+            if (streak >= 2) {
+              const nextPart = pId + 1;
+              let unlockedNotice = '';
+              if (nextPart <= 8) {
+                if ((this.state.unlockedPart || 1) <= pId) {
+                  this.state.unlockedPart = nextPart;
+                }
+                unlockedNotice = `Part ${nextPart} is now UNLOCKED!`;
+              } else {
+                unlockedNotice = `All 8 modules are now fully mastered!`;
+              }
+              document.getElementById('masteryModalHeading').textContent = `Part ${pId} Mastered! (2/2 Consecutive)`;
+              document.getElementById('masteryModalBody').textContent = `Flawless execution! You achieved 100% first-pass accuracy twice consecutively. ${unlockedNotice}`;
+            } else {
+              document.getElementById('masteryModalHeading').textContent = `100% Mastery (Streak: 1/2)`;
+              document.getElementById('masteryModalBody').textContent = `Flawless run! You answered all ${this.totalUniqueCards} cards correctly on your first attempt without any errors or reveals. Achieve 100% first-pass accuracy one more time consecutively to unlock Part ${pId + 1}.`;
+            }
+          } else {
+            // Any mistake or reveal resets streak to 0
+            this.state.partConsecutiveMasteries[pId] = 0;
+            document.getElementById('masteryModalHeading').textContent = `Part Cleared (${masteryPct}% First-Pass Accuracy)`;
+            document.getElementById('masteryModalBody').textContent = `All cards were perfected in this session. However, first-pass accuracy was ${masteryPct}%. Streak reset to 0/2. (You must achieve 100% first-pass accuracy 2 times consecutively to unlock Part ${pId + 1}).`;
+          }
+
+          this.saveState();
+
+          document.getElementById('modalStreakVal').textContent = `${this.state.partConsecutiveMasteries[pId] || 0} / 2`;
+          document.getElementById('modalStreakLbl').textContent = 'Consecutive Streak';
+        } else {
+          const currentBest = this.state.fullMasteryScore || 0;
+          this.state.fullMasteryScore = Math.max(currentBest, masteryPct);
+          this.state.xp += 1500;
+          this.saveState();
+
+          document.getElementById('masteryModalHeading').textContent = masteryPct === 100 ? '100% Full Exam Mastery' : `Full Exam Completed (${masteryPct}% Mastery)`;
+          document.getElementById('masteryModalBody').textContent = masteryPct === 100 ? 
+            'Incredible achievement! You perfected all 82 certification questions on your first attempt.' :
+            `You persisted through all retry rounds and perfected all 82 questions. First-pass accuracy: ${this.firstTryCorrectIds.size} of 82 cards (${masteryPct}%).`;
+
+          document.getElementById('modalStreakVal').textContent = this.passNumber;
+          document.getElementById('modalStreakLbl').textContent = 'Passes to Perfect';
+        }
+
+        document.getElementById('modalMasteryPctVal').textContent = `${masteryPct}%`;
+        document.getElementById('modalSessionFinalScore').textContent = this.sessionScore.toLocaleString();
+        document.getElementById('modalTotalAttemptsVal').textContent = this.totalAttempts;
+
+        document.getElementById('masteryModal').classList.add('active');
+      }
+
+      exitModalToDashboard() {
+        document.getElementById('masteryModal').classList.remove('active');
+        this.showDashboard();
+      }
+
+      confirmExitSession() {
+        if (confirm('Exit current active recall session and return to Dashboard?')) {
+          this.showDashboard();
+        }
+      }
+
+      resetProgress() {
+        if (confirm('Reset all saved progress, streaks, unlock levels, and scores?')) {
+          this.state = this.defaultState();
+          this.saveState();
+          this.renderDashboard();
+        }
+      }
+
+      setupKeyboard() {
+        window.addEventListener('keydown', (e) => {
+          const startModal = document.getElementById('startOptionModal');
+          const startModalActive = startModal && startModal.classList.contains('active');
+          if (startModalActive) {
+            if (e.key === 'Escape') {
+              e.preventDefault();
+              this.closeStartModal();
+              return;
+            }
+            if (e.key === '1') {
+              e.preventDefault();
+              this.confirmStartSession(true);
+              return;
+            }
+            if (e.key === '2') {
+              e.preventDefault();
+              this.confirmStartSession(false);
+              return;
+            }
+            if (e.key === 'r' || e.key === 'R') {
+              const reviewToggle = document.getElementById('chkIncludePastReview');
+              const reviewRow = document.getElementById('startModalReviewToggleRow');
+              if (reviewToggle && reviewRow && reviewRow.style.display !== 'none') {
+                e.preventDefault();
+                reviewToggle.checked = !reviewToggle.checked;
+              }
+              return;
+            }
+            return;
+          }
+
+          const masteryModal = document.getElementById('masteryModal');
+          const masteryModalActive = masteryModal && masteryModal.classList.contains('active');
+          if (masteryModalActive) {
+            if (e.key === 'Escape' || e.key === 'Enter' || e.code === 'Space') {
+              e.preventDefault();
+              this.exitModalToDashboard();
+              return;
+            }
+            return;
+          }
+
+          const sessionActive = document.getElementById('sessionScreen').classList.contains('active');
+          if (!sessionActive) return;
+
+          const key = e.key.toUpperCase();
+
+          // Escape key confirms returning to dashboard
+          if (e.key === 'Escape') {
+            e.preventDefault();
+            this.confirmExitSession();
+            return;
+          }
+
+          // C key toggles reference code panel anytime in study session
+          if (key === 'C') {
+            e.preventDefault();
+            this.toggleCodePanel();
+            return;
+          }
+
+          const feedbackActive = document.getElementById('feedbackBox').classList.contains('active');
+          if (feedbackActive && (e.code === 'Space' || e.key === 'Enter')) {
+            e.preventDefault();
+            this.nextCard();
+            return;
+          }
+
+          if (!this.answeredCurrentCard && !feedbackActive) {
+            const currentQ = this.activeQueue[this.currentIndex];
+            if (!currentQ) return;
+
+            // R key triggers reveal answer
+            if (key === 'R') {
+              e.preventDefault();
+              this.revealAnswer();
+              return;
+            }
+
+            if (['1', '2', '3', '4', '5'].includes(key)) {
+              e.preventDefault();
+              const numIdx = parseInt(key, 10) - 1;
+              const choices = this.currentCardChoices || currentQ.choices;
+              if (numIdx < choices.length) {
+                const letter = choices[numIdx].letter;
+                this.handleAnswer(letter);
+              }
+            }
+          }
+        });
+      }
+
+      escapeHtml(str) {
+        if (!str) return '';
+        return str
+          .replace(/&/g, '&amp;')
+          .replace(/</g, '&lt;')
+          .replace(/>/g, '&gt;')
+          .replace(/"/g, '&quot;')
+          .replace(/'/g, '&#039;');
+      }
+    }
+
+    const app = new NotionMasteryApp();
+  </script>
+</body>
+</html>
