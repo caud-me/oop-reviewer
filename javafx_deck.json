@@ -1,0 +1,1734 @@
+{
+  "id": "javafx-gui-architecture-60",
+  "title": "JavaFX GUI Architecture & Development Active Recall Deck",
+  "desc": "Comprehensive 60-item standardized active recall deck covering JavaFX GUI architecture, scene graph hierarchy, FXML, MVC, responsive layouts, event handling, observable properties, data bindings, and ListView cell factories.",
+  "parts": [
+    {
+      "id": 1,
+      "title": "Part 1: JavaFX Fundamentals & Application Architecture",
+      "desc": "Foundational JavaFX architecture, JDK modular decoupling, hardware graphics acceleration, Scene Graph hierarchy, Stage/Scene roles, application lifecycle (start/launch), FXML declarative views, and JPMS compilation flags. (Questions 1–15)",
+      "range": [
+        1,
+        15
+      ]
+    },
+    {
+      "id": 2,
+      "title": "Part 2: Layout Management & Container Hierarchy",
+      "desc": "Responsive layout design principles, Pane coordinate positioning, USE_COMPUTED_SIZE behavior, VBox vertical ordering and spacing, BorderPane 5-region geometry, GridPane cell mapping and spanning, TitledPane, FlowPane, StackPane, and SplitPane dividers. (Questions 16–30)",
+      "range": [
+        16,
+        30
+      ]
+    },
+    {
+      "id": 3,
+      "title": "Part 3: Event-Driven Programming & Interactive Controls",
+      "desc": "Event-driven asynchronous paradigms, ActionEvent dispatching, @FXML controller method signatures, ToggleGroup exclusivity, UserData attachment, continuous MouseEvent handling, and dynamic scene graph mutation (drawing canvas and undo operations). (Questions 31–40)",
+      "range": [
+        31,
+        40
+      ]
+    },
+    {
+      "id": 4,
+      "title": "Part 4: Properties, ChangeListeners, Binding & MVC",
+      "desc": "JavaFX reactive property patterns, ChangeListener SAM interfaces, lambda implementations, defensive input validation (requestFocus, selectAll), MVC architectural boundaries, property naming conventions, final accessor design, and unidirectional format bindings. (Questions 41–52)",
+      "range": [
+        41,
+        52
+      ]
+    },
+    {
+      "id": 5,
+      "title": "Part 5: Advanced Controls, Collections, ListCell Rendering & Dialogs",
+      "desc": "ObservableList factory methods, collection change observation, ListView selection models, custom ListCell rendering (updateItem), view recycling optimization, null defensive handling, and modal FileChooser dialog management. (Questions 53–60)",
+      "range": [
+        53,
+        60
+      ]
+    }
+  ],
+  "questions": [
+    {
+      "id": 1,
+      "partId": 1,
+      "partTitle": "Part 1: JavaFX Fundamentals & Application Architecture",
+      "prompt": "What was the primary motivation for decoupling JavaFX from the standard Java Development Kit (JDK) starting with Java 11?",
+      "code": null,
+      "choices": [
+        {
+          "letter": "A",
+          "text": "JavaFX was completely deprecated and replaced by Swing as the default GUI framework."
+        },
+        {
+          "letter": "B",
+          "text": "JavaFX was redesigned as an independent, open-source project that evolves in parallel with the JDK."
+        },
+        {
+          "letter": "C",
+          "text": "JavaFX required native C++ compilation and could no longer run on JVM bytecode."
+        },
+        {
+          "letter": "D",
+          "text": "JavaFX was restricted exclusively to mobile and embedded architectures."
+        }
+      ],
+      "answer": "B",
+      "answerText": "JavaFX was redesigned as an independent, open-source project that evolves in parallel with the JDK.",
+      "explanation": "Decoupling JavaFX into an independent OpenJFX project allowed it to have a faster release cycle and modular architecture independent of JDK releases, rather than bloating the base runtime."
+    },
+    {
+      "id": 2,
+      "partId": 1,
+      "partTitle": "Part 1: JavaFX Fundamentals & Application Architecture",
+      "prompt": "Compared to Swing, JavaFX provides a unified client application platform because it:",
+      "code": null,
+      "choices": [
+        {
+          "letter": "A",
+          "text": "Replaces all object-oriented syntax with procedural scripting files."
+        },
+        {
+          "letter": "B",
+          "text": "Uses separate, disconnected APIs for audio, video, graphics, and UI components."
+        },
+        {
+          "letter": "C",
+          "text": "Consolidates GUI controls, 2D/3D graphics, and multimedia (audio/video) into a single API."
+        },
+        {
+          "letter": "D",
+          "text": "Prohibits the use of Cascading Style Sheets (CSS) for interface styling."
+        }
+      ],
+      "answer": "C",
+      "answerText": "Consolidates GUI controls, 2D/3D graphics, and multimedia (audio/video) into a single API.",
+      "explanation": "JavaFX unifies GUI components, modern 2D/3D graphics rendering, web views, and multimedia (audio and video playback) within a single cohesive JavaFX API, eliminating the fragmented libraries of earlier UI toolkits like AWT and Swing."
+    },
+    {
+      "id": 3,
+      "partId": 1,
+      "partTitle": "Part 1: JavaFX Fundamentals & Application Architecture",
+      "prompt": "How does JavaFX achieve high-performance rendering for modern graphical user interfaces?",
+      "code": null,
+      "choices": [
+        {
+          "letter": "A",
+          "text": "By routing all graphics processing through the operating system's software-only CPU emulator."
+        },
+        {
+          "letter": "B",
+          "text": "By utilizing the Graphics Processing Unit (GPU) for hardware-accelerated rendering."
+        },
+        {
+          "letter": "C",
+          "text": "By translating every JavaFX component directly into an unmanaged C++ pointer."
+        },
+        {
+          "letter": "D",
+          "text": "By eliminating multi-threading and running all tasks on a single synchronous loop."
+        }
+      ],
+      "answer": "B",
+      "answerText": "By utilizing the Graphics Processing Unit (GPU) for hardware-accelerated rendering.",
+      "explanation": "JavaFX employs the Prism rendering engine, which leverages hardware graphics acceleration via Direct3D or OpenGL GPUs to achieve smooth, high-fps UI animations and rendering."
+    },
+    {
+      "id": 4,
+      "partId": 1,
+      "partTitle": "Part 1: JavaFX Fundamentals & Application Architecture",
+      "prompt": "Which class enables developers to embed existing Swing components directly inside a JavaFX application?",
+      "code": null,
+      "choices": [
+        {
+          "letter": "A",
+          "text": "javafx.embed.swing.JFXPanel"
+        },
+        {
+          "letter": "B",
+          "text": "javafx.scene.layout.SwingContainer"
+        },
+        {
+          "letter": "C",
+          "text": "javafx.scene.layout.SwingNode"
+        },
+        {
+          "letter": "D",
+          "text": "javax.swing.JFXBridge"
+        }
+      ],
+      "answer": "C",
+      "answerText": "javafx.scene.layout.SwingNode",
+      "explanation": "javafx.scene.layout.SwingNode allows embedding Swing components inside JavaFX scene graphs. In contrast, JFXPanel is used for embedding JavaFX content into legacy Swing applications."
+    },
+    {
+      "id": 5,
+      "partId": 1,
+      "partTitle": "Part 1: JavaFX Fundamentals & Application Architecture",
+      "prompt": "What role does FXML serve in JavaFX software engineering?",
+      "code": null,
+      "choices": [
+        {
+          "letter": "A",
+          "text": "It compiles Java bytecode directly into native machine assembly language."
+        },
+        {
+          "letter": "B",
+          "text": "It acts as an XML vocabulary for concisely declaring GUI structure and layout without writing Java code."
+        },
+        {
+          "letter": "C",
+          "text": "It defines relational database tables and schemas for the application's persistence layer."
+        },
+        {
+          "letter": "D",
+          "text": "It replaces Java controller classes by providing procedural script loops for computational algorithms."
+        }
+      ],
+      "answer": "B",
+      "answerText": "It acts as an XML vocabulary for concisely declaring GUI structure and layout without writing Java code.",
+      "explanation": "FXML is an XML-based declarative markup language used to construct JavaFX scene graphs cleanly separating visual layout structure from procedural controller logic."
+    },
+    {
+      "id": 6,
+      "partId": 1,
+      "partTitle": "Part 1: JavaFX Fundamentals & Application Architecture",
+      "prompt": "In declarative JavaFX GUI development, what is the primary benefit of separating FXML from Java controller classes?",
+      "code": null,
+      "choices": [
+        {
+          "letter": "A",
+          "text": "It eliminates the need to compile Java source files prior to execution."
+        },
+        {
+          "letter": "B",
+          "text": "It separates the presentation interface from program logic, improving testability, maintainability, and debugging."
+        },
+        {
+          "letter": "C",
+          "text": "It allows JavaFX applications to execute without a Java Virtual Machine (JVM)."
+        },
+        {
+          "letter": "D",
+          "text": "It prevents developers from registering event listeners on visual components."
+        }
+      ],
+      "answer": "B",
+      "answerText": "It separates the presentation interface from program logic, improving testability, maintainability, and debugging.",
+      "explanation": "Separating FXML (View) from Java Controller classes adheres to the MVC architecture, isolating visual presentation from event handling and business logic to enhance testability and maintainability."
+    },
+    {
+      "id": 7,
+      "partId": 1,
+      "partTitle": "Part 1: JavaFX Fundamentals & Application Architecture",
+      "prompt": "Which visual design tool maintained by Gluon allows developers to construct JavaFX GUIs via drag-and-drop live editing?",
+      "code": null,
+      "choices": [
+        {
+          "letter": "A",
+          "text": "Java Mission Control"
+        },
+        {
+          "letter": "B",
+          "text": "VisualVM"
+        },
+        {
+          "letter": "C",
+          "text": "Scene Builder"
+        },
+        {
+          "letter": "D",
+          "text": "Eclipse WindowBuilder"
+        }
+      ],
+      "answer": "C",
+      "answerText": "Scene Builder",
+      "explanation": "Scene Builder is the visual drag-and-drop layout tool originally created by Oracle and currently maintained by Gluon for designing FXML files without writing XML code manually."
+    },
+    {
+      "id": 8,
+      "partId": 1,
+      "partTitle": "Part 1: JavaFX Fundamentals & Application Architecture",
+      "prompt": "In the JavaFX window architecture metaphor, the top-level operating system window is represented by an instance of which class?",
+      "code": null,
+      "choices": [
+        {
+          "letter": "A",
+          "text": "javafx.stage.Stage"
+        },
+        {
+          "letter": "B",
+          "text": "javafx.scene.Scene"
+        },
+        {
+          "letter": "C",
+          "text": "javafx.scene.layout.Pane"
+        },
+        {
+          "letter": "D",
+          "text": "javafx.stage.WindowFrame"
+        }
+      ],
+      "answer": "A",
+      "answerText": "javafx.stage.Stage",
+      "explanation": "In JavaFX's theater metaphor, the Stage represents the outer window (managed by the OS), the Scene acts as the container holding the visual content, and Nodes represent individual visual elements."
+    },
+    {
+      "id": 9,
+      "partId": 1,
+      "partTitle": "Part 1: JavaFX Fundamentals & Application Architecture",
+      "prompt": "What is a JavaFX Scene Graph?",
+      "code": null,
+      "choices": [
+        {
+          "letter": "A",
+          "text": "A relational entity-relationship diagram displaying database foreign keys."
+        },
+        {
+          "letter": "B",
+          "text": "A tree data structure composed of visual elements (nodes) such as controls, layouts, and shapes."
+        },
+        {
+          "letter": "C",
+          "text": "A linear linked list containing sequential user keyboard events."
+        },
+        {
+          "letter": "D",
+          "text": "A directed acyclic graph that records method execution call stacks."
+        }
+      ],
+      "answer": "B",
+      "answerText": "A tree data structure composed of visual elements (nodes) such as controls, layouts, and shapes.",
+      "explanation": "A Scene Graph is a hierarchical tree data structure where each visual element (layouts, shapes, controls) is represented as a Node with a single parent."
+    },
+    {
+      "id": 10,
+      "partId": 1,
+      "partTitle": "Part 1: JavaFX Fundamentals & Application Architecture",
+      "prompt": "Regarding the structural nodes in a JavaFX Scene Graph, which statement is TRUE?",
+      "code": null,
+      "choices": [
+        {
+          "letter": "A",
+          "text": "Every node in the Scene Graph must have at least two parent nodes."
+        },
+        {
+          "letter": "B",
+          "text": "Except for the root node, each node in the Scene Graph has exactly one parent."
+        },
+        {
+          "letter": "C",
+          "text": "Leaf nodes in a Scene Graph are strictly prohibited from holding control components."
+        },
+        {
+          "letter": "D",
+          "text": "Layout containers can only be placed at the root and cannot be nested inside other containers."
+        }
+      ],
+      "answer": "B",
+      "answerText": "Except for the root node, each node in the Scene Graph has exactly one parent.",
+      "explanation": "Every node in a JavaFX Scene Graph (except the root node) must have exactly one parent node, preserving a strict tree hierarchy with no cycles or multi-parenting."
+    },
+    {
+      "id": 11,
+      "partId": 1,
+      "partTitle": "Part 1: JavaFX Fundamentals & Application Architecture",
+      "prompt": "What is the fundamental entry-point method that every JavaFX application subclass must override?",
+      "code": null,
+      "choices": [
+        {
+          "letter": "A",
+          "text": "public void main(String[] args)"
+        },
+        {
+          "letter": "B",
+          "text": "public void init(Stage stage)"
+        },
+        {
+          "letter": "C",
+          "text": "public void start(Stage stage)"
+        },
+        {
+          "letter": "D",
+          "text": "public void run(Scene scene)"
+        }
+      ],
+      "answer": "C",
+      "answerText": "public void start(Stage stage)",
+      "explanation": "The start(Stage primaryStage) method is the abstract entry-point method of javafx.application.Application that must be overridden to configure and show the primary stage."
+    },
+    {
+      "id": 12,
+      "partId": 1,
+      "partTitle": "Part 1: JavaFX Fundamentals & Application Architecture",
+      "prompt": "When launching a JavaFX desktop application, what occurs when Application.launch(args) is called from main?",
+      "code": null,
+      "choices": [
+        {
+          "letter": "A",
+          "text": "It terminates the JVM and spawns an independent C++ process."
+        },
+        {
+          "letter": "B",
+          "text": "It initializes the JavaFX runtime, instantiates the Application subclass, and invokes its start method."
+        },
+        {
+          "letter": "C",
+          "text": "It bypasses scene graph creation and displays raw FXML markup as text."
+        },
+        {
+          "letter": "D",
+          "text": "It creates a headless daemon background service without window decorations."
+        }
+      ],
+      "answer": "B",
+      "answerText": "It initializes the JavaFX runtime, instantiates the Application subclass, and invokes its start method.",
+      "explanation": "Calling Application.launch(args) initializes the JavaFX toolkit runtime, instantiates the specified Application subclass on the JavaFX Application Thread, and invokes its init() and start() methods."
+    },
+    {
+      "id": 13,
+      "partId": 1,
+      "partTitle": "Part 1: JavaFX Fundamentals & Application Architecture",
+      "prompt": "Which static method from FXMLLoader is invoked to parse an FXML document, construct the scene graph, and instantiate its controller?",
+      "code": null,
+      "choices": [
+        {
+          "letter": "A",
+          "text": "FXMLLoader.parse(URL location)"
+        },
+        {
+          "letter": "B",
+          "text": "FXMLLoader.compile(String resourcePath)"
+        },
+        {
+          "letter": "C",
+          "text": "FXMLLoader.load(URL location)"
+        },
+        {
+          "letter": "D",
+          "text": "FXMLLoader.inflate(InputStream stream)"
+        }
+      ],
+      "answer": "C",
+      "answerText": "FXMLLoader.load(URL location)",
+      "explanation": "FXMLLoader.load(URL location) is the static convenience method that parses the target FXML file, builds the node hierarchy in memory, and wires up its designated controller."
+    },
+    {
+      "id": 14,
+      "partId": 1,
+      "partTitle": "Part 1: JavaFX Fundamentals & Application Architecture",
+      "prompt": "What happens during runtime if an @FXML instance variable name in a controller class does not match the fx:id in the corresponding FXML file?",
+      "code": null,
+      "choices": [
+        {
+          "letter": "A",
+          "text": "The variable is automatically assigned a default stub instance."
+        },
+        {
+          "letter": "B",
+          "text": "The compiler converts the variable to a local static variable."
+        },
+        {
+          "letter": "C",
+          "text": "The FXMLLoader throws a LoadException because it cannot inject the reference."
+        },
+        {
+          "letter": "D",
+          "text": "The Java runtime terminates without throwing an exception."
+        }
+      ],
+      "answer": "C",
+      "answerText": "The FXMLLoader throws a LoadException because it cannot inject the reference.",
+      "explanation": "If an @FXML annotated field name does not match the fx:id specified in the FXML document, the FXMLLoader cannot inject the scene graph node and throws a LoadException."
+    },
+    {
+      "id": 15,
+      "partId": 1,
+      "partTitle": "Part 1: JavaFX Fundamentals & Application Architecture",
+      "prompt": "When compiling a modular JavaFX application using the Java Platform Module System (JPMS), which two command-line options are mandatory?",
+      "code": null,
+      "choices": [
+        {
+          "letter": "A",
+          "text": "--classpath and --target-runtime"
+        },
+        {
+          "letter": "B",
+          "text": "--module-path and --add-modules"
+        },
+        {
+          "letter": "C",
+          "text": "--enable-preview and -sourcepath"
+        },
+        {
+          "letter": "D",
+          "text": "--boot-modules and --include-libs"
+        }
+      ],
+      "answer": "B",
+      "answerText": "--module-path and --add-modules",
+      "explanation": "Under the Java Platform Module System (JPMS), non-modular applications or modular builds running JavaFX must specify --module-path pointing to JavaFX SDK jars and --add-modules indicating required modules like javafx.controls and javafx.fxml."
+    },
+    {
+      "id": 16,
+      "partId": 2,
+      "partTitle": "Part 2: Layout Management & Container Hierarchy",
+      "prompt": "Why is it considered best practice to avoid hardcoding explicit pixel dimensions (width and height) for JavaFX GUI nodes?",
+      "code": null,
+      "choices": [
+        {
+          "letter": "A",
+          "text": "Explicit sizes cause the Java compiler to reject FXML parsing."
+        },
+        {
+          "letter": "B",
+          "text": "Hardcoded sizes prevent controls from adapting gracefully when content updates or windows are resized."
+        },
+        {
+          "letter": "C",
+          "text": "Scene Builder cannot preview elements that define width and height attributes."
+        },
+        {
+          "letter": "D",
+          "text": "Hardcoded pixel coordinates disable hardware-accelerated GPU rendering."
+        }
+      ],
+      "answer": "B",
+      "answerText": "Hardcoded sizes prevent controls from adapting gracefully when content updates or windows are resized.",
+      "explanation": "Hardcoding pixel dimensions prevents GUIs from adapting to varying screen resolutions, DPI scaling, font sizing changes, and dynamic window resizing. Responsive layouts rely on automatic pane computation."
+    },
+    {
+      "id": 17,
+      "partId": 2,
+      "partTitle": "Part 2: Layout Management & Container Hierarchy",
+      "prompt": "Which layout pane in the javafx.scene.layout package positions child nodes at exact coordinates (absolute positioning)?",
+      "code": null,
+      "choices": [
+        {
+          "letter": "A",
+          "text": "FlowPane"
+        },
+        {
+          "letter": "B",
+          "text": "GridPane"
+        },
+        {
+          "letter": "C",
+          "text": "Pane"
+        },
+        {
+          "letter": "D",
+          "text": "VBox"
+        }
+      ],
+      "answer": "A",
+      "answerText": "FlowPane",
+      "explanation": "Pane (and its base layouts without layout algorithms) positions child nodes at absolute coordinates (relocate/setLayoutX/setLayoutY) without automatic alignment or flow management."
+    },
+    {
+      "id": 18,
+      "partId": 2,
+      "partTitle": "Part 2: Layout Management & Container Hierarchy",
+      "prompt": "In JavaFX layout management, what does setting a node's preferred width to USE_COMPUTED_SIZE instruct the layout manager to do?",
+      "code": null,
+      "choices": [
+        {
+          "letter": "A",
+          "text": "Force the node to expand to fill the entire desktop monitor screen."
+        },
+        {
+          "letter": "B",
+          "text": "Automatically compute the node's dimensions based on its child elements and content."
+        },
+        {
+          "letter": "C",
+          "text": "Restrict the node to a fixed zero-pixel dimension."
+        },
+        {
+          "letter": "D",
+          "text": "Defer sizing calculations to operating system desktop themes."
+        }
+      ],
+      "answer": "B",
+      "answerText": "Automatically compute the node's dimensions based on its child elements and content.",
+      "explanation": "Setting a size to Region.USE_COMPUTED_SIZE directs the layout manager to automatically calculate optimal dimensions based on node content and child constraints."
+    },
+    {
+      "id": 19,
+      "partId": 2,
+      "partTitle": "Part 2: Layout Management & Container Hierarchy",
+      "prompt": "How does the VBox layout container arrange its child nodes in the scene graph?",
+      "code": null,
+      "choices": [
+        {
+          "letter": "A",
+          "text": "Sequentially in a single horizontal row from left to right."
+        },
+        {
+          "letter": "B",
+          "text": "Centered on top of each other along the z-axis."
+        },
+        {
+          "letter": "C",
+          "text": "Sequentially in a single vertical column from top to bottom."
+        },
+        {
+          "letter": "D",
+          "text": "In a flexible two-dimensional grid of rows and columns."
+        }
+      ],
+      "answer": "C",
+      "answerText": "Sequentially in a single vertical column from top to bottom.",
+      "explanation": "VBox (Vertical Box) positions its child nodes sequentially in a single vertical column from top to bottom."
+    },
+    {
+      "id": 20,
+      "partId": 2,
+      "partTitle": "Part 2: Layout Management & Container Hierarchy",
+      "prompt": "Which property of a VBox allows developers to define uniform vertical empty space between adjacent child nodes?",
+      "code": null,
+      "choices": [
+        {
+          "letter": "A",
+          "text": "hgap"
+        },
+        {
+          "letter": "B",
+          "text": "spacing"
+        },
+        {
+          "letter": "C",
+          "text": "rowSpan"
+        },
+        {
+          "letter": "D",
+          "text": "dividerPosition"
+        }
+      ],
+      "answer": "B",
+      "answerText": "spacing",
+      "explanation": "The spacing property of VBox defines the vertical distance (in pixels) between consecutive child nodes within the container."
+    },
+    {
+      "id": 21,
+      "partId": 2,
+      "partTitle": "Part 2: Layout Management & Container Hierarchy",
+      "prompt": "Into how many distinct regions does a BorderPane layout container organize child nodes?",
+      "code": null,
+      "choices": [
+        {
+          "letter": "A",
+          "text": "Three (Top, Middle, Bottom)"
+        },
+        {
+          "letter": "B",
+          "text": "Four (North, South, East, West)"
+        },
+        {
+          "letter": "C",
+          "text": "Five (Top, Bottom, Left, Center, Right)"
+        },
+        {
+          "letter": "D",
+          "text": "Nine fixed cells in a 3x3 matrix"
+        }
+      ],
+      "answer": "C",
+      "answerText": "Five (Top, Bottom, Left, Center, Right)",
+      "explanation": "BorderPane organizes its children into five spatial regions: Top, Bottom, Left, Right, and Center."
+    },
+    {
+      "id": 22,
+      "partId": 2,
+      "partTitle": "Part 2: Layout Management & Container Hierarchy",
+      "prompt": "In a BorderPane, if both the Left and Right areas are left empty, how does the Center region respond?",
+      "code": null,
+      "choices": [
+        {
+          "letter": "A",
+          "text": "The Center area collapses to zero width."
+        },
+        {
+          "letter": "B",
+          "text": "The Center area expands horizontally to occupy the available empty side space."
+        },
+        {
+          "letter": "C",
+          "text": "The BorderPane throws an IllegalStateException at runtime."
+        },
+        {
+          "letter": "D",
+          "text": "The Top and Bottom areas shrink inward to match the Center width."
+        }
+      ],
+      "answer": "B",
+      "answerText": "The Center area expands horizontally to occupy the available empty side space.",
+      "explanation": "In BorderPane, the Center region expands dynamically to fill all available space not occupied by Top, Bottom, Left, or Right regions. If Left and Right are absent, Center fills the full middle width."
+    },
+    {
+      "id": 23,
+      "partId": 2,
+      "partTitle": "Part 2: Layout Management & Container Hierarchy",
+      "prompt": "What is the spatial behavior of the Top and Bottom regions of a BorderPane?",
+      "code": null,
+      "choices": [
+        {
+          "letter": "A",
+          "text": "They occupy the full width of the BorderPane and are vertically sized to their children's preferred heights."
+        },
+        {
+          "letter": "B",
+          "text": "They are fixed at a constant 100-pixel height regardless of content."
+        },
+        {
+          "letter": "C",
+          "text": "They share horizontal space equally with the Left and Right regions."
+        },
+        {
+          "letter": "D",
+          "text": "They automatically float in the center of the viewport."
+        }
+      ],
+      "answer": "A",
+      "answerText": "They occupy the full width of the BorderPane and are vertically sized to their children's preferred heights.",
+      "explanation": "In BorderPane, the Top and Bottom regions span horizontally across the entire width of the container, extending across the left, center, and right sections."
+    },
+    {
+      "id": 24,
+      "partId": 2,
+      "partTitle": "Part 2: Layout Management & Container Hierarchy",
+      "prompt": "Which layout container arranges nodes in a flexible rectangular grid composed of rows and columns?",
+      "code": null,
+      "choices": [
+        {
+          "letter": "A",
+          "text": "FlowPane"
+        },
+        {
+          "letter": "B",
+          "text": "AnchorPane"
+        },
+        {
+          "letter": "C",
+          "text": "GridPane"
+        },
+        {
+          "letter": "D",
+          "text": "StackPane"
+        }
+      ],
+      "answer": "C",
+      "answerText": "GridPane",
+      "explanation": "GridPane lays out its children in a flexible two-dimensional grid composed of rows and columns, where each cell is addressed by column and row indices."
+    },
+    {
+      "id": 25,
+      "partId": 2,
+      "partTitle": "Part 2: Layout Management & Container Hierarchy",
+      "prompt": "In a GridPane, what is the key difference between padding and the gap properties (hgap / vgap)?",
+      "code": null,
+      "choices": [
+        {
+          "letter": "A",
+          "text": "padding separates child nodes from each other, whereas hgap/vgap separate the container from the window edge."
+        },
+        {
+          "letter": "B",
+          "text": "padding insets the content from the container's outer edges, whereas hgap/vgap define spacing between cells."
+        },
+        {
+          "letter": "C",
+          "text": "padding applies only to text controls, while gaps apply only to images."
+        },
+        {
+          "letter": "D",
+          "text": "There is no functional difference; they are aliases for the same layout property."
+        }
+      ],
+      "answer": "B",
+      "answerText": "padding insets the content from the container's outer edges, whereas hgap/vgap define spacing between cells.",
+      "explanation": "Padding sets empty space along the outer perimeter boundary of the container, whereas hgap and vgap specify spacing between adjacent rows and columns inside the grid."
+    },
+    {
+      "id": 26,
+      "partId": 2,
+      "partTitle": "Part 2: Layout Management & Container Hierarchy",
+      "prompt": "Which layout pane displays a collapsible panel with a title bar that expands or collapses its contents when clicked?",
+      "code": null,
+      "choices": [
+        {
+          "letter": "A",
+          "text": "Accordion"
+        },
+        {
+          "letter": "B",
+          "text": "TitledPane"
+        },
+        {
+          "letter": "C",
+          "text": "TabPane"
+        },
+        {
+          "letter": "D",
+          "text": "SplitPane"
+        }
+      ],
+      "answer": "B",
+      "answerText": "TitledPane",
+      "explanation": "TitledPane is a control with a title bar that can be clicked by the user to expand or collapse the content panel underneath it."
+    },
+    {
+      "id": 27,
+      "partId": 2,
+      "partTitle": "Part 2: Layout Management & Container Hierarchy",
+      "prompt": "What is the layout behavior of a horizontal FlowPane when child nodes exceed the pane's width?",
+      "code": null,
+      "choices": [
+        {
+          "letter": "A",
+          "text": "It clips and hides nodes that exceed the boundary."
+        },
+        {
+          "letter": "B",
+          "text": "It automatically wraps excess nodes onto a new row."
+        },
+        {
+          "letter": "C",
+          "text": "It dynamically scales down the size of all children to fit on one row."
+        },
+        {
+          "letter": "D",
+          "text": "It throws an IndexOutOfBoundsException during layout recalculation."
+        }
+      ],
+      "answer": "B",
+      "answerText": "It automatically wraps excess nodes onto a new row.",
+      "explanation": "A horizontal FlowPane lays out its children sequentially in a row; when the available horizontal space is exhausted, subsequent children wrap automatically to the next row."
+    },
+    {
+      "id": 28,
+      "partId": 2,
+      "partTitle": "Part 2: Layout Management & Container Hierarchy",
+      "prompt": "Which layout container arranges nodes in a back-to-front stack where each new node is rendered atop the previous one?",
+      "code": null,
+      "choices": [
+        {
+          "letter": "A",
+          "text": "TilePane"
+        },
+        {
+          "letter": "B",
+          "text": "StackPane"
+        },
+        {
+          "letter": "C",
+          "text": "ButtonBar"
+        },
+        {
+          "letter": "D",
+          "text": "TextFlow"
+        }
+      ],
+      "answer": "B",
+      "answerText": "StackPane",
+      "explanation": "StackPane places child nodes on top of each other in a back-to-front stack (z-order), where nodes added later render over earlier nodes."
+    },
+    {
+      "id": 29,
+      "partId": 2,
+      "partTitle": "Part 2: Layout Management & Container Hierarchy",
+      "prompt": "If a developer needs to divide a GUI layout into user-resizable view areas separated by draggable splitters, which container is required?",
+      "code": null,
+      "choices": [
+        {
+          "letter": "A",
+          "text": "ScrollPane"
+        },
+        {
+          "letter": "B",
+          "text": "SplitPane"
+        },
+        {
+          "letter": "C",
+          "text": "DialogPane"
+        },
+        {
+          "letter": "D",
+          "text": "AnchorPane"
+        }
+      ],
+      "answer": "B",
+      "answerText": "SplitPane",
+      "explanation": "SplitPane divides its container space into multiple panels separated by draggable dividers that users can reposition interactively at runtime."
+    },
+    {
+      "id": 30,
+      "partId": 2,
+      "partTitle": "Part 2: Layout Management & Container Hierarchy",
+      "prompt": "How can a control in a GridPane be configured to occupy multiple rows or columns simultaneously?",
+      "code": null,
+      "choices": [
+        {
+          "letter": "A",
+          "text": "By applying the padding and spacing attributes."
+        },
+        {
+          "letter": "B",
+          "text": "By configuring the Row Span or Column Span properties."
+        },
+        {
+          "letter": "C",
+          "text": "By nesting the control inside a TitledPane."
+        },
+        {
+          "letter": "D",
+          "text": "By setting its focusTraversable property to true."
+        }
+      ],
+      "answer": "B",
+      "answerText": "By configuring the Row Span or Column Span properties.",
+      "explanation": "GridPane provides static convenience methods GridPane.setColumnSpan(Node, int) and GridPane.setRowSpan(Node, int) to make a control span multiple cells."
+    },
+    {
+      "id": 31,
+      "partId": 3,
+      "partTitle": "Part 3: Event-Driven Programming & Interactive Controls",
+      "prompt": "What defines an event-driven desktop application architecture?",
+      "code": null,
+      "choices": [
+        {
+          "letter": "A",
+          "text": "The application executes instructions strictly in a linear order from the first line of main to the last."
+        },
+        {
+          "letter": "B",
+          "text": "User interactions (e.g., clicking buttons, moving sliders, dragging mice) generate events that trigger handler methods."
+        },
+        {
+          "letter": "C",
+          "text": "The application polls the CPU clock every millisecond to recalculate layout geometry."
+        },
+        {
+          "letter": "D",
+          "text": "The application logic is governed entirely by backend database triggers rather than UI inputs."
+        }
+      ],
+      "answer": "B",
+      "answerText": "User interactions (e.g., clicking buttons, moving sliders, dragging mice) generate events that trigger handler methods.",
+      "explanation": "An event-driven architecture is asynchronous and reactive: the program enters an event loop waiting for external events (clicks, keypresses, timers) and dispatches handlers when events occur."
+    },
+    {
+      "id": 32,
+      "partId": 3,
+      "partTitle": "Part 3: Event-Driven Programming & Interactive Controls",
+      "prompt": "Which class in package javafx.event represents high-level user actions, such as clicking a Button or choosing a menu item?",
+      "code": null,
+      "choices": [
+        {
+          "letter": "A",
+          "text": "InputEvent"
+        },
+        {
+          "letter": "B",
+          "text": "ActionEvent"
+        },
+        {
+          "letter": "C",
+          "text": "MotionEvent"
+        },
+        {
+          "letter": "D",
+          "text": "TriggerEvent"
+        }
+      ],
+      "answer": "B",
+      "answerText": "ActionEvent",
+      "explanation": "ActionEvent represents high-level user semantic actions on controls, such as pushing a Button, selecting a MenuItem, or pressing Enter in a TextField."
+    },
+    {
+      "id": 33,
+      "partId": 3,
+      "partTitle": "Part 3: Event-Driven Programming & Interactive Controls",
+      "prompt": "What is the required signature for an event-handling method declared in a JavaFX controller to handle a Button click?",
+      "code": null,
+      "choices": [
+        {
+          "letter": "A",
+          "text": "public boolean onAction(Event e)"
+        },
+        {
+          "letter": "B",
+          "text": "@FXML private void methodName(ActionEvent event)"
+        },
+        {
+          "letter": "C",
+          "text": "@FXML public int handleAction(Object source)"
+        },
+        {
+          "letter": "D",
+          "text": "private ActionEvent processClick()"
+        }
+      ],
+      "answer": "B",
+      "answerText": "@FXML private void methodName(ActionEvent event)",
+      "explanation": "An FXML event-handler method in a controller requires @FXML private void methodName(ActionEvent event) (or parameterless) so the FXMLLoader can bind the onAction attribute."
+    },
+    {
+      "id": 34,
+      "partId": 3,
+      "partTitle": "Part 3: Event-Driven Programming & Interactive Controls",
+      "prompt": "To ensure that only one RadioButton within a group can be selected at a time, the controls must be associated with an instance of:",
+      "code": null,
+      "choices": [
+        {
+          "letter": "A",
+          "text": "ButtonGroup"
+        },
+        {
+          "letter": "B",
+          "text": "ToggleGroup"
+        },
+        {
+          "letter": "C",
+          "text": "RadioManager"
+        },
+        {
+          "letter": "D",
+          "text": "SelectionGroup"
+        }
+      ],
+      "answer": "B",
+      "answerText": "ToggleGroup",
+      "explanation": "RadioButton controls must be grouped using a ToggleGroup instance so that selecting one radio button automatically deselects all other radio buttons in the group."
+    },
+    {
+      "id": 35,
+      "partId": 3,
+      "partTitle": "Part 3: Event-Driven Programming & Interactive Controls",
+      "prompt": "How can arbitrary custom objects (such as a domain model, Color, or enum constant) be directly attached to a JavaFX control?",
+      "code": null,
+      "choices": [
+        {
+          "letter": "A",
+          "text": "By storing them in the control’s setAccessibleHelp() field."
+        },
+        {
+          "letter": "B",
+          "text": "By calling the control’s setUserData(Object value) method."
+        },
+        {
+          "letter": "C",
+          "text": "By setting the control’s fx:id to the serialized object string."
+        },
+        {
+          "letter": "D",
+          "text": "By modifying the CSS style attribute directly."
+        }
+      ],
+      "answer": "B",
+      "answerText": "By calling the control’s setUserData(Object value) method.",
+      "explanation": "The Node.setUserData(Object) and getUserData() methods allow developers to attach arbitrary user objects, metadata, or models directly to any scene graph node."
+    },
+    {
+      "id": 36,
+      "partId": 3,
+      "partTitle": "Part 3: Event-Driven Programming & Interactive Controls",
+      "prompt": "Which mouse event occurs continuously when the user presses a mouse button over a node and moves the cursor while holding the button down?",
+      "code": null,
+      "choices": [
+        {
+          "letter": "A",
+          "text": "onMouseClicked"
+        },
+        {
+          "letter": "B",
+          "text": "onMouseMoved"
+        },
+        {
+          "letter": "C",
+          "text": "onMouseDragged"
+        },
+        {
+          "letter": "D",
+          "text": "onMouseEntered"
+        }
+      ],
+      "answer": "C",
+      "answerText": "onMouseDragged",
+      "explanation": "MouseEvent.MOUSE_DRAGGED is delivered continuously when the user presses and holds a mouse button over a node while moving the pointer."
+    },
+    {
+      "id": 37,
+      "partId": 3,
+      "partTitle": "Part 3: Event-Driven Programming & Interactive Controls",
+      "prompt": "Inside a MouseEvent handler, how do you determine the horizontal and vertical coordinates of the interaction relative to the target node?",
+      "code": null,
+      "choices": [
+        {
+          "letter": "A",
+          "text": "By querying e.getScenePosition() and e.getScreenPosition()."
+        },
+        {
+          "letter": "B",
+          "text": "By calling e.getX() and e.getY()."
+        },
+        {
+          "letter": "C",
+          "text": "By reading e.getTop() and e.getLeft()."
+        },
+        {
+          "letter": "D",
+          "text": "By parsing e.getCoordinatesAsString()."
+        }
+      ],
+      "answer": "B",
+      "answerText": "By calling e.getX() and e.getY().",
+      "explanation": "In MouseEvent handlers, getX() and getY() return cursor coordinates relative to the event source/target node, whereas getScreenX() and getScreenY() return absolute screen coordinates."
+    },
+    {
+      "id": 38,
+      "partId": 3,
+      "partTitle": "Part 3: Event-Driven Programming & Interactive Controls",
+      "prompt": "In a drawing canvas implementation using a Pane, how is a newly created Circle node dynamically rendered on screen?",
+      "code": null,
+      "choices": [
+        {
+          "letter": "A",
+          "text": "drawingAreaPane.setNode(newCircle);"
+        },
+        {
+          "letter": "B",
+          "text": "drawingAreaPane.getChildren().add(newCircle);"
+        },
+        {
+          "letter": "C",
+          "text": "Scene.getRoot().attach(newCircle);"
+        },
+        {
+          "letter": "D",
+          "text": "FXMLLoader.inject(drawingAreaPane, newCircle);"
+        }
+      ],
+      "answer": "B",
+      "answerText": "drawingAreaPane.getChildren().add(newCircle);",
+      "explanation": "A Pane stores its child visual elements in an ObservableList accessed via getChildren(); adding a Circle node via pane.getChildren().add(circle) attaches it to the scene graph for rendering."
+    },
+    {
+      "id": 39,
+      "partId": 3,
+      "partTitle": "Part 3: Event-Driven Programming & Interactive Controls",
+      "prompt": "What return type is produced by a layout pane's getChildren() method?",
+      "code": null,
+      "choices": [
+        {
+          "letter": "A",
+          "text": "java.util.Vector"
+        },
+        {
+          "letter": "B",
+          "text": "javafx.collections.ObservableList"
+        },
+        {
+          "letter": "C",
+          "text": "java.util.HashSet"
+        },
+        {
+          "letter": "D",
+          "text": "javafx.beans.property.ListProperty"
+        }
+      ],
+      "answer": "B",
+      "answerText": "javafx.collections.ObservableList",
+      "explanation": "The getChildren() method of Parent/Pane returns an ObservableList<Node>, which automatically notifies the scene graph whenever nodes are added, removed, or rearranged."
+    },
+    {
+      "id": 40,
+      "partId": 3,
+      "partTitle": "Part 3: Event-Driven Programming & Interactive Controls",
+      "prompt": "How does a JavaFX controller implement an Undo feature that removes the most recently drawn shape from a Pane?",
+      "code": null,
+      "choices": [
+        {
+          "letter": "A",
+          "text": "pane.getChildren().clear();"
+        },
+        {
+          "letter": "B",
+          "text": "pane.getChildren().remove(pane.getChildren().size() - 1);"
+        },
+        {
+          "letter": "C",
+          "text": "pane.setClip(null);"
+        },
+        {
+          "letter": "D",
+          "text": "pane.getChildren().removeAll();"
+        }
+      ],
+      "answer": "B",
+      "answerText": "pane.getChildren().remove(pane.getChildren().size() - 1);",
+      "explanation": "To undo the last drawn element, removing the final child node from the pane's children list via getChildren().remove(getChildren().size() - 1) detaches it from the scene graph."
+    },
+    {
+      "id": 41,
+      "partId": 4,
+      "partTitle": "Part 4: Properties, ChangeListeners, Binding & MVC",
+      "prompt": "Why can changes to a Slider control's numeric value property NOT be registered as simple @FXML action handlers in Scene Builder?",
+      "code": null,
+      "choices": [
+        {
+          "letter": "A",
+          "text": "Sliders do not support user interaction."
+        },
+        {
+          "letter": "B",
+          "text": "Sliders fire property-change events on observable values rather than basic action events, requiring a ChangeListener registered in code."
+        },
+        {
+          "letter": "C",
+          "text": "Sliders can only be modified through external CSS style sheets."
+        },
+        {
+          "letter": "D",
+          "text": "Scene Builder does not recognize numeric sliders as GUI components."
+        }
+      ],
+      "answer": "B",
+      "answerText": "Sliders fire property-change events on observable values rather than basic action events, requiring a ChangeListener registered in code.",
+      "explanation": "Slider value changes are continuous property state mutations tracked through valueProperty() rather than discrete semantic button-press actions represented by onAction."
+    },
+    {
+      "id": 42,
+      "partId": 4,
+      "partTitle": "Part 4: Properties, ChangeListeners, Binding & MVC",
+      "prompt": "Which functional interface from package javafx.beans.value is implemented to observe and respond to changes in a JavaFX property?",
+      "code": null,
+      "choices": [
+        {
+          "letter": "A",
+          "text": "javafx.event.EventHandler"
+        },
+        {
+          "letter": "B",
+          "text": "javafx.beans.value.ChangeListener"
+        },
+        {
+          "letter": "C",
+          "text": "java.awt.event.ActionListener"
+        },
+        {
+          "letter": "D",
+          "text": "java.util.Observer"
+        }
+      ],
+      "answer": "B",
+      "answerText": "javafx.beans.value.ChangeListener",
+      "explanation": "javafx.beans.value.ChangeListener<T> is the functional interface implemented to monitor and handle changes in any JavaFX ObservableValue or property."
+    },
+    {
+      "id": 43,
+      "partId": 4,
+      "partTitle": "Part 4: Properties, ChangeListeners, Binding & MVC",
+      "prompt": "What three parameters are passed to the changed method of the ChangeListener interface?",
+      "code": null,
+      "choices": [
+        {
+          "letter": "A",
+          "text": "(Event e, Node source, Node target)"
+        },
+        {
+          "letter": "B",
+          "text": "(ObservableValue ov, T oldValue, T newValue)"
+        },
+        {
+          "letter": "C",
+          "text": "(int index, String key, Object data)"
+        },
+        {
+          "letter": "D",
+          "text": "(Stage stage, Scene scene, Parent root)"
+        }
+      ],
+      "answer": "B",
+      "answerText": "(ObservableValue ov, T oldValue, T newValue)",
+      "explanation": "The changed(ObservableValue<? extends T> observable, T oldValue, T newValue) method receives the property being observed, the previous value before the change, and the updated new value."
+    },
+    {
+      "id": 44,
+      "partId": 4,
+      "partTitle": "Part 4: Properties, ChangeListeners, Binding & MVC",
+      "prompt": "Consider the code snippet below. What feature of modern Java is being used to implement the ChangeListener?",
+      "code": "slider.valueProperty().addListener((ov, oldValue, newValue) -> {\n    label.setText(String.format(\"%.0f\", newValue.doubleValue()));\n});",
+      "choices": [
+        {
+          "letter": "A",
+          "text": "An anonymous inner class implementing Runnable."
+        },
+        {
+          "letter": "B",
+          "text": "A lambda expression implementing a single-abstract-method (SAM) functional interface."
+        },
+        {
+          "letter": "C",
+          "text": "A static method reference to an unmanaged thread."
+        },
+        {
+          "letter": "D",
+          "text": "Reflection metadata invocation."
+        }
+      ],
+      "answer": "B",
+      "answerText": "A lambda expression implementing a single-abstract-method (SAM) functional interface.",
+      "explanation": "The arrow syntax (ov, oldValue, newValue) -> { ... } is a Java lambda expression implementing the single-abstract-method (SAM) ChangeListener interface."
+    },
+    {
+      "id": 45,
+      "partId": 4,
+      "partTitle": "Part 4: Properties, ChangeListeners, Binding & MVC",
+      "prompt": "In defensive UI programming, what do the methods requestFocus() and selectAll() accomplish on a TextField during input validation failure?",
+      "code": null,
+      "choices": [
+        {
+          "letter": "A",
+          "text": "They disable the text field and hide the stage."
+        },
+        {
+          "letter": "B",
+          "text": "They direct user focus back to the text field and highlight the invalid text for rapid re-entry."
+        },
+        {
+          "letter": "C",
+          "text": "They clear the text field and delete the controller instance."
+        },
+        {
+          "letter": "D",
+          "text": "They immediately terminate the Java Virtual Machine."
+        }
+      ],
+      "answer": "B",
+      "answerText": "They direct user focus back to the text field and highlight the invalid text for rapid re-entry.",
+      "explanation": "Calling requestFocus() places the keyboard cursor into the invalid TextField, while selectAll() highlights all invalid input text so the user can immediately overwrite it."
+    },
+    {
+      "id": 46,
+      "partId": 4,
+      "partTitle": "Part 4: Properties, ChangeListeners, Binding & MVC",
+      "prompt": "In the Model-View-Controller (MVC) architectural pattern as applied to JavaFX FXML applications, what is the role of the View?",
+      "code": null,
+      "choices": [
+        {
+          "letter": "A",
+          "text": "It encapsulates business calculations and database entities."
+        },
+        {
+          "letter": "B",
+          "text": "It defines the visual layout and controls presented on the screen, typically declared in FXML."
+        },
+        {
+          "letter": "C",
+          "text": "It acts as the event dispatcher routing requests to backend services."
+        },
+        {
+          "letter": "D",
+          "text": "It stores static database connection pools."
+        }
+      ],
+      "answer": "B",
+      "answerText": "It defines the visual layout and controls presented on the screen, typically declared in FXML.",
+      "explanation": "In MVC, the View is strictly responsible for presentation and layout (declared in FXML), displaying data to the user without containing core calculation or data-persistence logic."
+    },
+    {
+      "id": 47,
+      "partId": 4,
+      "partTitle": "Part 4: Properties, ChangeListeners, Binding & MVC",
+      "prompt": "In the MVC pattern, which component processes user inputs, updates the model, and synchronizes the view?",
+      "code": null,
+      "choices": [
+        {
+          "letter": "A",
+          "text": "The Scene Graph Root"
+        },
+        {
+          "letter": "B",
+          "text": "The Controller"
+        },
+        {
+          "letter": "C",
+          "text": "The Stage Window"
+        },
+        {
+          "letter": "D",
+          "text": "The CSS Stylesheet"
+        }
+      ],
+      "answer": "B",
+      "answerText": "The Controller",
+      "explanation": "The Controller serves as the mediator in MVC: it receives user input events from the View, mutates the underlying Model, and updates the View to reflect data changes."
+    },
+    {
+      "id": 48,
+      "partId": 4,
+      "partTitle": "Part 4: Properties, ChangeListeners, Binding & MVC",
+      "prompt": "What naming convention defines a read/write JavaFX property named amount of type DoubleProperty in a custom domain class?",
+      "code": null,
+      "choices": [
+        {
+          "letter": "A",
+          "text": "setAmount(double v), getAmount(), and amountProperty()"
+        },
+        {
+          "letter": "B",
+          "text": "writeAmount(double v), readAmount(), and listenAmount()"
+        },
+        {
+          "letter": "C",
+          "text": "mutateAmount(double v), accessAmount(), and bindAmount()"
+        },
+        {
+          "letter": "D",
+          "text": "storeAmount(double v), fetchAmount(), and propertyOfAmount()"
+        }
+      ],
+      "answer": "A",
+      "answerText": "setAmount(double v), getAmount(), and amountProperty()",
+      "explanation": "The JavaFX property bean convention requires three methods for a property named amount: getter getAmount(), setter setAmount(double), and property accessor amountProperty()."
+    },
+    {
+      "id": 49,
+      "partId": 4,
+      "partTitle": "Part 4: Properties, ChangeListeners, Binding & MVC",
+      "prompt": "Why should getter and setter methods that manipulate JavaFX properties typically be declared final?",
+      "code": null,
+      "choices": [
+        {
+          "letter": "A",
+          "text": "To prevent compiler warnings about unused variables."
+        },
+        {
+          "letter": "B",
+          "text": "To prevent subclasses from overriding them, which could lead to unexpected behavior in client property bindings."
+        },
+        {
+          "letter": "C",
+          "text": "To force the JVM to allocate them in read-only permanent memory."
+        },
+        {
+          "letter": "D",
+          "text": "To convert primitive numeric types into Java records automatically."
+        }
+      ],
+      "answer": "B",
+      "answerText": "To prevent subclasses from overriding them, which could lead to unexpected behavior in client property bindings.",
+      "explanation": "Declaring property getter and setter methods final prevents subclasses from overriding them with divergent logic, safeguarding property binding consistency and enabling compiler inlining."
+    },
+    {
+      "id": 50,
+      "partId": 4,
+      "partTitle": "Part 4: Properties, ChangeListeners, Binding & MVC",
+      "prompt": "What occurs when a unidirectional property binding is established between a TextField's textProperty and a Slider's valueProperty?",
+      "code": null,
+      "choices": [
+        {
+          "letter": "A",
+          "text": "The slider moves whenever the user types numbers into the text field."
+        },
+        {
+          "letter": "B",
+          "text": "The text field updates automatically when the slider moves, and direct user editing in the text field is disabled."
+        },
+        {
+          "letter": "C",
+          "text": "Both controls are removed from the Scene Graph."
+        },
+        {
+          "letter": "D",
+          "text": "A cyclic loop triggers a StackOverflowError."
+        }
+      ],
+      "answer": "B",
+      "answerText": "The text field updates automatically when the slider moves, and direct user editing in the text field is disabled.",
+      "explanation": "A unidirectional binding (e.g. textProperty().bind(slider.valueProperty())) synchronizes the target with the source while making the target property unmodifiable directly."
+    },
+    {
+      "id": 51,
+      "partId": 4,
+      "partTitle": "Part 4: Properties, ChangeListeners, Binding & MVC",
+      "prompt": "Which method converts a numeric DoubleProperty into an ObservableValue using format-control strings for property binding?",
+      "code": null,
+      "choices": [
+        {
+          "letter": "A",
+          "text": "asFormat(String format)"
+        },
+        {
+          "letter": "B",
+          "text": "asString(String format)"
+        },
+        {
+          "letter": "C",
+          "text": "formatToString(String pattern)"
+        },
+        {
+          "letter": "D",
+          "text": "toObservableText(String mask)"
+        }
+      ],
+      "answer": "B",
+      "answerText": "asString(String format)",
+      "explanation": "The asString(String format) method of DoubleProperty converts the numeric property into an ObservableStringValue formatted according to standard Java format specifiers (e.g. \"%.2f\")."
+    },
+    {
+      "id": 52,
+      "partId": 4,
+      "partTitle": "Part 4: Properties, ChangeListeners, Binding & MVC",
+      "prompt": "Which GoF (Gang of Four) software design pattern is directly implemented by JavaFX's ObservableList and property listener mechanism?",
+      "code": null,
+      "choices": [
+        {
+          "letter": "A",
+          "text": "Singleton Pattern"
+        },
+        {
+          "letter": "B",
+          "text": "Factory Method Pattern"
+        },
+        {
+          "letter": "C",
+          "text": "Observer Pattern"
+        },
+        {
+          "letter": "D",
+          "text": "Adapter Pattern"
+        }
+      ],
+      "answer": "C",
+      "answerText": "Observer Pattern",
+      "explanation": "The Observer Pattern is implemented by ObservableList and ObservableValue: subjects maintain a list of dependent observers/listeners and notify them automatically upon state change."
+    },
+    {
+      "id": 53,
+      "partId": 5,
+      "partTitle": "Part 5: Advanced Controls, Collections, ListCell Rendering & Dialogs",
+      "prompt": "How is an empty observable list created using the JavaFX collections utility class?",
+      "code": null,
+      "choices": [
+        {
+          "letter": "A",
+          "text": "ObservableList list = new ObservableList();"
+        },
+        {
+          "letter": "B",
+          "text": "ObservableList list = FXCollections.observableArrayList();"
+        },
+        {
+          "letter": "C",
+          "text": "ObservableList list = Collections.synchronizedList();"
+        },
+        {
+          "letter": "D",
+          "text": "ObservableList list = new ArrayList<Observable>();"
+        }
+      ],
+      "answer": "B",
+      "answerText": "ObservableList list = FXCollections.observableArrayList();",
+      "explanation": "FXCollections.observableArrayList() is the standard factory method in JavaFX to instantiate an empty, observable ArrayList backed by collection change notifications."
+    },
+    {
+      "id": 54,
+      "partId": 5,
+      "partTitle": "Part 5: Advanced Controls, Collections, ListCell Rendering & Dialogs",
+      "prompt": "When an ObservableList is bound to a ListView via setItems(), what visual behavior occurs when items are added to or removed from the list?",
+      "code": null,
+      "choices": [
+        {
+          "letter": "A",
+          "text": "The ListView throws an UnsupportedOperationException unless refreshed manually."
+        },
+        {
+          "letter": "B",
+          "text": "The ListView automatically updates its visual presentation in response to collection mutations."
+        },
+        {
+          "letter": "C",
+          "text": "The underlying Stage reloads the entire FXML file from disk."
+        },
+        {
+          "letter": "D",
+          "text": "The ListView caches the initial list items permanently and ignores all mutations."
+        }
+      ],
+      "answer": "B",
+      "answerText": "The ListView automatically updates its visual presentation in response to collection mutations.",
+      "explanation": "Binding an ObservableList to a ListView causes the control to listen for collection change events and automatically re-render rows when elements are added, deleted, or updated."
+    },
+    {
+      "id": 55,
+      "partId": 5,
+      "partTitle": "Part 5: Advanced Controls, Collections, ListCell Rendering & Dialogs",
+      "prompt": "How do you register an event listener that executes when the user selects a different item inside a ListView?",
+      "code": null,
+      "choices": [
+        {
+          "letter": "A",
+          "text": "listView.addActionListener(e -> ...);"
+        },
+        {
+          "letter": "B",
+          "text": "listView.setOnItemClick(item -> ...);"
+        },
+        {
+          "letter": "C",
+          "text": "listView.getSelectionModel().selectedItemProperty().addListener(...);"
+        },
+        {
+          "letter": "D",
+          "text": "listView.getProperties().addPropertyChangeListener(...);"
+        }
+      ],
+      "answer": "C",
+      "answerText": "listView.getSelectionModel().selectedItemProperty().addListener(...);",
+      "explanation": "To detect selection changes on a ListView, attach a ChangeListener to listView.getSelectionModel().selectedItemProperty() or selectedIndexProperty()."
+    },
+    {
+      "id": 56,
+      "partId": 5,
+      "partTitle": "Part 5: Advanced Controls, Collections, ListCell Rendering & Dialogs",
+      "prompt": "To customize the presentation of items in a ListView beyond their default toString() representation, a developer must create a subclass of:",
+      "code": null,
+      "choices": [
+        {
+          "letter": "A",
+          "text": "javafx.scene.control.TableCell"
+        },
+        {
+          "letter": "B",
+          "text": "javafx.scene.control.ListCell"
+        },
+        {
+          "letter": "C",
+          "text": "javafx.scene.layout.CellPane"
+        },
+        {
+          "letter": "D",
+          "text": "javafx.scene.control.ItemRenderer"
+        }
+      ],
+      "answer": "B",
+      "answerText": "javafx.scene.control.ListCell",
+      "explanation": "javafx.scene.control.ListCell<T> is the visual component class subclassed to customize row rendering, formatting, and layout inside a ListView."
+    },
+    {
+      "id": 57,
+      "partId": 5,
+      "partTitle": "Part 5: Advanced Controls, Collections, ListCell Rendering & Dialogs",
+      "prompt": "Which method MUST be overridden in a custom ListCell subclass to configure cell graphics and text?",
+      "code": null,
+      "choices": [
+        {
+          "letter": "A",
+          "text": "public void renderNode(T item)"
+        },
+        {
+          "letter": "B",
+          "text": "protected void updateItem(T item, boolean empty)"
+        },
+        {
+          "letter": "C",
+          "text": "public void setGraphicContent(T item)"
+        },
+        {
+          "letter": "D",
+          "text": "protected void drawCell(T item, int index)"
+        }
+      ],
+      "answer": "B",
+      "answerText": "protected void updateItem(T item, boolean empty)",
+      "explanation": "Custom ListCell implementations must override protected void updateItem(T item, boolean empty) to configure cell text, graphics, and styles based on the item and empty status."
+    },
+    {
+      "id": 58,
+      "partId": 5,
+      "partTitle": "Part 5: Advanced Controls, Collections, ListCell Rendering & Dialogs",
+      "prompt": "In a custom ListCell implementation, what critical instruction must be executed if empty == true or item == null?",
+      "code": null,
+      "choices": [
+        {
+          "letter": "A",
+          "text": "throw new NullPointerException();"
+        },
+        {
+          "letter": "B",
+          "text": "setGraphic(null);"
+        },
+        {
+          "letter": "C",
+          "text": "getChildren().clear();"
+        },
+        {
+          "letter": "D",
+          "text": "System.exit(0);"
+        }
+      ],
+      "answer": "B",
+      "answerText": "setGraphic(null);",
+      "explanation": "Because ListView reuses and virtualizes cell instances, when empty == true or item == null, the cell must clear its display by calling setText(null) and setGraphic(null) to prevent ghost data."
+    },
+    {
+      "id": 59,
+      "partId": 5,
+      "partTitle": "Part 5: Advanced Controls, Collections, ListCell Rendering & Dialogs",
+      "prompt": "What is considered best practice for optimizing performance and minimizing memory allocation when writing a custom ListCell?",
+      "code": null,
+      "choices": [
+        {
+          "letter": "A",
+          "text": "Reinstantiating all layout containers and image views inside updateItem on every call."
+        },
+        {
+          "letter": "B",
+          "text": "Instantiating the container and child controls once in the ListCell constructor as instance variables, and only updating contents in updateItem."
+        },
+        {
+          "letter": "C",
+          "text": "Creating a new Stage and Scene for every row in the list."
+        },
+        {
+          "letter": "D",
+          "text": "Avoiding the use of ObservableList entirely."
+        }
+      ],
+      "answer": "B",
+      "answerText": "Instantiating the container and child controls once in the ListCell constructor as instance variables, and only updating contents in updateItem.",
+      "explanation": "To maximize scrolling performance and minimize GC pauses, cell layout containers and nodes should be instantiated once in the ListCell constructor and only populated in updateItem."
+    },
+    {
+      "id": 60,
+      "partId": 5,
+      "partTitle": "Part 5: Advanced Controls, Collections, ListCell Rendering & Dialogs",
+      "prompt": "How does displaying a FileChooser as a modal dialog using showOpenDialog(window) influence user interaction with the application?",
+      "code": null,
+      "choices": [
+        {
+          "letter": "A",
+          "text": "It minimizes the application window to the operating system taskbar."
+        },
+        {
+          "letter": "B",
+          "text": "It opens an asynchronous non-blocking thread allowing concurrent editing in background windows."
+        },
+        {
+          "letter": "C",
+          "text": "It blocks the user from interacting with the underlying application window until the dialog is closed or dismissed."
+        },
+        {
+          "letter": "D",
+          "text": "It forces the Java Virtual Machine to terminate background task worker threads."
+        }
+      ],
+      "answer": "C",
+      "answerText": "It blocks the user from interacting with the underlying application window until the dialog is closed or dismissed.",
+      "explanation": "Calling FileChooser.showOpenDialog(window) displays a modal file picker that captures interaction and blocks user input to parent windows until dismissed."
+    }
+  ]
+}
