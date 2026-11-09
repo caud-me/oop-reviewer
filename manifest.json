@@ -1,8 +1,8 @@
 {
-  "id": "dynamix-active-recall",
-  "name": "Active Recall Reviewer",
-  "short_name": "ActiveRecall",
-  "description": "Standardized active recall study reviewer with spaced repetition and offline support",
+  "id": "dynamix",
+  "name": "Dynamix",
+  "short_name": "Dynamix",
+  "description": "Dynamix active recall study app with spaced repetition and offline support",
   "start_url": "./index.html",
   "scope": "./",
   "display": "standalone",
@@ -10,6 +10,12 @@
   "background_color": "#151515",
   "theme_color": "#151515",
   "icons": [
+    {
+      "src": "assets/icons/dynamix.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    },
     {
       "src": "assets/icons/icon-192.png",
       "sizes": "192x192",
@@ -20,12 +26,6 @@
       "src": "assets/icons/icon-512.png",
       "sizes": "512x512",
       "type": "image/png",
-      "purpose": "any maskable"
-    },
-    {
-      "src": "assets/icons/icon.svg",
-      "sizes": "any",
-      "type": "image/svg+xml",
       "purpose": "any maskable"
     }
   ]
