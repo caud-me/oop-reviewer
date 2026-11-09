@@ -1,0 +1,840 @@
+/* style.css - 1:1 Refactored from REFERENCE_INDEX_CSS.txt with subtle animations & Segoe Fluent / MDL2 Icons */
+
+/* Segoe UI Regular */
+@font-face {
+  font-family: 'Segoe UI';
+  src: local('Segoe UI'),
+       url('../assets/fonts/segoeui.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Segoe UI SemiBold */
+@font-face {
+  font-family: 'Segoe UI';
+  src: local('Segoe UI Semibold'), local('Segoe UI Semi-Bold'),
+       url('../assets/fonts/seguisb.ttf') format('truetype');
+  font-weight: 500 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Windows 11 Fluent Icons */
+@font-face {
+  font-family: 'Segoe Fluent Icons';
+  src: local('Segoe Fluent Icons'),
+       url('../assets/fonts/SegoeIcons.ttf') format('truetype');
+  font-display: swap;
+}
+
+/* Windows 10 MDL2 Assets */
+@font-face {
+  font-family: 'Segoe MDL2 Assets';
+  src: local('Segoe MDL2 Assets'),
+       url('../assets/fonts/segmdl2.ttf') format('truetype');
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Cascadia Code:SemiBold';
+  src: local('Cascadia Code SemiBold'), local('Cascadia Code'),
+       url('https://static.figma.com/font/CascadiaCode_wght__1') format('woff2');
+  font-style: normal;
+  font-weight: 600;
+}
+
+:root {
+  color: #ededed;
+  background: #151515;
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", "Segoe UI", Arial, sans-serif;
+  font-synthesis: none;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html,
+body,
+#root {
+  min-height: 100%;
+}
+
+body {
+  min-width: 320px;
+  min-height: 100vh;
+  background: #151515;
+  color: #ededed;
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", "Segoe UI", Arial, sans-serif;
+  line-height: normal;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+button {
+  cursor: pointer;
+  font-family: inherit;
+}
+
+button:focus-visible {
+  outline: 1px solid #ededed;
+  outline-offset: 2px;
+}
+
+/* Pinned top viewport progress bar (1-2px) */
+.viewport-progress-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: rgba(255, 255, 255, 0.05);
+  z-index: 1000;
+}
+
+.viewport-progress-fill {
+  height: 100%;
+  width: 0%;
+  background: #ededed;
+  transition: width 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Main App Shell (centered vertically & horizontally) */
+.app-shell {
+  min-height: 100dvh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 32px;
+  background: #151515;
+}
+
+/* Screen visibility states inside app-shell */
+.screen {
+  display: none;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+}
+
+.screen.active {
+  display: flex;
+  animation: fadeIn 0.16s ease-out;
+}
+
+/* Apple HIG Typography Scale:
+   - Title 3: 20px / 25px (Primary Headings)
+   - Headline: 17px / 22px (Card Headings & Feedback Title)
+   - Body / Subhead: 15px / 20px (Descriptions & Options)
+   - Footnote / Caption 1: 12px-13px / 16-18px (Eyebrows, Timestamps, Labels)
+   - Caption 2: 11px / 13px (Badges & Tags, Apple absolute minimum)
+*/
+h1,
+h2,
+p {
+  margin: 0;
+}
+
+h1,
+h2 {
+  color: #ededed;
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Arial, sans-serif;
+  font-weight: 600;
+}
+
+/* Title 3 */
+h1 {
+  font-size: 20px;
+  line-height: 25px;
+  /* letter-spacing: -0.45px; */
+}
+
+/* Headline */
+h2 {
+  font-size: 17px;
+  line-height: 22px;
+  /* letter-spacing: -0.43px; */
+}
+
+/* Subhead */
+p {
+  color: #cccccc;
+  font-size: 15px;
+  line-height: 20px;
+  /* letter-spacing: -0.24px; */
+}
+
+/* Base layouts */
+.content {
+  width: min(100%, 768px);
+}
+
+.page-content,
+.quiz-content {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.heading-row,
+.question-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 32px;
+}
+
+.title-copy {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+/* Buttons - HIG Callout / Subhead */
+.button {
+  min-height: 30px;
+  border: 0;
+  border-radius: 4px;
+  padding: 5px 10px;
+  color: #ededed;
+  background: #303030;
+  font-size: 15px;
+  line-height: 20px;
+  /* letter-spacing: -0.24px; */
+  text-align: center;
+  transition: background 0.12s ease;
+}
+
+.button:hover {
+  background: #3a3a3a;
+}
+
+.button.compact {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  background: #2c2c2c;
+  white-space: nowrap;
+}
+
+.button.compact:hover {
+  background: #363636;
+}
+
+/* Segoe Fluent Icon glyph helper */
+.icon {
+  flex: 0 0 auto;
+  width: 16px;
+  color: inherit;
+  font-family: "Segoe Fluent Icons", "Segoe MDL2 Assets", Arial, sans-serif;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 1;
+  text-align: center;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+/* Eyebrows and text actions - HIG Caption 1 & Footnote */
+.eyebrow,
+.section-label {
+  color: #808080;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 16px;
+  /* letter-spacing: 0.15px; */
+}
+
+.text-action {
+  width: fit-content;
+  border: 0;
+  padding: 0;
+  background: transparent;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  color: #808080;
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 18px;
+  /* letter-spacing: -0.08px; */
+  transition: color 0.12s ease;
+}
+
+.text-action:hover {
+  color: #ededed;
+}
+
+/* Lists and list rows */
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.section-label {
+  min-height: 16px;
+  display: flex;
+  align-items: center;
+  text-transform: uppercase;
+}
+
+.list-row {
+  width: 100%;
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  border: 0;
+  border-radius: 4px;
+  padding: 6px 10px;
+  color: #cccccc;
+  background: transparent;
+  text-align: left;
+  transition: background 0.12s ease, color 0.12s ease;
+}
+
+.list-row:hover {
+  color: #ededed;
+  background: #202020;
+}
+
+.row-copy {
+  min-width: 0;
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 2px;
+}
+
+/* HIG Subhead */
+.body-copy {
+  color: inherit;
+  font-size: 15px;
+  line-height: 20px;
+  /* letter-spacing: -0.24px; */
+}
+
+/* -----------------------------------------
+   MODAL OVERLAY & TWO-SECTION CARDS (FIGMA SPEC)
+----------------------------------------- */
+.modal-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  height: 100dvh;
+  background: #10101080;
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  z-index: 2000;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  box-sizing: border-box;
+}
+
+.modal-overlay.active {
+  display: flex;
+  animation: fadeIn 0.18s ease-out;
+}
+
+/* Whole card: 400px width, 1px #303030 solid border, 8px radius, clip content */
+.modal-card,
+.import-card,
+.setup-card,
+.summary-card,
+.welcome-card {
+  width: min(100%, 400px);
+  max-height: calc(100vh - 32px);
+  max-height: calc(100dvh - 32px);
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #303030;
+  border-radius: 8px;
+  overflow: hidden;
+  background: #202020;
+}
+
+/* Content section: 24px padding, #202020 bgcolor, 24px gap */
+.modal-content {
+  background: #202020;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  overflow-y: auto;
+  min-height: 0;
+  flex: 1 1 auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.modal-content::-webkit-scrollbar {
+  width: 4px;
+}
+
+.modal-content::-webkit-scrollbar-thumb {
+  background: #333333;
+  border-radius: 2px;
+}
+
+/* Button section: 6px padding, #171717 bgcolor, 6px gap */
+.modal-actions {
+  background: #171717;
+  padding: 6px;
+  display: flex;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+/* Buttons in modals: slightly bigger, 8px padding, 4px border-radius */
+.button.modal-btn,
+.modal-actions .button {
+  flex: 1;
+  min-height: 36px;
+  border: 0;
+  border-radius: 4px;
+  padding: 8px;
+  color: #ededed;
+  font-size: 15px;
+  line-height: 20px;
+  text-align: center;
+  transition: background 0.12s ease;
+}
+
+/* Primary action buttons: #303030 */
+.button.modal-btn.primary,
+.modal-actions .button.primary,
+.modal-actions .button:not(.secondary) {
+  background: #303030;
+}
+
+.button.modal-btn.primary:hover,
+.modal-actions .button.primary:hover,
+.modal-actions .button:not(.secondary):hover {
+  background: #3a3a3a;
+}
+
+/* Secondary action buttons: #202020 (e.g. Cancel) */
+.button.modal-btn.secondary,
+.modal-actions .button.secondary {
+  background: #202020;
+}
+
+.button.modal-btn.secondary:hover,
+.modal-actions .button.secondary:hover {
+  background: #282828;
+}
+
+/* File drop zone (Frame 9): width fill, height 128px (fixed), transparent, no border */
+.file-drop {
+  width: 100%;
+  height: 128px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  border: 0;
+  border-radius: 4px;
+  color: #808080;
+  background: transparent;
+  cursor: pointer;
+  padding: 0;
+  transition: background 0.12s ease;
+}
+
+.file-drop:hover,
+.file-drop.dragover {
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.file-drop strong {
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 20px;
+  color: #cccccc;
+}
+
+.file-drop span {
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 18px;
+  color: #808080;
+}
+
+.modal-description {
+  color: #808080;
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 18px;
+}
+
+/* Features list in welcome modal */
+.features-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.feature-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 6px 10px;
+  border-radius: 4px;
+  cursor: default;
+}
+
+.feature-item:hover {
+  background: transparent;
+  color: inherit;
+}
+
+.feature-item .icon {
+  color: #ededed;
+  flex: 0 0 auto;
+}
+
+.feature-note {
+  color: #888888;
+  font-size: 13px;
+  line-height: 18px;
+  font-weight: 400;
+  letter-spacing: -0.08px;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+/* Setup / Mode specific */
+.choice-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.choice-list .list-row.active {
+  background: #303030;
+}
+
+.check-row {
+  color: #ededed;
+  cursor: pointer;
+  user-select: none;
+}
+
+.checkbox {
+  width: 16px;
+  height: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+  border: 1px solid #707070;
+  border-radius: 3px;
+  background: transparent;
+  padding: 0;
+  box-sizing: border-box;
+  line-height: 0;
+  transition: all 0.15s ease;
+}
+
+.checkbox.checked {
+  border-color: #ededed;
+  background: #ededed;
+}
+
+.checkbox .check-svg {
+  display: none;
+  width: 10px;
+  height: 8px;
+  flex-shrink: 0;
+  pointer-events: none;
+}
+
+.checkbox.checked .check-svg {
+  display: block;
+}
+
+/* -----------------------------------------
+   SCREEN 5: QUIZ AREA (REFERENCE_INDEX_CSS)
+----------------------------------------- */
+.quiz-layout {
+  width: min(100%, 1176px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 24px;
+}
+
+.quiz-layout.with-code .quiz-content {
+  flex: 1;
+}
+
+.quiz-content {
+  gap: 48px;
+}
+
+.question-row h1 {
+  width: min(100%, 512px);
+}
+
+.quiz-eyebrow-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.streak-counter {
+  color: #808080;
+  transition: transform 0.15s ease;
+}
+
+.streak-counter.bump {
+  animation: popBadge 0.2s ease-out;
+  color: #f59e0b;
+}
+
+.answer-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.answer {
+  min-height: 56px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  border: 1px solid rgba(128, 128, 128, 0.1);
+  border-radius: 4px;
+  padding: 10px 12px;
+  color: #ededed;
+  background: transparent;
+  font-size: 15px;
+  line-height: 20px;
+  /* letter-spacing: -0.24px; */
+  text-align: left;
+  transition: background 0.12s ease, border-color 0.12s ease;
+  user-select: none;
+}
+
+.answer:hover:not(:disabled),
+.answer.active {
+  background: #202020;
+}
+
+.answer:disabled {
+  cursor: default;
+}
+
+.answer.muted {
+  color: #808080;
+}
+
+/* Wrong answer state (Reference tokens + subtle shake) */
+.answer.wrong {
+  border-color: #f05b5e;
+  color: #f05b5e;
+  background: #302020;
+  animation: shakeWrong 0.22s ease-in-out;
+}
+
+.wrong .answer-number {
+  color: #cc8080;
+  background: #603030;
+}
+
+/* Correct answer state (Subtle pop success) */
+.answer.correct {
+  border-color: #22c55e;
+  color: #4ade80;
+  background: #192b1f;
+  animation: popSuccess 0.18s ease-out;
+}
+
+.correct .answer-number {
+  color: #86efac;
+  background: #166534;
+}
+
+/* HIG Caption 2 */
+.answer-number {
+  min-width: 18px;
+  height: 18px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 4px;
+  border-radius: 2px;
+  color: #808080;
+  background: #303030;
+  font-size: 11px;
+  font-weight: 600;
+  line-height: 13px;
+  text-align: center;
+}
+
+/* Feedback card */
+.feedback {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  border-radius: 12px;
+  padding: 12px 16px;
+  background: #202020;
+  animation: feedbackSlideIn 0.18s ease-out;
+}
+
+.feedback > div {
+  min-width: 0;
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 6px;
+}
+
+/* Code block panel */
+.code-card {
+  width: 384px;
+  min-height: 76px;
+  display: flex;
+  align-items: center;
+  flex: 0 0 auto;
+  border: 1px solid rgba(128, 128, 128, 0.1);
+  border-radius: 4px;
+  padding: 16px;
+  background: #202020;
+  overflow: auto;
+  max-height: 480px;
+}
+
+.code-card code {
+  color: #ededed;
+  font-family: "SF Mono", "Cascadia Code:SemiBold", "Cascadia Code", Consolas, monospace;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 17px;
+  white-space: pre-wrap;
+}
+
+/* -----------------------------------------
+   SUBTLE NON-DISTRACTING ANIMATIONS
+----------------------------------------- */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes feedbackSlideIn {
+  0% {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes popSuccess {
+  0% { transform: scale(0.98); }
+  50% { transform: scale(1.015); }
+  100% { transform: scale(1); }
+}
+
+@keyframes shakeWrong {
+  0%, 100% { transform: translateX(0); }
+  20% { transform: translateX(-4px); }
+  40% { transform: translateX(4px); }
+  60% { transform: translateX(-2px); }
+  80% { transform: translateX(2px); }
+}
+
+@keyframes popBadge {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.15); }
+  100% { transform: scale(1); }
+}
+
+/* -----------------------------------------
+   RESPONSIVE DESIGN (MOBILE & TABLET)
+----------------------------------------- */
+@media (max-width: 900px) {
+  .quiz-layout.with-code {
+    max-width: 768px;
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .code-card {
+    width: 100%;
+    max-height: 240px;
+  }
+}
+
+@media (max-width: 640px) {
+  .app-shell {
+    align-items: flex-start;
+    padding: 24px 16px;
+  }
+
+  .heading-row,
+  .question-row,
+  .feedback {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .heading-row .button,
+  .question-row .button {
+    align-self: flex-end;
+  }
+
+  .import-card {
+    grid-template-columns: 1fr;
+  }
+
+  .file-drop {
+    min-height: 180px;
+  }
+
+  .answer-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .quiz-content {
+    gap: 32px;
+  }
+
+  .feedback .button {
+    align-self: flex-end;
+  }
+
+  .setup-card {
+    width: 100%;
+  }
+}
