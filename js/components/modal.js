@@ -41,6 +41,21 @@ class ModalManager {
     this.chkDontShowWelcomeBox = document.getElementById('chkDontShowWelcomeBox');
     this.dontShowWelcomeAgain = false;
 
+    // Elements - Font Modal
+    this.fontModalScreen = document.getElementById('fontModalScreen');
+    this.btnFontSystem = document.getElementById('btnFontSystem');
+    this.btnFontSegoe = document.getElementById('btnFontSegoe');
+    this.btnCancelFont = document.getElementById('btnCancelFont');
+    this.btnApplyFont = document.getElementById('btnApplyFont');
+    this.selectedFontChoice = 'system';
+    this.onApplyFontCallback = null;
+
+    // Elements - Delete Confirm Modal
+    this.deleteConfirmScreen = document.getElementById('deleteConfirmScreen');
+    this.btnCancelDelete = document.getElementById('btnCancelDelete');
+    this.btnConfirmDelete = document.getElementById('btnConfirmDelete');
+    this.onConfirmDeleteCallback = null;
+
     this.orderConfig = {
       deck: null,
       mode: 'part',
@@ -140,6 +155,34 @@ class ModalManager {
           this.storage.setSeenWelcome(true);
         }
         this.hideWelcome();
+      };
+    }
+
+    // Font Modal events
+    if (this.btnFontSystem) {
+      this.btnFontSystem.onclick = () => this.setFontChoice('system');
+    }
+    if (this.btnFontSegoe) {
+      this.btnFontSegoe.onclick = () => this.setFontChoice('segoe');
+    }
+    if (this.btnCancelFont) {
+      this.btnCancelFont.onclick = () => this.hideFontModal();
+    }
+    if (this.btnApplyFont) {
+      this.btnApplyFont.onclick = () => {
+        if (this.onApplyFontCallback) this.onApplyFontCallback(this.selectedFontChoice);
+        this.hideFontModal();
+      };
+    }
+
+    // Delete Confirm Modal events
+    if (this.btnCancelDelete) {
+      this.btnCancelDelete.onclick = () => this.hideDeleteConfirmModal();
+    }
+    if (this.btnConfirmDelete) {
+      this.btnConfirmDelete.onclick = () => {
+        if (this.onConfirmDeleteCallback) this.onConfirmDeleteCallback();
+        this.hideDeleteConfirmModal();
       };
     }
   }
@@ -332,6 +375,43 @@ class ModalManager {
     if (this.btnToggleDontShowWelcome) {
       this.btnToggleDontShowWelcome.setAttribute('aria-checked', isChecked ? 'true' : 'false');
     }
+  }
+
+  // --- Font Modal ---
+  showFontModal(currentFont, onApply) {
+    this.selectedFontChoice = currentFont || 'system';
+    this.onApplyFontCallback = onApply;
+    this.setFontChoice(this.selectedFontChoice);
+    if (this.fontModalScreen) this.fontModalScreen.classList.add('active');
+  }
+
+  hideFontModal() {
+    if (this.fontModalScreen) this.fontModalScreen.classList.remove('active');
+  }
+
+  setFontChoice(font) {
+    this.selectedFontChoice = font;
+    const isSystem = (font === 'system');
+    if (this.btnFontSystem) {
+      if (isSystem) this.btnFontSystem.classList.add('active');
+      else this.btnFontSystem.classList.remove('active');
+      this.btnFontSystem.setAttribute('aria-checked', isSystem ? 'true' : 'false');
+    }
+    if (this.btnFontSegoe) {
+      if (!isSystem) this.btnFontSegoe.classList.add('active');
+      else this.btnFontSegoe.classList.remove('active');
+      this.btnFontSegoe.setAttribute('aria-checked', !isSystem ? 'true' : 'false');
+    }
+  }
+
+  // --- Delete Confirm Modal ---
+  showDeleteConfirmModal(onConfirm) {
+    this.onConfirmDeleteCallback = onConfirm;
+    if (this.deleteConfirmScreen) this.deleteConfirmScreen.classList.add('active');
+  }
+
+  hideDeleteConfirmModal() {
+    if (this.deleteConfirmScreen) this.deleteConfirmScreen.classList.remove('active');
   }
 }
 

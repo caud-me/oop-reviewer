@@ -9,9 +9,42 @@ class ActiveRecallApp {
     this.currentDeck = null;
 
     // Initialize UI Components
+    const savedFont = this.storage.getFontPreference();
+    if (typeof document !== 'undefined' && document.documentElement) {
+      document.documentElement.setAttribute('data-font', savedFont);
+    }
+
     this.homeView = new HomeView(this.storage, {
       onSelectDeck: (deckId) => this.openDeck(deckId),
-      onAddDeck: () => this.showImport()
+      onAddDeck: () => this.showImport(),
+      onOpenSettings: () => this.showSettings()
+    });
+
+    this.settingsView = new SettingsView(this.storage, {
+      onDone: () => this.showHome(),
+      onUpdateCache: () => {
+        if (typeof navigator !== 'undefined' && navigator.serviceWorker && navigator.serviceWorker.controller) {
+          navigator.serviceWorker.controller.postMessage({ type: 'REFRESH_CACHE' });
+        } else {
+          this.settingsView.updateCacheStatus(true);
+        }
+      },
+      onRemoveFiles: () => {
+        this.modalManager.showDeleteConfirmModal(() => {
+          this.storage.clearAllData();
+          this.homeView.render();
+          this.showHome();
+        });
+      },
+      onSelectFont: () => {
+        this.modalManager.showFontModal(this.storage.getFontPreference(), (chosenFont) => {
+          this.storage.setFontPreference(chosenFont);
+          if (typeof document !== 'undefined' && document.documentElement) {
+            document.documentElement.setAttribute('data-font', chosenFont);
+          }
+          this.settingsView.render();
+        });
+      }
     });
 
     this.deckView = new DeckView(this.storage, {
@@ -96,6 +129,9 @@ class ActiveRecallApp {
             } else {
               console.log('[Cache] current cache is old; awaiting network refresh');
             }
+            if (this.settingsView) {
+              this.settingsView.updateCacheStatus(event.data.refreshed);
+            }
           }
         });
       }
@@ -110,6 +146,8 @@ class ActiveRecallApp {
       this.modalManager.hideSetup();
       this.modalManager.hideSummary();
       this.modalManager.hideWelcome();
+      this.modalManager.hideFontModal();
+      this.modalManager.hideDeleteConfirmModal();
     }
   }
 
@@ -119,6 +157,11 @@ class ActiveRecallApp {
 
     const progBar = document.getElementById('viewportProgressBar');
     if (progBar) progBar.style.width = '0%';
+  }
+
+  showSettings() {
+    this.hideAllScreens();
+    if (this.settingsView) this.settingsView.show();
   }
 
   showImport() {
@@ -213,10 +256,21 @@ class ActiveRecallApp {
       const setupActive = this.modalManager.setupScreen && this.modalManager.setupScreen.classList.contains('active');
       const summaryActive = this.modalManager.summaryScreen && this.modalManager.summaryScreen.classList.contains('active');
       const welcomeActive = this.modalManager.welcomeScreen && this.modalManager.welcomeScreen.classList.contains('active');
+      const fontActive = this.modalManager.fontModalScreen && this.modalManager.fontModalScreen.classList.contains('active');
+      const deleteActive = this.modalManager.deleteConfirmScreen && this.modalManager.deleteConfirmScreen.classList.contains('active');
       const reviewerActive = this.deckView.container && this.deckView.container.classList.contains('active');
       const quizActive = this.gameView.container && this.gameView.container.classList.contains('active');
+      const settingsActive = this.settingsView && this.settingsView.container && this.settingsView.container.classList.contains('active');
 
       if (e.key === 'Escape') {
+        if (fontActive) {
+          this.modalManager.hideFontModal();
+          return;
+        }
+        if (deleteActive) {
+          this.modalManager.hideDeleteConfirmModal();
+          return;
+        }
         if (welcomeActive) {
           this.modalManager.hideWelcome();
           return;
@@ -238,6 +292,10 @@ class ActiveRecallApp {
           return;
         }
         if (reviewerActive) {
+          this.showHome();
+          return;
+        }
+        if (settingsActive) {
           this.showHome();
           return;
         }

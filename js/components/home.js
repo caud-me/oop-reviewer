@@ -4,10 +4,12 @@ class HomeView {
     this.storage = storageManager;
     this.onSelectDeck = options.onSelectDeck || (() => {});
     this.onAddDeck = options.onAddDeck || (() => {});
+    this.onOpenSettings = options.onOpenSettings || (() => {});
 
     this.container = document.getElementById('homeScreen');
     this.listElem = document.getElementById('recentDecksList');
     this.addBtn = document.getElementById('btnAddDeck');
+    this.settingsBtn = document.getElementById('btnHomeSettings');
 
     this.bindEvents();
   }
@@ -15,6 +17,9 @@ class HomeView {
   bindEvents() {
     if (this.addBtn) {
       this.addBtn.onclick = () => this.onAddDeck();
+    }
+    if (this.settingsBtn) {
+      this.settingsBtn.onclick = () => this.onOpenSettings();
     }
   }
 
@@ -35,12 +40,14 @@ class HomeView {
       item.onclick = () => this.onSelectDeck(deck.id);
 
       const relTime = this.storage.formatRelativeTime(deck.lastOpened);
+      const rawTitle = deck.fullName || deck.title || '';
+      const displayTitle = rawTitle.length > 48 ? rawTitle.slice(0, 48) + '...' : rawTitle;
 
-      item.setAttribute('aria-label', `${deck.title}, ${relTime}`);
+      item.setAttribute('aria-label', `${displayTitle}, ${relTime}`);
       item.innerHTML = `
         <span class="icon" aria-hidden="true">&#xE8B7;</span>
         <span class="row-copy">
-          <span class="body-copy">${this.escapeHtml(deck.title)}</span>
+          <span class="body-copy">${this.escapeHtml(displayTitle)}</span>
           <span class="eyebrow">${relTime}</span>
         </span>
       `;

@@ -65,7 +65,8 @@ const mockDoc = {
         mockDoc.getElementById('reviewerScreen'),
         mockDoc.getElementById('setupScreen'),
         mockDoc.getElementById('quizScreen'),
-        mockDoc.getElementById('summaryScreen')
+        mockDoc.getElementById('summaryScreen'),
+        mockDoc.getElementById('settingsScreen')
       ];
     }
     return [];
@@ -415,4 +416,78 @@ if (mockDoc.getElementById('sectionsList').children.length !== 15) {
   throw new Error('OOP deck should have 15 sections rendered');
 }
 
-console.log('\nALL 6 REFACTORED REFERENCE INTEGRATION TESTS PASSED CLEANLY WITH ZERO DEFECTS!');
+// Test 7: Verify Settings Screen, Font Selection Modal, and Delete Confirm Modal
+console.log('\nTest 7: Verify Settings Screen, Font Selection Modal, and Delete Confirm Modal');
+// 7a: Navigate to Settings
+app.showSettings();
+const settingsScreen = mockDoc.getElementById('settingsScreen');
+if (!settingsScreen.classList.contains('active')) {
+  throw new Error('settingsScreen should be active when app.showSettings() is called');
+}
+// 7b: Done returns to Home
+mockDoc.getElementById('btnSettingsDone').click();
+if (settingsScreen.classList.contains('active') || !mockDoc.getElementById('homeScreen').classList.contains('active')) {
+  throw new Error('btnSettingsDone should return to homeScreen');
+}
+// Re-open settings via home button
+mockDoc.getElementById('btnHomeSettings').click();
+if (!settingsScreen.classList.contains('active')) {
+  throw new Error('btnHomeSettings should open settingsScreen');
+}
+// 7c: Cache update trigger
+let cacheUpdated = false;
+app.settingsView.updateCacheStatus(true);
+if (mockDoc.getElementById('settingCacheSubtext').textContent !== 'Recently refreshed') {
+  throw new Error('settingCacheSubtext should update to "Recently refreshed"');
+}
+// 7d: Font selection modal
+mockDoc.getElementById('btnSettingFont').click();
+const fontModalScreen = mockDoc.getElementById('fontModalScreen');
+if (!fontModalScreen.classList.contains('active')) {
+  throw new Error('btnSettingFont should open fontModalScreen');
+}
+// Select Segoe UI
+mockDoc.getElementById('btnFontSegoe').click();
+mockDoc.getElementById('btnApplyFont').click();
+if (fontModalScreen.classList.contains('active')) {
+  throw new Error('Applying font should close fontModalScreen');
+}
+if (app.storage.getFontPreference() !== 'segoe') {
+  throw new Error('Applying Segoe font should save to storage');
+}
+if (mockDoc.getElementById('settingFontSubtext').textContent !== 'Segoe UI') {
+  throw new Error('settingFontSubtext should display "Segoe UI"');
+}
+// Switch back to System
+app.modalManager.showFontModal('segoe', (chosen) => {
+  app.storage.setFontPreference(chosen);
+  app.settingsView.render();
+});
+mockDoc.getElementById('btnFontSystem').click();
+mockDoc.getElementById('btnApplyFont').click();
+if (app.storage.getFontPreference() !== 'system') {
+  throw new Error('Applying System font should save to storage');
+}
+// 7e: Delete confirm modal
+mockDoc.getElementById('btnSettingRemoveFiles').click();
+const deleteConfirmScreen = mockDoc.getElementById('deleteConfirmScreen');
+if (!deleteConfirmScreen.classList.contains('active')) {
+  throw new Error('btnSettingRemoveFiles should open deleteConfirmScreen');
+}
+// Cancel delete
+mockDoc.getElementById('btnCancelDelete').click();
+if (deleteConfirmScreen.classList.contains('active')) {
+  throw new Error('btnCancelDelete should close deleteConfirmScreen');
+}
+// Confirm delete
+mockDoc.getElementById('btnSettingRemoveFiles').click();
+mockDoc.getElementById('btnConfirmDelete').click();
+if (deleteConfirmScreen.classList.contains('active')) {
+  throw new Error('Confirming delete should close deleteConfirmScreen');
+}
+if (app.storage.getRecentDecks().length !== 0) {
+  throw new Error('Confirming delete should clear all imported decks');
+}
+console.log('Settings, Font Modal, and Delete Modal integration tests verified successfully!');
+
+console.log('\nALL 7 REFACTORED REFERENCE INTEGRATION TESTS PASSED CLEANLY WITH ZERO DEFECTS!');

@@ -352,7 +352,9 @@ p {
 .import-card,
 .setup-card,
 .summary-card,
-.welcome-card {
+.welcome-card,
+.font-card,
+.delete-card {
   width: min(100%, 400px);
   max-height: calc(100vh - 32px);
   max-height: calc(100dvh - 32px);
@@ -530,6 +532,58 @@ p {
 
 .choice-list .list-row.active {
   background: #303030;
+}
+
+/* Settings elements (Figma spec: solid 1px #80808010, 1px height, fill width; spacer transparent 36px) */
+.settings-divider {
+  width: 100%;
+  height: 1px;
+  background: #80808010;
+  border: 0;
+  margin: 2px 0;
+}
+
+.settings-spacer {
+  width: 100%;
+  height: 36px;
+  background: transparent;
+}
+
+.heading-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+/* Font switching */
+html[data-font="segoe"],
+html[data-font="segoe"] body,
+html[data-font="segoe"] button,
+html[data-font="segoe"] input,
+html[data-font="segoe"] h1,
+html[data-font="segoe"] h2,
+html[data-font="segoe"] h3,
+html[data-font="segoe"] p,
+html[data-font="segoe"] span {
+  font-family: "Segoe UI", -apple-system, BlinkMacSystemFont, Arial, sans-serif;
+}
+
+html[data-font="system"],
+html[data-font="system"] body,
+html[data-font="system"] button,
+html[data-font="system"] input,
+html[data-font="system"] h1,
+html[data-font="system"] h2,
+html[data-font="system"] h3,
+html[data-font="system"] p,
+html[data-font="system"] span {
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+html[data-font="segoe"] .icon,
+html[data-font="system"] .icon {
+  font-family: "Segoe Fluent Icons", "Segoe MDL2 Assets", Arial, sans-serif !important;
 }
 
 .check-row {
@@ -801,7 +855,20 @@ p {
     padding: 24px 16px;
   }
 
-  .heading-row,
+  .heading-row {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 12px;
+  }
+
+  .heading-row h1 {
+    font-size: 18px;
+    line-height: 24px;
+    word-break: break-word;
+  }
+
   .question-row,
   .feedback {
     align-items: flex-start;
@@ -809,7 +876,6 @@ p {
     gap: 14px;
   }
 
-  .heading-row .button,
   .question-row .button {
     align-self: flex-end;
   }

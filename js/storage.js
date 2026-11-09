@@ -133,7 +133,7 @@ class StorageManager {
     const existingIdx = list.findIndex(d => d.id === deckId);
     const meta = {
       id: deckId,
-      title: validated.title.length > 24 ? validated.title.slice(0, 24) + '...' : validated.title,
+      title: validated.title.length > 48 ? validated.title.slice(0, 48) + '...' : validated.title,
       fullName: validated.title,
       desc: validated.desc || '',
       cardCount: validated.questions.length,
@@ -181,7 +181,7 @@ class StorageManager {
       throw new Error('Deck JSON must have a non-empty "questions" array.');
     }
 
-    const title = data.title || 'Active Recall Deck';
+    const title = data.title || 'Dynamix Deck';
     const desc = data.desc || '';
     const questions = data.questions.map((q, idx) => {
       let choices = [];
@@ -293,16 +293,52 @@ class StorageManager {
     return false;
   }
 
-  setSeenWelcome(dontShowAgain) {
+  setSeenWelcome(seen = true) {
     try {
       if (typeof localStorage !== 'undefined') {
-        if (dontShowAgain) {
-          localStorage.setItem('ar_dont_show_welcome_v2', 'true');
-        } else {
-          localStorage.removeItem('ar_dont_show_welcome_v2');
-        }
+        localStorage.setItem('ar_dont_show_welcome_v2', seen ? 'true' : 'false');
       }
     } catch (e) {}
+  }
+
+  getFontPreference() {
+    try {
+      if (typeof localStorage !== 'undefined') {
+        return localStorage.getItem('dynamix_font_preference') || 'system';
+      }
+    } catch (e) {}
+    return 'system';
+  }
+
+  setFontPreference(font) {
+    try {
+      if (typeof localStorage !== 'undefined') {
+        localStorage.setItem('dynamix_font_preference', font);
+      }
+    } catch (e) {}
+  }
+
+  clearAllData() {
+    try {
+      if (typeof localStorage !== 'undefined') {
+        // Remove recent decks and active deck
+        localStorage.removeItem(this.RECENT_DECKS_KEY);
+        localStorage.removeItem(this.ACTIVE_DECK_KEY);
+        localStorage.removeItem('oop_active_deck_json');
+
+        // Remove custom decks and mastery scores
+        const keysToRemove = [];
+        for (let i = 0; i < localStorage.length; i++) {
+          const k = localStorage.key(i);
+          if (k && (k.startsWith(this.CUSTOM_DECK_PREFIX) || k.startsWith(this.PROGRESS_PREFIX) || k.startsWith(this.LEGACY_PROGRESS_PREFIX))) {
+            keysToRemove.push(k);
+          }
+        }
+        keysToRemove.forEach(k => localStorage.removeItem(k));
+      }
+    } catch (e) {
+      console.warn('Error clearing storage data:', e);
+    }
   }
 }
 

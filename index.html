@@ -25,9 +25,14 @@
       <div class="content page-content">
         <header class="heading-row">
           <h1 id="home-title">What are you cramming today?</h1>
-          <button class="button compact" id="btnAddDeck" type="button" aria-label="Add deck">
-            <span class="icon" aria-hidden="true">&#xE710;</span> Add
-          </button>
+          <div class="heading-actions">
+            <button class="button compact secondary" id="btnHomeSettings" type="button" aria-label="Settings">
+              <span class="icon" aria-hidden="true">&#xE713;</span>
+            </button>
+            <button class="button compact" id="btnAddDeck" type="button" aria-label="Add deck">
+              <span class="icon" aria-hidden="true">&#xE710;</span> Add
+            </button>
+          </div>
         </header>
         <div class="list">
           <p class="eyebrow section-label">Recent</p>
@@ -90,6 +95,50 @@
             <button class="button compact" id="btnQuizContinue" type="button">Continue</button>
           </div>
           <button class="text-action" id="btnQuizQuit" type="button" aria-label="Quit study session">‹ Quit</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- BASE SCREEN 4: SETTINGS (REFERENCE FIGMA SPEC) -->
+    <section class="screen" id="settingsScreen" aria-labelledby="settings-title">
+      <div class="content page-content">
+        <header class="heading-row">
+          <h1 id="settings-title">Settings</h1>
+          <button class="button compact primary" id="btnSettingsDone" type="button" aria-label="Done">
+            <span class="icon" aria-hidden="true">&#xE73E;</span> Done
+          </button>
+        </header>
+
+        <div class="list">
+          <p class="eyebrow section-label">General</p>
+          <button class="list-row" id="btnSettingUpdateCache" type="button">
+            <span class="icon" aria-hidden="true">&#xE895;</span>
+            <span class="row-copy">
+              <span class="body-copy">Update cache now</span>
+              <span class="eyebrow" id="settingCacheSubtext">Last updated 2m</span>
+            </span>
+          </button>
+
+          <div class="settings-divider"></div>
+
+          <button class="list-row" id="btnSettingRemoveFiles" type="button">
+            <span class="icon" aria-hidden="true">&#xE74D;</span>
+            <span class="row-copy">
+              <span class="body-copy">Remove imported files</span>
+              <span class="eyebrow">This will require you to import them again</span>
+            </span>
+          </button>
+
+          <div class="settings-spacer"></div>
+
+          <p class="eyebrow section-label">Appearance</p>
+          <button class="list-row" id="btnSettingFont" type="button">
+            <span class="icon font-glyph" aria-hidden="true" style="font-family: inherit; font-weight: 600; font-size: 14px;">Aa</span>
+            <span class="row-copy">
+              <span class="body-copy">Font</span>
+              <span class="eyebrow" id="settingFontSubtext">System (Default)</span>
+            </span>
+          </button>
         </div>
       </div>
     </section>
@@ -249,6 +298,41 @@
     </div>
   </div>
 
+  <!-- MODAL OVERLAY 5: SELECT A FONT -->
+  <div class="modal-overlay" id="fontModalScreen">
+    <div class="modal-card font-card" role="dialog" aria-modal="true" aria-labelledby="fontModalHeading">
+      <div class="modal-content">
+        <h1 id="fontModalHeading">Select a font</h1>
+        <div class="choice-list" role="radiogroup" aria-label="Font family">
+          <button class="list-row active" id="btnFontSystem" type="button" role="radio" aria-checked="true">
+            <span class="body-copy">System (Default)</span>
+          </button>
+          <button class="list-row" id="btnFontSegoe" type="button" role="radio" aria-checked="false">
+            <span class="body-copy">Segoe UI</span>
+          </button>
+        </div>
+      </div>
+      <div class="modal-actions">
+        <button class="button modal-btn secondary" id="btnCancelFont" type="button">Cancel</button>
+        <button class="button modal-btn primary" id="btnApplyFont" type="button">Apply</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL OVERLAY 6: CONFIRM FILES DELETION -->
+  <div class="modal-overlay" id="deleteConfirmScreen">
+    <div class="modal-card delete-card" role="dialog" aria-modal="true" aria-labelledby="deleteModalHeading">
+      <div class="modal-content">
+        <h1 id="deleteModalHeading">Confirm files deletion</h1>
+        <p id="deleteModalBody">This will also remove the streaks and progress you have made. It cannot be undone.</p>
+      </div>
+      <div class="modal-actions">
+        <button class="button modal-btn secondary" id="btnCancelDelete" type="button">No</button>
+        <button class="button modal-btn primary" id="btnConfirmDelete" type="button">Yes, Remove</button>
+      </div>
+    </div>
+  </div>
+
   <!-- MODULAR SCRIPTS -->
   <script src="js/decks.js"></script>
   <script src="js/sound.js"></script>
@@ -257,6 +341,7 @@
   <script src="js/components/home.js"></script>
   <script src="js/components/deck.js"></script>
   <script src="js/components/game.js"></script>
+  <script src="js/components/settings.js"></script>
   <script src="js/components/modal.js"></script>
   <script src="js/app.js"></script>
 </body>
