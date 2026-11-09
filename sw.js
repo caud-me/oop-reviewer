@@ -1,5 +1,5 @@
 // sw.js - Service Worker for Dynamix (Offline Cache & Auto-Refresh)
-const CACHE_NAME = 'dynamix-v3';
+const CACHE_NAME = 'dynamix-v4';
 const CORE_ASSETS = [
   './',
   './index.html',
@@ -46,12 +46,24 @@ self.addEventListener('activate', (event) => {
   );
 });
 
-// Fetch: Stale-While-Revalidate caching strategy
-// Serves instantly from cache for complete offline access, while updating cache from network in background
+// Fetch: Stale-While-Revalidate caching strategy with network-first for manifest and service worker
 self.addEventListener('fetch', (event) => {
   if (event.request.method !== 'GET') return;
   const url = new URL(event.request.url);
   if (!url.protocol.startsWith('http')) return;
+
+  // Network-first for manifest.json and sw.js so PWA name/icon changes update immediately
+  if (url.pathname.endsWith('manifest.json') || url.pathname.endsWith('sw.js')) {
+    event.respondWith(
+      fetch(event.request).then((networkResponse) => {
+        if (networkResponse && networkResponse.status === 200) {
+          caches.open(CACHE_NAME).then((cache) => cache.put(event.request, networkResponse.clone()));
+        }
+        return networkResponse;
+      }).catch(() => caches.match(event.request))
+    );
+    return;
+  }
 
   event.respondWith(
     caches.open(CACHE_NAME).then(async (cache) => {
